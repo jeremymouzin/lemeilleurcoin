@@ -30,7 +30,7 @@ for (donnee of donnees) {
   listing[donnee.list_id] = donnee;
 }
 
-const terrainRegExp = /((\d{4,} ?(m²|m2))|\d+ ?(ha|are))/gi;
+const terrainRegExp = /((\d+ ?\d{3,} ?(m²|m2))|\d+ ?(ha[ .,!]|are[ .,!]|hectare[ .,!]))/gi;
 
 const listeResultats = document.querySelectorAll('[data-qa-id="aditem_container"]');
 for (const resultat of listeResultats) {

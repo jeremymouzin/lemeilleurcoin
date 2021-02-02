@@ -1,7 +1,7 @@
 const attrDesc = '[data-qa-id="adview_description_container"]';
 const spanDebut = '<span style="background-color: yellow">';
 const spanFin = '</span>';
-const terrainRegExp = /((\d+ ?\d{3,} ?(m²|m2))|\d+ ?(ha|are|hectare))/gi;
+const terrainRegExp = /((\d+ ?\d{3,} ?(m²|m2))|\d+ ?(ha[ .,!]|are[ .,!]|hectare[ .,!]))/gi;
 const divDesc = document.querySelector(attrDesc);
 const MAX_TENTATIVES_VOIR_PLUS = 5;
 const TEMPS_ENTRE_TENTATIVES_EN_MS = 200;
