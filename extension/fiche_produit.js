@@ -48,20 +48,6 @@ function mettreEnGras(description, listeDeMots) {
   });
 }
 
-function supprimerInfosInutiles() {
-  const selecteursDivACacher = [
-    '[data-qa-id="criteria_item_real_estate_type"]',
-    '[data-qa-id="criteria_item_square"]',
-    '[data-qa-id="criteria_item_rooms"]',
-    '[data-qa-id="criteria_item_custom_ref"]',
-    '[data-qa-id="adview_date"]',
-  ];
-  selecteursDivACacher.forEach(selecteur => {
-    const div = document.querySelector(selecteur);
-    if (div) div.style.display = 'none';
-  });
-}
-
 function remonterInfosImportantes(taillesTerrain) {
   const conteneurDescription = document.querySelector('[data-qa-id="adview_spotlight_description_container"]');
 
@@ -110,7 +96,6 @@ function ameliorer() {
   const description = divDesc.querySelector('span');
   const taillesTerrain = mettreEnSurbrillance(description);
   mettreEnGras(description, listeDeMotsAMettreEnGras);
-  supprimerInfosInutiles();
   remonterInfosImportantes(taillesTerrain);
   lienGoogleMaps();
 }
