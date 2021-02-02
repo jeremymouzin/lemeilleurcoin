@@ -3,16 +3,33 @@
   "description": "Améliorez votre expérience de recherche en biens immobiliers sur le site leboncoin !",
   "version": "1.0",
   "manifest_version": 3,
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
   "content_scripts": [
     {
-      "matches": ["*://www.leboncoin.fr/ventes_immobilieres/*"],
-      "css": ["styles.css"],
-      "js": ["fiche_produit.js"]
+      "matches": [
+        "*://www.leboncoin.fr/ventes_immobilieres/*"
+      ],
+      "css": [
+        "styles.css"
+      ],
+      "js": [
+        "fiche_produit.js"
+      ]
     },
     {
-      "matches": ["*://www.leboncoin.fr/recherche?category=9*"],
-      "css": ["styles.css"],
-      "js": ["page_recherche.js"]
+      "matches": [
+        "*://www.leboncoin.fr/recherche?category=9*"
+      ],
+      "css": [
+        "styles.css"
+      ],
+      "js": [
+        "page_recherche.js"
+      ]
     }
   ]
 }
