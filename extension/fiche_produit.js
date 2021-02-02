@@ -44,7 +44,13 @@ function mettreEnSurbrillance(description) {
 
 function mettreEnGras(description, listeDeMots) {
   listeDeMots.forEach(mot => {
-    description.innerHTML = description.innerHTML.replace(mot, `<strong>${mot}</strong>`);
+    const regexp = new RegExp(`${mot}`, 'gi');
+    const correspondances = regexp.exec(description.textContent);
+    if (correspondances !== null) {
+      for (const correspondance of correspondances) {
+        description.innerHTML = description.innerHTML.replace(correspondance, `<strong>${correspondance}</strong>`);
+      }
+    }
   });
 }
 
