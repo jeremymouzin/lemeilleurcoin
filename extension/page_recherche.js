@@ -1,10 +1,3 @@
-const s = document.getElementById('__NEXT_DATA__');
-const donnees = JSON.parse(s.textContent).props.pageProps.listingData.ads;
-const listing = {};
-for (donnee of donnees) {
-  listing[donnee.list_id] = donnee;
-}
-
 const COULEURS_ENERGIE = {
   'A': '#379932',
   'B': '#3acc31',
@@ -24,6 +17,18 @@ const COULEURS_GES = {
   'F': '#a659e9',
   'G': '#8835d9',
 };
+
+const NOM_LABELS = {
+  'rooms': "Pièces",
+  'square': "Surface",
+};
+
+const s = document.getElementById('__NEXT_DATA__');
+const donnees = JSON.parse(s.textContent).props.pageProps.listingData.ads;
+const listing = {};
+for (donnee of donnees) {
+  listing[donnee.list_id] = donnee;
+}
 
 const terrainRegExp = /((\d{4,} ?(m²|m2))|\d+ ?(ha|are))/gi;
 
@@ -119,5 +124,9 @@ function extraireObjet(nomChamp, objListing) {
         return attr;
       }
     }
+    return {
+      key_label: NOM_LABELS[nomChamp],
+      value_label: "inconnu",
+    };
   }
 }
