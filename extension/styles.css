@@ -1,5 +1,9 @@
 /* On préfixe les classes de "lmc-" (acronyme de Le Meilleur Coin) pour éviter d'éventuels conflits */
 
+:root {
+  --lmc-background-color: rgb(243,245,247);
+}
+
 .lmc-terrain {
   font-size: 1.6rem;
   margin-bottom: 1rem;
@@ -20,4 +24,26 @@
   color: blue;
   text-decoration: underline;
   margin-right: 1rem;
+}
+
+.lmc-label-energie {
+  padding: 0 6px;
+  align-self: flex-start;
+  margin: 2px 0;
+  border-radius: 6px;
+}
+
+.lmc-fieldset {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--lmc-background-color);
+  margin-top: 1rem;
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.lmc-legende {
+  padding: 0 6px;
+  border-radius: 6px;
+  background-color: var(--lmc-background-color);
 }

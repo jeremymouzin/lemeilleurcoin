@@ -32,13 +32,22 @@ for (const resultat of listeResultats) {
   const id = extraireID(resultat.href);
   const lastDiv = resultat.querySelector('div > div > div > div + div + div');
 
+  const fieldSet = document.createElement('fieldset');
+  fieldSet.classList.add('lmc-fieldset');
+
+  const legende = document.createElement('legend');
+  legende.classList.add('lmc-legende');
+  legende.textContent = 'Le Meilleur Coin';
+  
+  fieldSet.append(legende);
+  
   // Création de nouvelles informations
-  ajouterChamp('square', id, lastDiv);
-  ajouterChamp('rooms', id, lastDiv);
-  ajouterChamp('ges', id, lastDiv);
-  ajouterChamp('energy_rate', id, lastDiv);
-  ajouterChamp('terrain', id, lastDiv);
-  lastDiv.after(document.createElement('hr'));
+  ajouterChamp('terrain', id, fieldSet);
+  ajouterChamp('energy_rate', id, fieldSet);
+  ajouterChamp('ges', id, fieldSet);
+  ajouterChamp('rooms', id, fieldSet);
+  ajouterChamp('square', id, fieldSet);
+  lastDiv.after(fieldSet);
 }
 
 function ajouterChamp(nomChamp, id, noeud) {
@@ -47,15 +56,10 @@ function ajouterChamp(nomChamp, id, noeud) {
   const lettre = donnees.value_label[0];
 
   const nouvelleDiv = document.createElement('div');
-
-  if (nomChamp === "ges" || nomChamp === "energy_rate") {
-    nouvelleDiv.style.padding = "0 6px";
-    nouvelleDiv.style.alignSelf = "flex-start";
-    nouvelleDiv.style.margin = "2px 0";
-    nouvelleDiv.style.borderRadius = "6px";
-    nouvelleDiv.style.border = "2px solid white";
-
-    // Cas particulier quand lettre === N => Non renseigné
+  
+  if (["ges", "energy_rate"].includes(nomChamp)) {
+    nouvelleDiv.classList.add('lmc-label-energie');
+    // Cas particuliers N => Non renseigné, V => Vierge
     if (!['N', 'V'].includes(lettre)) {
       // On affiche que la lettre
       label = lettre;
@@ -82,7 +86,7 @@ function ajouterChamp(nomChamp, id, noeud) {
     }
   }
 
-  noeud.after(nouvelleDiv);
+  noeud.append(nouvelleDiv);
 }
 
 function extraireID(url) {
