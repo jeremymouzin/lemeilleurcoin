@@ -37,22 +37,28 @@ for (const resultat of listeResultats) {
   const id = extraireID(resultat.href);
   const lastDiv = resultat.querySelector('div > div > div > div + div + div');
 
+  const fieldSet = creerFieldSetLMC();
+
+  // Création de nouvelles informations
+  const tailleTerrain = ajouterChamp('terrain', id, fieldSet);
+  resultat.dataset.surfaceTerrain = tailleTerrain;
+  ajouterChamp('energy_rate', id, fieldSet);
+  ajouterChamp('ges', id, fieldSet);
+  ajouterChamp('rooms', id, fieldSet);
+  ajouterChamp('square', id, fieldSet);
+  lastDiv.after(fieldSet);
+}
+
+function creerFieldSetLMC() {
   const fieldSet = document.createElement('fieldset');
   fieldSet.classList.add('lmc-fieldset');
 
   const legende = document.createElement('legend');
   legende.classList.add('lmc-legende');
   legende.textContent = 'Le Meilleur Coin';
-  
+
   fieldSet.append(legende);
-  
-  // Création de nouvelles informations
-  ajouterChamp('terrain', id, fieldSet);
-  ajouterChamp('energy_rate', id, fieldSet);
-  ajouterChamp('ges', id, fieldSet);
-  ajouterChamp('rooms', id, fieldSet);
-  ajouterChamp('square', id, fieldSet);
-  lastDiv.after(fieldSet);
+  return fieldSet;
 }
 
 function ajouterChamp(nomChamp, id, noeud) {
@@ -61,7 +67,7 @@ function ajouterChamp(nomChamp, id, noeud) {
   const lettre = donnees.value_label[0];
 
   const nouvelleDiv = document.createElement('div');
-  
+
   if (["ges", "energy_rate"].includes(nomChamp)) {
     nouvelleDiv.classList.add('lmc-label-energie');
     // Cas particuliers N => Non renseigné, V => Vierge
@@ -92,6 +98,10 @@ function ajouterChamp(nomChamp, id, noeud) {
   }
 
   noeud.append(nouvelleDiv);
+
+  if (nomChamp === "terrain") {
+    return label;
+  }
 }
 
 function extraireID(url) {
@@ -130,3 +140,61 @@ function extraireObjet(nomChamp, objListing) {
     };
   }
 }
+
+/* Filtrage par taille de terrain */
+
+function creerInputNumber(id, label, valeur) {
+  const input = document.createElement('input');
+  input.type = "number";
+  input.value = valeur;
+  input.id = id;
+
+  const elLabel = document.createElement('label');
+  elLabel.textContent = label;
+  elLabel.for = id;
+  elLabel.appendChild(input);
+
+  return elLabel;
+}
+
+function ajoutSelectionTerrain() {
+  const barreOutils = document.querySelector('body noscript + div + div > div:last-child > div > div > div:nth-child(3)');
+
+  const fieldSet = creerFieldSetLMC();
+  fieldSet.classList.add('lmc-filtre-terrain');
+
+  const inputMin = creerInputNumber('terrainMin', 'Terrain min :', 1000);
+  const inputMax = creerInputNumber('terrainMax', 'Terrain max :', 4000);
+  fieldSet.append(inputMin);
+  fieldSet.append(inputMax);
+
+  const boutonValider = document.createElement('button');
+  boutonValider.textContent = "Filtrer";
+
+  boutonValider.addEventListener('click', function (e) {
+    const surfaceMin = +inputMin.querySelector('input').value;
+    const surfaceMax = +inputMax.querySelector('input').value;
+
+    for (const resultat of listeResultats) {
+      let cacher = false;
+      let surface = resultat.dataset.surfaceTerrain;
+
+      if (surface.startsWith('<')) {
+        cacher = true;
+      } else {
+        surface = Number.parseInt(surface);
+        if (surface < surfaceMin || surface > surfaceMax) {
+          cacher = true;
+        }
+      }
+      resultat.style.display = cacher ? 'none' : 'block';
+    }
+  });
+
+  fieldSet.append(boutonValider);
+
+  barreOutils.after(fieldSet);
+
+}
+
+ajoutSelectionTerrain();

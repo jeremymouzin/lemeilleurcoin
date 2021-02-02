@@ -47,3 +47,16 @@
   border-radius: 6px;
   background-color: var(--lmc-background-color);
 }
+
+.lmc-filtre-terrain {
+  
+}
+
+.lmc-filtre-terrain button {
+  background-color: #4183d7;
+  align-self: flex-start;
+  padding: 1rem 1.5rem;
+  border-radius: 4px;
+  color: white;
+  font-weight: 600;
+}
