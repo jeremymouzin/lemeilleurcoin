@@ -3,10 +3,7 @@ const donnees = JSON.parse(s.textContent).props.pageProps.listingData.ads;
 const listing = {};
 for (donnee of donnees) {
   listing[donnee.list_id] = donnee;
-  console.log(donnee.body);
 }
-
-console.dir(listing);
 
 const COULEURS_ENERGIE = {
   'A': '#379932',

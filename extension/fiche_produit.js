@@ -11,11 +11,9 @@ const listeDeMotsAMettreEnGras = [
 ];
 
 function clickVoirPlus() {
-  console.log("Tentative click auto sur le bouton voir plus...");
   let boutonVoirPlus = divDesc.querySelector('button');
   if (boutonVoirPlus === null) {
     if (clickVoirPlus.compteur < MAX_TENTATIVES_VOIR_PLUS) {
-      console.log(`ECHEC du click, on recommence dans ${TEMPS_ENTRE_TENTATIVES_EN_MS}ms (tentative ${clickVoirPlus.compteur})`);
       window.setTimeout(clickVoirPlus, TEMPS_ENTRE_TENTATIVES_EN_MS);
       clickVoirPlus.compteur++;
     } else {
