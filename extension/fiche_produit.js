@@ -98,12 +98,27 @@ function lienGoogleMaps() {
   departement.firstElementChild.style.marginRight = "1rem";
 }
 
+function cacherElement(selecteur) {
+  const el = document.querySelector(selecteur);
+  if (el !== null) el.style.display = 'none';
+}
+
+function supprimerElementsInutiles() {
+  // Date de parution
+  cacherElement('[data-qa-id="adview_date"]');
+  // Référence inutile
+  cacherElement('[data-qa-id="criteria_item_custom_ref"]');
+  // Honoraires, c'est déjà marqué dans l'annonce !
+  cacherElement('[data-qa-id="criteria_item_fai_included"]');
+}
+
 function ameliorer() {
   const description = divDesc.querySelector('span');
   const taillesTerrain = mettreEnSurbrillance(description);
   mettreEnGras(description, listeDeMotsAMettreEnGras);
   remonterInfosImportantes(taillesTerrain);
   lienGoogleMaps();
+  supprimerElementsInutiles();
 }
 
 // On clique sur le bouton "Voir Plus"
