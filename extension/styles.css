@@ -1,0 +1,23 @@
+/* On préfixe les classes de "lmc-" (acronyme de Le Meilleur Coin) pour éviter d'éventuels conflits */
+
+.lmc-terrain {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.lmc-prix {
+  font-size: 2.5rem;
+}
+
+.lmc-energie-lettre-active {
+  font-size: 3rem;
+  height: 3rem;
+}
+
+.lmc-departement > a {
+  font-size: 1.5rem;
+  color: blue;
+  text-decoration: underline;
+  margin-right: 1rem;
+}

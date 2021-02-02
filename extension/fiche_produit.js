@@ -64,38 +64,38 @@ function remonterInfosImportantes(taillesTerrain) {
   // Critères énergétiques en plus gros
   const energie = document.querySelector('[data-qa-id="criteria_item_energy_rate"] [class*="styles_EnergyCriteria"]');
   const energieActif = energie.querySelector('[class*="styles_active"]');
-  energieActif.style.fontSize = '3rem';
-  energieActif.style.height = '3rem';
+  energieActif.classList.add('lmc-energie-lettre-active');
 
   // Idem pour GES
   const ges = document.querySelector('[data-qa-id="criteria_item_ges"] [class*="styles_EnergyCriteria"]');
   const gesActif = ges.querySelector('[class*="styles_active"]');
-  gesActif.style.fontSize = '3rem';
-  gesActif.style.height = '3rem';
+  gesActif.classList.add('lmc-energie-lettre-active');
 
   // Prix en plus gros
   const prix = document.querySelector('[data-qa-id="adview_price"] > span');
-  prix.style.fontSize = '2.5rem';
+  prix.classList.add('lmc-prix');
 
   // Ajout de la taille du terrain
-  taillesTerrain.forEach(taille => {
-    const tailleTerrain = document.createElement('p');
-    tailleTerrain.style.marginTop = '2rem';
-    tailleTerrain.innerHTML = `<strong style="font-size: 2rem;">☘️ Terrain ${taille} m²</strong>`;
-    conteneurDescription.after(tailleTerrain);
-  });
+  const tailleTerrain = document.createElement('p');
+  tailleTerrain.classList.add('lmc-terrain');
+  
+  let taille;
+  if (taillesTerrain.length === 0) {
+    taille = "< 1000";
+  } else {
+    taille = taillesTerrain.map(t => t + " m²").join(', ');
+  }
+  tailleTerrain.textContent = `☘️ Terrain ${taille} m²`;
+  conteneurDescription.after(tailleTerrain);
 }
 
 function lienGoogleMaps() {
   const googleMapsURL = 'https://www.google.fr/maps/search/';
   let departement = document.querySelector('[data-qa-id="adview_spotlight_description_container"] > div:last-child > div > span');
+  departement.classList.add('lmc-departement');
   const nomDepartement = departement.firstChild.textContent;
   const urlFinale = googleMapsURL + nomDepartement.replace(' ', '+');
   departement.innerHTML = `<a href="${urlFinale}" target="_blank">${nomDepartement}</a>`;
-  departement.firstElementChild.style.fontSize = "1.5rem";
-  departement.firstElementChild.style.color = "blue";
-  departement.firstElementChild.style.textDecoration = "underline";
-  departement.firstElementChild.style.marginRight = "1rem";
 }
 
 function cacherElement(selecteur) {
