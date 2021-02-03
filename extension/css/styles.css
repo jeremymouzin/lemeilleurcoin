@@ -1,4 +1,7 @@
-/* On préfixe les classes de "lmc-" (acronyme de Le Meilleur Coin) pour éviter d'éventuels conflits */
+/*
+On préfixe les classes de "lmc-" (acronyme de Le Meilleur Coin) pour éviter d'éventuels conflits.
+À cause de la cascade, il faut parfois booster la spécificité de certains sélecteurs pour éviter qu'ils ne soient écrasés par d'autres classes du site !
+*/
 
 :root {
   --lmc-background-color: rgb(243,245,247);
@@ -10,11 +13,11 @@
   font-weight: 600;
 }
 
-.lmc-prix {
+span.lmc-prix {
   font-size: 2.5rem;
 }
 
-.lmc-energie-lettre-active {
+div.lmc-energie-lettre-active {
   font-size: 3rem;
   height: 3rem;
 }
