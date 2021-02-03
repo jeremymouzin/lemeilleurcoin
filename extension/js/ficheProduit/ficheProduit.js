@@ -1,7 +1,5 @@
 const spanDebut = '<span style="background-color: yellow">';
 const spanFin = '</span>';
-const terrainRegExp = /((\d+ ?\d{3,} ?(m²|m2))|\d+ ?(ha[ .,!]|are[ .,!]|hectare[ .,!]))/gi;
-
 const listeDeMotsAMettreEnGras = [
   'terrain',
   'jardin',
@@ -28,7 +26,7 @@ function mettreEnSurbrillance(description) {
   const taillesTerrain = [];
   if (description !== null) {
     let correspondance;
-    while ((correspondance = terrainRegExp.exec(description.textContent)) !== null) {
+    while ((correspondance = REGEXP_TERRAIN.exec(description.textContent)) !== null) {
       description.innerHTML = description.innerHTML.replace(correspondance[0],
         `${spanDebut}${correspondance[0]}${spanFin}`);
 

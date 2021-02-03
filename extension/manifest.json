@@ -17,6 +17,7 @@
         "css/styles.css"
       ],
       "js": [
+        "js/commun.js",
         "js/ficheProduit/constantes.js",
         "js/ficheProduit/selecteursCss.js",
         "js/ficheProduit/ficheProduit.js"
