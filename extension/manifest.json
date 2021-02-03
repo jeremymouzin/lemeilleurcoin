@@ -29,7 +29,8 @@
         "*://www.leboncoin.fr/recherche?category=9*"
       ],
       "css": [
-        "css/commun.css"
+        "css/commun.css",
+        "css/pageRecherche/styles.css"
       ],
       "js": [
         "js/commun.js",
