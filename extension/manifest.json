@@ -17,7 +17,7 @@
         "css/styles.css"
       ],
       "js": [
-        "js/fiche_produit.js"
+        "js/ficheProduit/ficheProduit.js"
       ]
     },
     {
@@ -28,7 +28,7 @@
         "css/styles.css"
       ],
       "js": [
-        "js/page_recherche.js"
+        "js/pageRecherche/pageRecherche.js"
       ]
     }
   ]
