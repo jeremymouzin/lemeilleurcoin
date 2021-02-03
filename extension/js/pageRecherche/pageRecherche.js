@@ -5,12 +5,10 @@ for (donnee of donnees) {
   listing[donnee.list_id] = donnee;
 }
 
-const terrainRegExp = /((\d+ ?\d{3,} ?(m²|m2))|\d+ ?(ha[ .,!]|are[ .,!]|hectare[ .,!]))/gi;
-
-const listeResultats = document.querySelectorAll('[data-qa-id="aditem_container"]');
+const listeResultats = document.querySelectorAll(ITEM);
 for (const resultat of listeResultats) {
   const id = extraireID(resultat.href);
-  const lastDiv = resultat.querySelector('div > div > div > div + div + div');
+  const lastDiv = resultat.querySelector(DERNIERE_DIV_INFOS_ITEM);
 
   const fieldSet = creerFieldSetLMC();
 
@@ -90,7 +88,7 @@ function extraireObjet(nomChamp, objListing) {
     const description = objListing.body;
     let correspondance;
     let taillesTerrain = [];
-    while ((correspondance = terrainRegExp.exec(description)) !== null) {
+    while ((correspondance = REGEXP_TERRAIN.exec(description)) !== null) {
       taillesTerrain.push(Number.parseInt(correspondance[0].replaceAll(' ', '')));
     }
     if (taillesTerrain.length === 0) {
@@ -133,7 +131,7 @@ function creerInputNumber(id, label, valeur) {
 }
 
 function ajoutSelectionTerrain() {
-  const barreOutils = document.querySelector('body noscript + div + div > div:last-child > div > div > div:nth-child(3)');
+  const barreOutils = document.querySelector(BARRE_OUTILS_RECHERCHE_DIV);
 
   const fieldSet = creerFieldSetLMC();
   fieldSet.classList.add('lmc-filtre-terrain');
