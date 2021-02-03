@@ -17,6 +17,7 @@
         "css/styles.css"
       ],
       "js": [
+        "js/ficheProduit/selecteursCss.js",
         "js/ficheProduit/ficheProduit.js"
       ]
     },

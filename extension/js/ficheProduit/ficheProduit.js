@@ -1,8 +1,6 @@
-const attrDesc = '[data-qa-id="adview_description_container"]';
 const spanDebut = '<span style="background-color: yellow">';
 const spanFin = '</span>';
 const terrainRegExp = /((\d+ ?\d{3,} ?(m²|m2))|\d+ ?(ha[ .,!]|are[ .,!]|hectare[ .,!]))/gi;
-const divDesc = document.querySelector(attrDesc);
 const MAX_TENTATIVES_VOIR_PLUS = 5;
 const TEMPS_ENTRE_TENTATIVES_EN_MS = 200;
 const listeDeMotsAMettreEnGras = [
@@ -11,7 +9,7 @@ const listeDeMotsAMettreEnGras = [
 ];
 
 function clickVoirPlus() {
-  let boutonVoirPlus = divDesc.querySelector('button');
+  let boutonVoirPlus = document.querySelector(BOUTON_VOIR_PLUS);
   if (boutonVoirPlus === null) {
     if (clickVoirPlus.compteur < MAX_TENTATIVES_VOIR_PLUS) {
       window.setTimeout(clickVoirPlus, TEMPS_ENTRE_TENTATIVES_EN_MS);
@@ -62,24 +60,24 @@ function mettreEnGras(description, listeDeMots) {
 }
 
 function remonterInfosImportantes(taillesTerrain) {
-  const conteneurDescription = document.querySelector('[data-qa-id="adview_spotlight_description_container"]');
+  const conteneurDescription = document.querySelector(SPOTLIGHT_DESCRIPTION);
 
   // Déplacement des critères énergétiques en haut
-  const criteres = document.querySelector('[data-qa-id="criteria_container"]');
+  const criteres = document.querySelector(CONTENEUR_CRITERES);
   conteneurDescription.after(criteres);
 
   // Critères énergétiques en plus gros
-  const energie = document.querySelector('[data-qa-id="criteria_item_energy_rate"] [class*="styles_EnergyCriteria"]');
-  const energieActif = energie.querySelector('[class*="styles_active"]');
+  const energie = document.querySelector(CLASSE_ENERGIE_LETTRES);
+  const energieActif = energie.querySelector(CLASSE_ENERGIE_LETTRE_ACTIVE);
   energieActif.classList.add('lmc-energie-lettre-active');
 
   // Idem pour GES
-  const ges = document.querySelector('[data-qa-id="criteria_item_ges"] [class*="styles_EnergyCriteria"]');
-  const gesActif = ges.querySelector('[class*="styles_active"]');
+  const ges = document.querySelector(GES_LETTRES);
+  const gesActif = ges.querySelector(CLASSE_ENERGIE_LETTRE_ACTIVE);
   gesActif.classList.add('lmc-energie-lettre-active');
 
   // Prix en plus gros
-  const prix = document.querySelector('[data-qa-id="adview_price"] > span');
+  const prix = document.querySelector(PRIX);
   prix.classList.add('lmc-prix');
 
   // Ajout de la taille du terrain
@@ -98,7 +96,7 @@ function remonterInfosImportantes(taillesTerrain) {
 
 function lienGoogleMaps() {
   const googleMapsURL = 'https://www.google.fr/maps/search/';
-  let departement = document.querySelector('[data-qa-id="adview_spotlight_description_container"] > div:last-child > div > span');
+  let departement = document.querySelector(LIEU);
   departement.classList.add('lmc-departement');
   const nomDepartement = departement.firstChild.textContent;
   const urlFinale = googleMapsURL + nomDepartement.replace(' ', '+');
@@ -112,15 +110,15 @@ function cacherElement(selecteur) {
 
 function supprimerElementsInutiles() {
   // Date de parution
-  cacherElement('[data-qa-id="adview_date"]');
+  cacherElement(DATE_PARUTION);
   // Référence inutile
-  cacherElement('[data-qa-id="criteria_item_custom_ref"]');
+  cacherElement(REFERENCE);
   // Honoraires, c'est déjà marqué dans l'annonce !
-  cacherElement('[data-qa-id="criteria_item_fai_included"]');
+  cacherElement(HONORAIRES);
 }
 
 function ameliorer() {
-  const description = divDesc.querySelector('span');
+  const description = document.querySelector(DESCRIPTION);
   const taillesTerrain = mettreEnSurbrillance(description);
   mettreEnGras(description, listeDeMotsAMettreEnGras);
   remonterInfosImportantes(taillesTerrain);
