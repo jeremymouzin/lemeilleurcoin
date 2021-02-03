@@ -30,13 +30,6 @@ function mettreEnSurbrillance(description) {
   return taillesTerrain;
 }
 
-// Hook pour les tests unitaires avec Jest
-try {
-  module.exports = mettreEnSurbrillance;
-} catch(erreur) {
-  // On est en production, module est undefined c'est normal
-}
-
 function remonterInfosImportantes(taillesTerrain) {
   const conteneurDescription = document.querySelector(SPOTLIGHT_DESCRIPTION);
 
@@ -105,3 +98,10 @@ function ameliorer() {
 
 // On clique sur le bouton "Voir Plus"
 window.setTimeout(clickVoirPlus, BOUTON_VOIR_PLUS_TEMPS_ENTRE_TENTATIVES_EN_MS);
+
+// Hook pour les tests unitaires avec Jest
+try {
+  module.exports = mettreEnSurbrillance;
+} catch(erreur) {
+  // On est en production, module est undefined c'est normal
+}
