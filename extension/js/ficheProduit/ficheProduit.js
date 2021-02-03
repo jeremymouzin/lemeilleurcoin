@@ -1,8 +1,7 @@
 const spanDebut = '<span style="background-color: yellow">';
 const spanFin = '</span>';
 const terrainRegExp = /((\d+ ?\d{3,} ?(m²|m2))|\d+ ?(ha[ .,!]|are[ .,!]|hectare[ .,!]))/gi;
-const MAX_TENTATIVES_VOIR_PLUS = 5;
-const TEMPS_ENTRE_TENTATIVES_EN_MS = 200;
+
 const listeDeMotsAMettreEnGras = [
   'terrain',
   'jardin',
@@ -11,8 +10,8 @@ const listeDeMotsAMettreEnGras = [
 function clickVoirPlus() {
   let boutonVoirPlus = document.querySelector(BOUTON_VOIR_PLUS);
   if (boutonVoirPlus === null) {
-    if (clickVoirPlus.compteur < MAX_TENTATIVES_VOIR_PLUS) {
-      window.setTimeout(clickVoirPlus, TEMPS_ENTRE_TENTATIVES_EN_MS);
+    if (clickVoirPlus.compteur < BOUTON_VOIR_PLUS_MAX_TENTATIVES) {
+      window.setTimeout(clickVoirPlus, BOUTON_VOIR_PLUS_TEMPS_ENTRE_TENTATIVES_EN_MS);
       clickVoirPlus.compteur++;
     } else {
       // On continue il n'y a pas de bouton "Voir Plus"
@@ -127,4 +126,4 @@ function ameliorer() {
 }
 
 // On clique sur le bouton "Voir Plus"
-window.setTimeout(clickVoirPlus, TEMPS_ENTRE_TENTATIVES_EN_MS);
+window.setTimeout(clickVoirPlus, BOUTON_VOIR_PLUS_TEMPS_ENTRE_TENTATIVES_EN_MS);
