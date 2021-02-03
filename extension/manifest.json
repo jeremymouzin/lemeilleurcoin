@@ -32,6 +32,9 @@
         "css/commun.css"
       ],
       "js": [
+        "js/commun.js",
+        "js/pageRecherche/constantes.js",
+        "js/pageRecherche/selecteursCss.js",
         "js/pageRecherche/pageRecherche.js"
       ]
     }
