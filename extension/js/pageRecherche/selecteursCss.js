@@ -18,5 +18,11 @@ const BANDEAU_ESTIMATION_GRATUITE = '[class*="styles_classifiedColumn"] > div:fi
 // Barre option particuliers / pro / urgentes / tri
 const BARRE_OPTIONS_FILTRAGE_ET_TRI = '[class*="styles_ListingFilters"]';
 
+// Liste des résultats
+const LISTE_RESULTATS = '[class*="styles_classifiedColumn"]';
+
+// Photo des items
+const PHOTO_ITEM = '[data-qa-id="aditem_container"] > div > div > div > div > div:first-child';
+
 // Dernière div dans les informations à droite de la photo du bien sur chaque item
 const DERNIERE_DIV_INFOS_ITEM = 'div > div > div > div + div + div';

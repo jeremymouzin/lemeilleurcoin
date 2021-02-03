@@ -178,3 +178,13 @@ cacherElement(BANDEAU_ESTIMATION_GRATUITE);
 // Centrage des options de filtrage et de tri
 const barreOptions = document.querySelector(BARRE_OPTIONS_FILTRAGE_ET_TRI);
 barreOptions.style.justifyContent = "center";
+
+// Largeur 100% sur la liste des résultats
+const listeResultat = document.querySelector(LISTE_RESULTATS);
+listeResultat.style.flexBasis = "100%";
+
+// Augmentation de la largeur de la photo
+const photoItem = document.querySelectorAll(PHOTO_ITEM);
+photoItem.forEach(photo => {
+  photo.style.flexBasis = "70%";
+});
