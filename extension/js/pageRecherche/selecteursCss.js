@@ -9,5 +9,14 @@ const ITEM = '[data-qa-id="aditem_container"]';
 // Dernière div dans le header avec les options de recherche
 const BARRE_OUTILS_RECHERCHE_DIV = 'body noscript + div + div > div:last-child > div > div > div:nth-child(3)';
 
+// Titre inutile "Annonces Maison à vendre et vente appartement :"
+const TITRE_INUTILE = '[class*="styles_ListingFilters"] + div';
+
+// Bandeau inutile "C'est le moment de vendre ! Demander une estimation gratuite"
+const BANDEAU_ESTIMATION_GRATUITE = '[class*="styles_classifiedColumn"] > div:first-child';
+
+// Barre option particuliers / pro / urgentes / tri
+const BARRE_OPTIONS_FILTRAGE_ET_TRI = '[class*="styles_ListingFilters"]';
+
 // Dernière div dans les informations à droite de la photo du bien sur chaque item
 const DERNIERE_DIV_INFOS_ITEM = 'div > div > div > div + div + div';

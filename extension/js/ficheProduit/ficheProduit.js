@@ -80,11 +80,6 @@ function lienGoogleMaps() {
   }
 }
 
-function cacherElement(selecteur) {
-  const el = document.querySelector(selecteur);
-  if (el !== null) el.style.display = 'none';
-}
-
 function supprimerElementsInutiles() {
   // Date de parution
   cacherElement(DATE_PARUTION);

@@ -171,3 +171,10 @@ function ajoutSelectionTerrain() {
 }
 
 ajoutSelectionTerrain();
+
+cacherElement(TITRE_INUTILE);
+cacherElement(BANDEAU_ESTIMATION_GRATUITE);
+
+// Centrage des options de filtrage et de tri
+const barreOptions = document.querySelector(BARRE_OPTIONS_FILTRAGE_ET_TRI);
+barreOptions.style.justifyContent = "center";
