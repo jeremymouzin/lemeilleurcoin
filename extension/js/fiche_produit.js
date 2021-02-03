@@ -42,6 +42,8 @@ function mettreEnSurbrillance(description) {
   return taillesTerrain;
 }
 
+module.exports = mettreEnSurbrillance;
+
 function mettreEnGras(description, listeDeMots) {
   listeDeMots.forEach(mot => {
     const regexp = new RegExp(`${mot}`, 'gi');

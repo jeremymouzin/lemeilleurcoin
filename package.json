@@ -1,0 +1,29 @@
+{
+  "name": "lemeilleurcoin",
+  "version": "1.0.0",
+  "description": "Améliorez votre expérience de recherche en biens immobiliers sur le site leboncoin !",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^26.6.3"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeremymouzin/lemeilleurcoin.git"
+  },
+  "keywords": [
+    "leboncoin",
+    "chrome",
+    "extension",
+    "javascript"
+  ],
+  "author": "Jérémy Mouzin",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/jeremymouzin/lemeilleurcoin/issues"
+  },
+  "homepage": "https://github.com/jeremymouzin/lemeilleurcoin#readme"
+}
