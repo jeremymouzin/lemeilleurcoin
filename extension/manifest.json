@@ -14,7 +14,7 @@
         "*://www.leboncoin.fr/ventes_immobilieres/*"
       ],
       "css": [
-        "css/styles.css"
+        "css/ficheProduit/styles.css"
       ],
       "js": [
         "js/commun.js",
