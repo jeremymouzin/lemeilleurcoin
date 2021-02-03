@@ -64,11 +64,11 @@ function remonterInfosImportantes(taillesTerrain) {
   
   let taille;
   if (taillesTerrain.length === 0) {
-    taille = "< 1000";
+    taille = "< 1000 m²";
   } else {
     taille = taillesTerrain.map(t => t + " m²").join(', ');
   }
-  tailleTerrain.textContent = `☘️ Terrain ${taille} m²`;
+  tailleTerrain.textContent = `☘️ Terrain ${taille}`;
   conteneurDescription.after(tailleTerrain);
 }
 
