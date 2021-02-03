@@ -1,8 +1,3 @@
-const listeDeMotsAMettreEnGras = [
-  'terrain',
-  'jardin',
-];
-
 function clickVoirPlus() {
   let boutonVoirPlus = document.querySelector(BOUTON_VOIR_PLUS);
   if (boutonVoirPlus === null) {
@@ -40,18 +35,6 @@ try {
   module.exports = mettreEnSurbrillance;
 } catch(erreur) {
   // On est en production, module est undefined c'est normal
-}
-
-function mettreEnGras(description, listeDeMots) {
-  listeDeMots.forEach(mot => {
-    const regexp = new RegExp(`${mot}`, 'gi');
-    const correspondances = regexp.exec(description.textContent);
-    if (correspondances !== null) {
-      for (const correspondance of correspondances) {
-        description.innerHTML = description.innerHTML.replace(correspondance, `<strong>${correspondance}</strong>`);
-      }
-    }
-  });
 }
 
 function remonterInfosImportantes(taillesTerrain) {
@@ -115,7 +98,6 @@ function supprimerElementsInutiles() {
 function ameliorer() {
   const description = document.querySelector(DESCRIPTION);
   const taillesTerrain = mettreEnSurbrillance(description);
-  mettreEnGras(description, listeDeMotsAMettreEnGras);
   remonterInfosImportantes(taillesTerrain);
   lienGoogleMaps();
   supprimerElementsInutiles();
