@@ -42,7 +42,12 @@ function mettreEnSurbrillance(description) {
   return taillesTerrain;
 }
 
-module.exports = mettreEnSurbrillance;
+// Hook pour les tests unitaires avec Jest
+try {
+  module.exports = mettreEnSurbrillance;
+} catch(erreur) {
+  // On est en production, module est undefined c'est normal
+}
 
 function mettreEnGras(description, listeDeMots) {
   listeDeMots.forEach(mot => {
