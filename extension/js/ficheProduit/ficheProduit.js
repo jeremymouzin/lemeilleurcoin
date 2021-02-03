@@ -39,13 +39,17 @@ function remonterInfosImportantes(taillesTerrain) {
 
   // Critères énergétiques en plus gros
   const energie = document.querySelector(CLASSE_ENERGIE_LETTRES);
-  const energieActif = energie.querySelector(CLASSE_ENERGIE_LETTRE_ACTIVE);
-  energieActif.classList.add('lmc-energie-lettre-active');
+  if (energie !== null) {
+    const energieActif = energie.querySelector(CLASSE_ENERGIE_LETTRE_ACTIVE);
+    energieActif.classList.add('lmc-energie-lettre-active');
+  }
 
   // Idem pour GES
   const ges = document.querySelector(GES_LETTRES);
-  const gesActif = ges.querySelector(CLASSE_ENERGIE_LETTRE_ACTIVE);
-  gesActif.classList.add('lmc-energie-lettre-active');
+  if (ges !== null) {
+    const gesActif = ges.querySelector(CLASSE_ENERGIE_LETTRE_ACTIVE);
+    gesActif.classList.add('lmc-energie-lettre-active');
+  }
 
   // Prix en plus gros
   const prix = document.querySelector(PRIX);
@@ -68,10 +72,12 @@ function remonterInfosImportantes(taillesTerrain) {
 function lienGoogleMaps() {
   const googleMapsURL = 'https://www.google.fr/maps/search/';
   let lieu = document.querySelector(LIEU);
-  lieu.classList.add('lmc-lieu');
-  const nomLieu = lieu.firstChild.textContent;
-  const urlFinale = googleMapsURL + nomLieu.replace(' ', '+');
-  lieu.innerHTML = `<a href="${urlFinale}" target="_blank">${nomLieu}</a>`;
+  if (lieu !== null) {
+    lieu.classList.add('lmc-lieu');
+    const nomLieu = lieu.firstChild.textContent;
+    const urlFinale = googleMapsURL + nomLieu.replace(' ', '+');
+    lieu.innerHTML = `<a href="${urlFinale}" target="_blank">${nomLieu}</a>`;
+  }
 }
 
 function cacherElement(selecteur) {
