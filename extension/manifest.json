@@ -4,9 +4,9 @@
   "version": "1.0",
   "manifest_version": 3,
   "icons": {
-    "16": "icon16.png",
-    "48": "icon48.png",
-    "128": "icon128.png"
+    "16": "icone/icon16.png",
+    "48": "icone/icon48.png",
+    "128": "icone/icon128.png"
   },
   "content_scripts": [
     {
@@ -14,10 +14,10 @@
         "*://www.leboncoin.fr/ventes_immobilieres/*"
       ],
       "css": [
-        "styles.css"
+        "css/styles.css"
       ],
       "js": [
-        "fiche_produit.js"
+        "js/fiche_produit.js"
       ]
     },
     {
@@ -25,10 +25,10 @@
         "*://www.leboncoin.fr/recherche?category=9*"
       ],
       "css": [
-        "styles.css"
+        "css/styles.css"
       ],
       "js": [
-        "page_recherche.js"
+        "js/page_recherche.js"
       ]
     }
   ]
