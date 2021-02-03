@@ -96,11 +96,11 @@ function remonterInfosImportantes(taillesTerrain) {
 
 function lienGoogleMaps() {
   const googleMapsURL = 'https://www.google.fr/maps/search/';
-  let departement = document.querySelector(LIEU);
-  departement.classList.add('lmc-departement');
-  const nomDepartement = departement.firstChild.textContent;
-  const urlFinale = googleMapsURL + nomDepartement.replace(' ', '+');
-  departement.innerHTML = `<a href="${urlFinale}" target="_blank">${nomDepartement}</a>`;
+  let lieu = document.querySelector(LIEU);
+  lieu.classList.add('lmc-lieu');
+  const nomLieu = lieu.firstChild.textContent;
+  const urlFinale = googleMapsURL + nomLieu.replace(' ', '+');
+  lieu.innerHTML = `<a href="${urlFinale}" target="_blank">${nomLieu}</a>`;
 }
 
 function cacherElement(selecteur) {
