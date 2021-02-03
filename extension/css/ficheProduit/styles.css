@@ -18,3 +18,7 @@ div.lmc-energie-lettre-active {
   text-decoration: underline;
   margin-right: 1rem;
 }
+
+.lmc-surligner {
+  background-color: yellow;
+}

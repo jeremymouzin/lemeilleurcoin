@@ -1,5 +1,3 @@
-const spanDebut = '<span style="background-color: yellow">';
-const spanFin = '</span>';
 const listeDeMotsAMettreEnGras = [
   'terrain',
   'jardin',
@@ -28,7 +26,7 @@ function mettreEnSurbrillance(description) {
     let correspondance;
     while ((correspondance = REGEXP_TERRAIN.exec(description.textContent)) !== null) {
       description.innerHTML = description.innerHTML.replace(correspondance[0],
-        `${spanDebut}${correspondance[0]}${spanFin}`);
+        `<span class="lmc-surligner">${correspondance[0]}</span>`);
 
       // On ne récupère que la valeur numérique
       taillesTerrain.push(Number.parseInt(correspondance[0].replaceAll(' ', '')));
