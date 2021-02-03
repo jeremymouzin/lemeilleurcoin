@@ -22,3 +22,9 @@ div.lmc-energie-lettre-active {
 .lmc-surligner {
   background-color: yellow;
 }
+
+.lmc-terrain {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
