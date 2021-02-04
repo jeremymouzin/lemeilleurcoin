@@ -136,41 +136,56 @@ function ajoutSelectionTerrain() {
   const fieldSet = creerFieldSetLMC();
   fieldSet.classList.add('lmc-filtre-terrain');
 
-  const inputMin = creerInputNumber('terrainMin', 'Terrain min :', 1000);
-  const inputMax = creerInputNumber('terrainMax', 'Terrain max :', 4000);
-  fieldSet.append(inputMin);
-  fieldSet.append(inputMax);
+  const VALEURS_TERRAIN = {
+    CLE_TERRAIN_MIN: DEFAUT_TERRAIN_MIN_EN_M2,
+    CLE_TERRAIN_MAX: DEFAUT_TERRAIN_MAX_EN_M2,
+  };
+  // Récupération des valeurs précédemment sauvegardées (ou utilisation de celles par défaut)
+  chrome.storage.sync.get(VALEURS_TERRAIN, function (result) {
+    const surfaceTerrainMin = result.CLE_TERRAIN_MIN;
+    const surfaceTerrainMax = result.CLE_TERRAIN_MAX;
 
-  const boutonValider = document.createElement('button');
-  boutonValider.textContent = "Filtrer";
+    const labelMin = creerInputNumber('terrainMin', 'Terrain min :', surfaceTerrainMin);
+    const labelMax = creerInputNumber('terrainMax', 'Terrain max :', surfaceTerrainMax);
+    fieldSet.append(labelMin);
+    fieldSet.append(labelMax);
 
-  boutonValider.addEventListener('click', function (e) {
-    const surfaceMin = +inputMin.querySelector('input').value;
-    let surfaceMax = +inputMax.querySelector('input').value;
+    const boutonValider = document.createElement('button');
+    boutonValider.textContent = "Filtrer";
 
-    for (const resultat of listeResultats) {
-      let cacher = false;
-      let surface = resultat.dataset.surfaceTerrain;
+    boutonValider.addEventListener('click', function (e) {
+      const surfaceMin = +labelMin.querySelector('input').value;
+      let surfaceMax = +labelMax.querySelector('input').value;
 
-      if (surface.startsWith('<')) {
-        cacher = true;
-      } else {
-        // Si l'utilisateur n'a rien mis comme surface maximale, on ne met pas de limite
-        if (surfaceMax === 0) surfaceMax = Number.POSITIVE_INFINITY;
-        
-        surface = Number.parseInt(surface);
-        if (surface < surfaceMin || surface > surfaceMax) {
+      // On sauvegarde les valeurs dans le stockage de l'extension
+      chrome.storage.sync.set({
+        CLE_TERRAIN_MIN: surfaceMin === 0 ? "" : surfaceMin,
+        CLE_TERRAIN_MAX: surfaceMax === 0 ? "" : surfaceMax
+      }, () => { });
+
+      for (const resultat of listeResultats) {
+        let cacher = false;
+        let surface = resultat.dataset.surfaceTerrain;
+
+        if (surface.startsWith('<')) {
           cacher = true;
+        } else {
+          // Si l'utilisateur n'a rien mis comme surface maximale, on ne met pas de limite
+          if (surfaceMax === 0) surfaceMax = Number.POSITIVE_INFINITY;
+
+          surface = Number.parseInt(surface);
+          if (surface < surfaceMin || surface > surfaceMax) {
+            cacher = true;
+          }
         }
+        resultat.style.display = cacher ? 'none' : 'block';
       }
-      resultat.style.display = cacher ? 'none' : 'block';
-    }
+    });
+
+    fieldSet.append(boutonValider);
+    barreOutils.after(fieldSet);
+
   });
-
-  fieldSet.append(boutonValider);
-
-  barreOutils.after(fieldSet);
-
 }
 
 ajoutSelectionTerrain();
