@@ -146,7 +146,7 @@ function ajoutSelectionTerrain() {
 
   boutonValider.addEventListener('click', function (e) {
     const surfaceMin = +inputMin.querySelector('input').value;
-    const surfaceMax = +inputMax.querySelector('input').value;
+    let surfaceMax = +inputMax.querySelector('input').value;
 
     for (const resultat of listeResultats) {
       let cacher = false;
@@ -155,6 +155,9 @@ function ajoutSelectionTerrain() {
       if (surface.startsWith('<')) {
         cacher = true;
       } else {
+        // Si l'utilisateur n'a rien mis comme surface maximale, on ne met pas de limite
+        if (surfaceMax === 0) surfaceMax = Number.POSITIVE_INFINITY;
+        
         surface = Number.parseInt(surface);
         if (surface < surfaceMin || surface > surfaceMax) {
           cacher = true;
