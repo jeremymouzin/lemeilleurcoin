@@ -5,4 +5,5 @@ On préfixe les classes de "lmc-" (acronyme de Le Meilleur Coin) pour éviter d'
 
 :root {
   --lmc-background-color: rgb(243,245,247);
+  --lmc-accent-color: #ff6e14;
 }

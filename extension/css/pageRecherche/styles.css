@@ -8,6 +8,7 @@ On préfixe les classes de "lmc-" (acronyme de Le Meilleur Coin) pour éviter d'
   align-self: flex-start;
   margin: 2px 0;
   border-radius: 6px;
+  font-size: 1.4rem;
 }
 
 .lmc-fieldset {
@@ -17,19 +18,45 @@ On préfixe les classes de "lmc-" (acronyme de Le Meilleur Coin) pour éviter d'
   margin-top: 1rem;
   border-radius: 6px;
   padding: 12px;
+  font-size: 1.4rem;
+  border: 1px solid var(--lmc-accent-color);
+  margin-bottom: 2rem;
 }
 
 .lmc-legende {
-  padding: 0 6px;
+  padding: 0.4rem 1.4rem;
   border-radius: 6px;
   background-color: var(--lmc-background-color);
+  font-size: 1.4rem;
+  border: 1px solid var(--lmc-accent-color);
 }
 
 .lmc-filtre-terrain button {
   background-color: #4183d7;
   align-self: flex-start;
-  padding: 1rem 1.5rem;
+  padding: 0 1.5rem;
+  margin-top: 1rem;
   border-radius: 4px;
+  height: 4rem;
   color: white;
   font-weight: 600;
+  font-size: 1.4rem;
+}
+
+.lmc-filtre-terrain input {
+  --height: 3rem;
+  margin-left: 1rem;
+  font-size: 1.4rem;
+  border-radius: var(--height);
+  border: 1px solid var(--lmc-accent-color);
+  color: var(--lmc-accent-color);
+  height: var(--height);
+  max-width: 10rem;
+  padding: 0 2rem;
+  outline: none;
+}
+
+.lmc-filtre-terrain input:focus,
+.lmc-filtre-terrain input:active {
+  box-shadow: 0 0 0 1px var(--lmc-accent-color);
 }
