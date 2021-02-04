@@ -14,6 +14,7 @@ On préfixe les classes de "lmc-" (acronyme de Le Meilleur Coin) pour éviter d'
 .lmc-fieldset {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   background-color: var(--lmc-background-color);
   margin-top: 1rem;
   border-radius: 6px;
