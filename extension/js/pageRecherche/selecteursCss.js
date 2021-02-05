@@ -26,3 +26,8 @@ const PHOTO_ITEM = '[data-qa-id="aditem_container"] > div > div > div > div > di
 
 // Dernière div dans les informations à droite de la photo du bien sur chaque item
 const DERNIERE_DIV_INFOS_ITEM = 'div > div > div > div + div + div';
+
+// On vire les pubs
+const PUB_TABOOLA = '[id*="taboola"]';
+const PUB_CRITEO = '[id*="criteo"]';
+const PUB_CRITEO_PARENT = '[class*="styles_order"]';

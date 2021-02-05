@@ -54,6 +54,19 @@ function ameliorerListing() {
   photoItem.forEach(photo => {
     photo.style.flexBasis = "70%";
   });
+
+  // Suppression des pubs TABOOLA
+  let pubs = document.querySelectorAll(PUB_TABOOLA);
+  pubs.forEach(pub => {
+    pub.style.display = 'none';
+  });
+
+  // Suppression des pubs CRITEO
+  pubs = document.querySelectorAll(PUB_CRITEO);
+  pubs.forEach(pub => {
+    const parent = pub.closest('[class*="styles_order"]');
+    parent.style.display = 'none';
+  })
 }
 
 function creerFieldSetLMC() {
