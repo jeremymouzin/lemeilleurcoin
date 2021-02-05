@@ -93,8 +93,11 @@ function ameliorerListing() {
   // Augmentation de la largeur de la photo
   const photoItem = document.querySelectorAll(PHOTO_ITEM);
   photoItem.forEach(photo => {
-    photo.classList.add('lmc-photo');
+    augmenterTaillePhoto(photo);
   });
+
+  // Augmentation de la largeur des photos en lazy loading
+  gererImagesLazyLoading();
 
   // Augmentation de la taille de police du prix;
   const prixItem = document.querySelectorAll(PRIX_ITEM);
@@ -117,6 +120,10 @@ function ameliorerListing() {
 
   // Filtrage par taille du terrain
   filtrerResultatsParTerrain();
+}
+
+function augmenterTaillePhoto(photo) {
+  photo.classList.add('lmc-photo');
 }
 
 function creerBoutonPhoto(classe) {
@@ -336,3 +343,24 @@ const observateur = new MutationObserver(function (objets, observateur) {
 // On observe les changements sur les noeuds enfants de la liste
 observateur.compteur = 1;
 observateur.observe(elListing, { childList: true });
+
+/*
+Gestion des images en lazy loading
+Lors du chargement de la liste des résultats de recherche, certaines images sont chargées au moment du scroll et leurs classes sont réaffectées... écrasant ma classe permettant de mettre la photo en grand.
+L'objectif de ce code est de détecter quand une photo se charge et de lui réappliquer à nouveau ma classe.
+*/
+function gererImagesLazyLoading() {
+
+  const imgLazy = document.querySelectorAll(PHOTO_ITEM);
+
+  observateurImages = new MutationObserver(function (objets, observateur) {
+    const photo = objets[0].target;
+    if (!photo.classList.contains('lmc-photo')) {
+      augmenterTaillePhoto(photo);
+    }
+  });
+
+  imgLazy.forEach(img => {
+    observateurImages.observe(img, { attributes: true });
+  });
+}
