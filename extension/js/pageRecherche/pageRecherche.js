@@ -55,6 +55,12 @@ function ameliorerListing() {
     photo.style.flexBasis = "70%";
   });
 
+  // Augmentation de la taille de police du prix;
+  const prixItem = document.querySelectorAll(PRIX_ITEM);
+  prixItem.forEach(prix => {
+    prix.style.fontSize = "3rem";
+  });
+
   // Suppression des pubs TABOOLA
   let pubs = document.querySelectorAll(PUB_TABOOLA);
   pubs.forEach(pub => {
