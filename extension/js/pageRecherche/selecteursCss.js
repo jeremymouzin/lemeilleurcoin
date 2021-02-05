@@ -9,6 +9,10 @@ const ITEM = '[data-qa-id="aditem_container"]';
 // Dernière div dans le header avec les options de recherche
 const BARRE_OUTILS_RECHERCHE_DIV = 'body noscript + div + div > div:last-child > div > div > div:nth-child(3)';
 
+// ID des inputs terrain min et max
+const INPUT_TERRAIN_MIN_ID = 'terrainMin';
+const INPUT_TERRAIN_MAX_ID = 'terrainMax';
+
 // Titre inutile "Annonces Maison à vendre et vente appartement :"
 const TITRE_INUTILE = '[class*="styles_ListingFilters"] + div';
 

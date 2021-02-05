@@ -26,5 +26,5 @@ const NOM_LABELS = {
 // Gestion du filtrage par taille de terrain
 const CLE_TERRAIN_MIN = 'terrainMin';
 const CLE_TERRAIN_MAX = 'terrainMax';
-const DEFAUT_TERRAIN_MIN_EN_M2 = 1000;
+const DEFAUT_TERRAIN_MIN_EN_M2 = 0;
 const DEFAUT_TERRAIN_MAX_EN_M2 = 4000;
