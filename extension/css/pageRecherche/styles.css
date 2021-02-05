@@ -69,3 +69,25 @@ On préfixe les classes de "lmc-" (acronyme de Le Meilleur Coin) pour éviter d'
 .lmc-photo {
   flex-basis: var(--largeur-photo) !important;
 }
+
+.lmc-bouton-photo {
+  --marge: 2rem;
+  --size: 4rem;
+  width: var(--size);
+  height: var(--size);
+  position: absolute;
+  top: 50%;
+  font-size: 2rem;
+  background-color: white;
+  border-radius: 50%;
+}
+
+.lmc-bouton-avant {
+  transform: rotate(.5turn) translateY(50%);
+  left: var(--marge);
+}
+
+.lmc-bouton-apres {
+  left: calc(var(--largeur-photo) - var(--marge));
+  transform: translate(-100%, -50%);
+}

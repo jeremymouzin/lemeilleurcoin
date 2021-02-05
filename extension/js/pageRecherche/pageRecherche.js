@@ -52,6 +52,42 @@ function ameliorerListing() {
     const pieces = extraireObjet('rooms', listing[id]);
     const surface = extraireObjet('square', listing[id]);
     titreItem.textContent = `${surface.value_label} — ${pieces.value} ${pieces.key_label.toLowerCase()}`;
+
+    // Boutons pour voir toutes les photos
+    const photoItem = resultat.querySelector(PHOTO_ITEM);
+    const boutonAvant = creerBoutonPhoto('lmc-bouton-avant');
+    const boutonApres = creerBoutonPhoto('lmc-bouton-apres');
+
+    // On ajoute les boutons après le lien
+    const lienItem = photoItem.closest('a');
+    lienItem.after(boutonAvant);
+    lienItem.after(boutonApres);
+
+    function changerImage(e) {
+      let numeroImageActuel = +this.dataset.numeroImage;
+      const nombreImages = listing[id].images.nb_images;
+      const clicSurBoutonAvant = e.currentTarget.className.includes('avant');
+      numeroImageActuel += clicSurBoutonAvant ? 1 : -1;
+
+      // On boucle sur les images
+      if (numeroImageActuel > nombreImages - 1) {
+        numeroImageActuel = 0;
+      } else if (numeroImageActuel < 0) {
+        numeroImageActuel = nombreImages - 1;
+      }
+
+      const prochaineSrcImage = listing[id].images.urls[numeroImageActuel];
+
+      // On récupère l'image de l'item qu'on édite
+      const img = this.closest('div[class*="styles_adListItem"]').querySelector('img');
+
+      // Et on change sa source
+      img.src = prochaineSrcImage;
+      this.dataset.numeroImage = numeroImageActuel;
+    }
+
+    boutonAvant.addEventListener('click', changerImage);
+    boutonApres.addEventListener('click', changerImage);
   }
 
   // Augmentation de la largeur de la photo
@@ -81,6 +117,18 @@ function ameliorerListing() {
 
   // Filtrage par taille du terrain
   filtrerResultatsParTerrain();
+}
+
+function creerBoutonPhoto(classe) {
+  const bouton = document.createElement('button');
+  bouton.classList.add('lmc-bouton-photo', classe);
+
+  // Petite flèche sympa en contenu
+  bouton.innerHTML = "&#10132;";
+
+  // On "retient" le numéro de l'image directement sur le bouton
+  bouton.dataset.numeroImage = 0;
+  return bouton;
 }
 
 function creerFieldSetLMC() {
