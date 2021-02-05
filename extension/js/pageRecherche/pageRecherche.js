@@ -1,25 +1,59 @@
-const s = document.getElementById(DATA_ID);
-const donnees = JSON.parse(s.textContent).props.pageProps.listingData.ads;
-const listing = {};
-for (donnee of donnees) {
-  listing[donnee.list_id] = donnee;
+// On récupère les données du document au chargement de la page
+let listing = recupererDonnees(document);
+ameliorerHeader();
+ameliorerListing();
+
+function recupererDonnees(document) {
+  const script = document.querySelector(DATA_ID);
+  const donnees = JSON.parse(script.textContent).props.pageProps.listingData.ads;
+  const listing = {};
+  for (donnee of donnees) {
+    listing[donnee.list_id] = donnee;
+  }
+  return listing;
 }
 
-const listeResultats = document.querySelectorAll(ITEM);
-for (const resultat of listeResultats) {
-  const id = extraireID(resultat.href);
-  const lastDiv = resultat.querySelector(DERNIERE_DIV_INFOS_ITEM);
+function ameliorerHeader() {
+  ajoutFiltrageSurfaceTerrain();
+  cacherElement(TITRE_INUTILE);
+  cacherElement(BANDEAU_ESTIMATION_GRATUITE);
 
-  const fieldSet = creerFieldSetLMC();
+  // Centrage des options de filtrage et de tri
+  const barreOptions = document.querySelector(BARRE_OPTIONS_FILTRAGE_ET_TRI);
+  barreOptions.style.justifyContent = "center";
 
-  // Création de nouvelles informations
-  const tailleTerrain = ajouterChamp('terrain', id, fieldSet);
-  resultat.dataset.surfaceTerrain = tailleTerrain;
-  ajouterChamp('energy_rate', id, fieldSet);
-  ajouterChamp('ges', id, fieldSet);
-  ajouterChamp('rooms', id, fieldSet);
-  ajouterChamp('square', id, fieldSet);
-  lastDiv.after(fieldSet);
+  // Largeur 100% sur la liste des résultats
+  const listeResultat = document.querySelector(LISTE_RESULTATS);
+  listeResultat.style.flexBasis = "100%";
+}
+
+function ameliorerListing() {
+  const listeResultats = document.querySelectorAll(ITEM);
+  for (const resultat of listeResultats) {
+    const id = extraireID(resultat.href);
+
+    // Filtrage des ID correspondant aux pubs !
+    if (listing[id] === undefined) continue;
+
+    const lastDiv = resultat.querySelector(DERNIERE_DIV_INFOS_ITEM);
+
+    const fieldSet = creerFieldSetLMC();
+
+    // Création de nouvelles informations
+    const tailleTerrain = ajouterChamp('terrain', id, fieldSet);
+    resultat.dataset.surfaceTerrain = tailleTerrain;
+    ajouterChamp('energy_rate', id, fieldSet);
+    ajouterChamp('ges', id, fieldSet);
+    ajouterChamp('rooms', id, fieldSet);
+    ajouterChamp('square', id, fieldSet);
+    lastDiv.after(fieldSet);
+  }
+
+  // Augmentation de la largeur de la photo
+  const photoItem = document.querySelectorAll(PHOTO_ITEM);
+  photoItem.forEach(photo => {
+    photo.style.flexBasis = "70%";
+  });
 }
 
 function creerFieldSetLMC() {
@@ -130,7 +164,7 @@ function creerInputNumber(id, label, valeur) {
   return elLabel;
 }
 
-function ajoutSelectionTerrain() {
+function ajoutFiltrageSurfaceTerrain() {
   const barreOutils = document.querySelector(BARRE_OUTILS_RECHERCHE_DIV);
 
   const fieldSet = creerFieldSetLMC();
@@ -140,6 +174,7 @@ function ajoutSelectionTerrain() {
     CLE_TERRAIN_MIN: DEFAUT_TERRAIN_MIN_EN_M2,
     CLE_TERRAIN_MAX: DEFAUT_TERRAIN_MAX_EN_M2,
   };
+
   // Récupération des valeurs précédemment sauvegardées (ou utilisation de celles par défaut)
   chrome.storage.sync.get(VALEURS_TERRAIN, function (result) {
     const surfaceTerrainMin = result.CLE_TERRAIN_MIN;
@@ -163,6 +198,7 @@ function ajoutSelectionTerrain() {
         CLE_TERRAIN_MAX: surfaceMax === 0 ? "" : surfaceMax
       }, () => { });
 
+      const listeResultats = document.querySelectorAll(ITEM);
       for (const resultat of listeResultats) {
         let cacher = false;
         let surface = resultat.dataset.surfaceTerrain;
@@ -188,21 +224,33 @@ function ajoutSelectionTerrain() {
   });
 }
 
-ajoutSelectionTerrain();
+const elListing = document.querySelector('[class*="styles_mainListing"]');
+const observateur = new MutationObserver(function (objets, observateur) {
+  /*
+  Le callback est appelé 2 fois :
+  - 1 fois pour mettre des placeholders pendant le chargement de la page
+  - 1 fois pour mettre les données lorsqu'elles sont chargées (via la XHR)
+  Il faut attendre que la XHR soit finie donc attendre le 2ème appel
+  */
+  if (observateur.compteur >= 2) {
+    observateur.compteur = 1;
+    // C'est la 2ème fois que l'observateur est appelé, on peut mettre à jour la liste
+    // On récupère la page avec les données depuis le cache
+    fetch(window.location.href, { cache: 'force-cache' })
+      .then(function (response) {
+        return response.text();
+      })
+      .then(function (texteHtml) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(texteHtml, "text/html");
 
-cacherElement(TITRE_INUTILE);
-cacherElement(BANDEAU_ESTIMATION_GRATUITE);
-
-// Centrage des options de filtrage et de tri
-const barreOptions = document.querySelector(BARRE_OPTIONS_FILTRAGE_ET_TRI);
-barreOptions.style.justifyContent = "center";
-
-// Largeur 100% sur la liste des résultats
-const listeResultat = document.querySelector(LISTE_RESULTATS);
-listeResultat.style.flexBasis = "100%";
-
-// Augmentation de la largeur de la photo
-const photoItem = document.querySelectorAll(PHOTO_ITEM);
-photoItem.forEach(photo => {
-  photo.style.flexBasis = "70%";
+        listing = recupererDonnees(doc);
+        ameliorerListing();
+      });
+  } else {
+    observateur.compteur++;
+  }
 });
+// On observe les changements sur les noeuds enfants de la liste
+observateur.compteur = 1;
+observateur.observe(elListing, { childList: true });

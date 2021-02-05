@@ -1,7 +1,7 @@
 /* Page de recherche des biens immobiliers */
 
 // ID du <script> contenant toutes les données de la page sur les biens immobiliers en JSON !
-const DATA_ID = '__NEXT_DATA__';
+const DATA_ID = '#__NEXT_DATA__';
 
 // Balise <a> utilisée pour chaque item de la liste des résultats de recherche
 const ITEM = '[data-qa-id="aditem_container"]';
