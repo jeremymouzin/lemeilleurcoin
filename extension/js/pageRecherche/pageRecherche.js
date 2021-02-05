@@ -309,7 +309,8 @@ function filtrerResultatsParTerrain() {
         cacher = true;
       }
     }
-    resultat.style.display = cacher ? 'none' : 'block';
+    const parent = resultat.parentElement;
+    parent.style.display = cacher ? 'none' : 'block';
   }
 }
 
