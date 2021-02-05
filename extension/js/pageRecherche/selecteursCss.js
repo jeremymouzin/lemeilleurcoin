@@ -28,6 +28,7 @@ const LISTE_RESULTATS = '[class*="styles_classifiedColumn"]';
 // Éléments dans les items
 const PHOTO_ITEM = '[data-qa-id="aditem_container"] > div > div > div > div > div:first-child';
 const PRIX_ITEM = '[data-qa-id="aditem_container"] [data-qa-id="aditem_price"]';
+const TITRE_ITEM = '[data-qa-id="aditem_title"]';
 
 // Dernière div dans les informations à droite de la photo du bien sur chaque item
 const DERNIERE_DIV_INFOS_ITEM = 'div > div > div > div + div + div';

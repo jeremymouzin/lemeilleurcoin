@@ -37,9 +37,8 @@ function ameliorerListing() {
 
     const lastDiv = resultat.querySelector(DERNIERE_DIV_INFOS_ITEM);
 
-    const fieldSet = creerFieldSetLMC();
-
     // Création de nouvelles informations
+    const fieldSet = creerFieldSetLMC();
     const tailleTerrain = ajouterChamp('terrain', id, fieldSet);
     resultat.dataset.surfaceTerrain = tailleTerrain;
     ajouterChamp('energy_rate', id, fieldSet);
@@ -47,6 +46,12 @@ function ameliorerListing() {
     ajouterChamp('rooms', id, fieldSet);
     ajouterChamp('square', id, fieldSet);
     lastDiv.after(fieldSet);
+
+    // Remplacement du titre par le nombre de pièces + surface
+    const titreItem = resultat.querySelector(TITRE_ITEM);
+    const pieces = extraireObjet('rooms', listing[id]);
+    const surface = extraireObjet('square', listing[id]);
+    titreItem.textContent = `${surface.value_label} — ${pieces.value} ${pieces.key_label.toLowerCase()}`;
   }
 
   // Augmentation de la largeur de la photo
