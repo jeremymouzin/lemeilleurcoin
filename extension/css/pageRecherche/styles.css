@@ -3,6 +3,10 @@ On préfixe les classes de "lmc-" (acronyme de Le Meilleur Coin) pour éviter d'
 À cause de la cascade, il faut parfois booster la spécificité de certains sélecteurs pour éviter qu'ils ne soient écrasés par d'autres classes du site !
 */
 
+:root {
+  --largeur-photo: 70%;
+}
+
 .lmc-label-energie {
   padding: 0 6px;
   align-self: flex-start;
@@ -60,4 +64,8 @@ On préfixe les classes de "lmc-" (acronyme de Le Meilleur Coin) pour éviter d'
 .lmc-filtre-terrain input:focus,
 .lmc-filtre-terrain input:active {
   box-shadow: 0 0 0 1px var(--lmc-accent-color);
+}
+
+.lmc-photo {
+  flex-basis: var(--largeur-photo) !important;
 }

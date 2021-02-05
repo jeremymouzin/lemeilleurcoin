@@ -57,7 +57,7 @@ function ameliorerListing() {
   // Augmentation de la largeur de la photo
   const photoItem = document.querySelectorAll(PHOTO_ITEM);
   photoItem.forEach(photo => {
-    photo.style.flexBasis = "70%";
+    photo.classList.add('lmc-photo');
   });
 
   // Augmentation de la taille de police du prix;
