@@ -157,7 +157,7 @@ function creerFieldSetLMC() {
 function ajouterChamp(nomChamp, id, noeud) {
   const donnees = extraireObjet(nomChamp, listing[id]);
   let label = donnees.value_label;
-  const lettre = donnees.value_label[0];
+  let lettre = donnees.value_label[0];
 
   const nouvelleDiv = document.createElement('div');
 
@@ -169,13 +169,21 @@ function ajouterChamp(nomChamp, id, noeud) {
   if (["ges", "energy_rate"].includes(nomChamp)) {
     nouvelleDiv.classList.add('lmc-label-energie');
     // Cas particuliers N => Non renseigné, V => Vierge
-    if (!['N', 'V'].includes(lettre)) {
-      // On affiche que la lettre
-      label = lettre;
+    if (['N', 'V'].includes(lettre)) {
+      lettre = '?';
+      nouvelleDiv.style.backgroundColor = '#A1A1A1';
     }
+    // On affiche que la lettre
+    label = lettre;
   }
 
-  nouvelleDiv.textContent = `${donnees.key_label} : ${label}`;
+  if (["ges", "energy_rate"].includes(nomChamp)) {
+    nouvelleDiv.textContent = `${label}`;
+  } else if (nomChamp === "terrain") {
+    nouvelleDiv.textContent = `${donnees.key_label} ${label}`;
+  } else {
+    nouvelleDiv.textContent = `${donnees.key_label} : ${label}`;
+  }
 
   if (nomChamp === "energy_rate") {
     nouvelleDiv.style.backgroundColor = COULEURS_ENERGIE[lettre];
@@ -308,21 +316,21 @@ function filtrerResultatsParTerrain() {
     let surface = resultat.dataset.surfaceTerrain;
 
     if (surface !== undefined) {
-    if (surface.startsWith('<')) {
-      cacher = true;
-    } else {
-      // Si l'utilisateur n'a rien mis comme surface maximale, on ne met pas de limite
-      if (surfaceMax === 0) surfaceMax = Number.POSITIVE_INFINITY;
-
-      surface = Number.parseInt(surface);
-      if (surface < surfaceMin || surface > surfaceMax) {
+      if (surface.startsWith('<')) {
         cacher = true;
+      } else {
+        // Si l'utilisateur n'a rien mis comme surface maximale, on ne met pas de limite
+        if (surfaceMax === 0) surfaceMax = Number.POSITIVE_INFINITY;
+
+        surface = Number.parseInt(surface);
+        if (surface < surfaceMin || surface > surfaceMax) {
+          cacher = true;
+        }
       }
+      const parent = resultat.parentElement;
+      parent.style.display = cacher ? 'none' : 'block';
     }
-    const parent = resultat.parentElement;
-    parent.style.display = cacher ? 'none' : 'block';
   }
-}
 }
 
 const elListing = document.querySelector('[class*="styles_mainListing"]');

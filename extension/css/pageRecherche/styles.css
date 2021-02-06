@@ -8,11 +8,16 @@ On préfixe les classes de "lmc-" (acronyme de Le Meilleur Coin) pour éviter d'
 }
 
 .lmc-label-energie {
-  padding: 0 6px;
+  --size: 2.4rem;
   align-self: flex-start;
   margin: 2px 0;
-  border-radius: 6px;
+  border-radius: 50%;
   font-size: 1.4rem;
+  width: var(--size);
+  height: var(--size);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .lmc-fieldset {
