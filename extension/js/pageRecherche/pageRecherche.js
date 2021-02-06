@@ -63,8 +63,12 @@ function ameliorerListing() {
     lienItem.after(boutonAvant);
     lienItem.after(boutonApres);
 
+    // On "retient" le numéro de l'image sur le <a>
+    lienItem.dataset.numeroImage = 0;
+
     function changerImage(e) {
-      let numeroImageActuel = +this.dataset.numeroImage;
+      const a = this.closest('div[class*="styles_adListItem"]').querySelector('a[data-qa-id*="aditem_container"]');
+      let numeroImageActuel = +a.dataset.numeroImage;
       const nombreImages = listing[id].images.nb_images;
       const clicSurBoutonAvant = e.currentTarget.className.includes('avant');
       numeroImageActuel += clicSurBoutonAvant ? -1 : 1;
@@ -83,7 +87,9 @@ function ameliorerListing() {
 
       // Et on change sa source
       img.src = prochaineSrcImage;
-      this.dataset.numeroImage = numeroImageActuel;
+
+      // On stocke le numéro de l'image dans le lien <a>
+      a.dataset.numeroImage = numeroImageActuel;
     }
 
     boutonAvant.addEventListener('click', changerImage);
@@ -133,8 +139,6 @@ function creerBoutonPhoto(classe) {
   // Petite flèche sympa en contenu
   bouton.innerHTML = "&#10132;";
 
-  // On "retient" le numéro de l'image directement sur le bouton
-  bouton.dataset.numeroImage = 0;
   return bouton;
 }
 
@@ -214,7 +218,7 @@ function extraireObjet(nomChamp, objListing) {
     }
 
     return {
-      key_label: "☘️ Terrain",
+      key_label: "☘️",
       value_label: taillesTerrain,
     };
   } else {
