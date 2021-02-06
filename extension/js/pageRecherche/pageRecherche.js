@@ -67,7 +67,7 @@ function ameliorerListing() {
       let numeroImageActuel = +this.dataset.numeroImage;
       const nombreImages = listing[id].images.nb_images;
       const clicSurBoutonAvant = e.currentTarget.className.includes('avant');
-      numeroImageActuel += clicSurBoutonAvant ? 1 : -1;
+      numeroImageActuel += clicSurBoutonAvant ? -1 : 1;
 
       // On boucle sur les images
       if (numeroImageActuel > nombreImages - 1) {
