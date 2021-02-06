@@ -161,6 +161,11 @@ function ajouterChamp(nomChamp, id, noeud) {
 
   const nouvelleDiv = document.createElement('div');
 
+  if (nomChamp === "terrain") {
+    nouvelleDiv.style.fontSize = "2rem";
+    nouvelleDiv.style.fontWeight = "600";
+  }
+
   if (["ges", "energy_rate"].includes(nomChamp)) {
     nouvelleDiv.classList.add('lmc-label-energie');
     // Cas particuliers N => Non renseigné, V => Vierge
