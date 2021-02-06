@@ -307,6 +307,7 @@ function filtrerResultatsParTerrain() {
     let cacher = false;
     let surface = resultat.dataset.surfaceTerrain;
 
+    if (surface !== undefined) {
     if (surface.startsWith('<')) {
       cacher = true;
     } else {
@@ -321,6 +322,7 @@ function filtrerResultatsParTerrain() {
     const parent = resultat.parentElement;
     parent.style.display = cacher ? 'none' : 'block';
   }
+}
 }
 
 const elListing = document.querySelector('[class*="styles_mainListing"]');
