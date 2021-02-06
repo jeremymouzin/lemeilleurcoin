@@ -80,6 +80,7 @@ On préfixe les classes de "lmc-" (acronyme de Le Meilleur Coin) pour éviter d'
   font-size: 2rem;
   background-color: white;
   border-radius: 50%;
+  line-height: 1;
 }
 
 .lmc-bouton-avant {
