@@ -2,8 +2,6 @@ let listing;
 let observateur;
 
 function pageRecherche() {
-  console.log("page recherche");
-
   // On récupère les données du document au chargement de la page
   listing = recupererDonnees(document);
   ameliorerHeader();
@@ -42,7 +40,6 @@ function pageRecherche() {
 }
 
 function pageRechercheFin() {
-  console.log('Nettoyage de pageRecherche');
   if (observateur !== undefined) {
     observateur.disconnect();
   }

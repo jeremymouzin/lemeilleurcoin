@@ -105,7 +105,6 @@ function ficheProduit() {
 }
 
 function ficheProduitFin() {
-  console.log('Nettoyage de fiche produit');
 }
 
 // Hook pour les tests unitaires avec Jest
