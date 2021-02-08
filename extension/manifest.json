@@ -11,32 +11,22 @@
   "content_scripts": [
     {
       "matches": [
-        "*://www.leboncoin.fr/ventes_immobilieres/*"
+        "*://www.leboncoin.fr/*"
       ],
       "css": [
         "css/commun.css",
-        "css/ficheProduit/styles.css"
+        "css/ficheProduit/styles.css",
+        "css/pageRecherche/styles.css"
       ],
       "js": [
         "js/commun.js",
         "js/ficheProduit/constantes.js",
         "js/ficheProduit/selecteursCss.js",
-        "js/ficheProduit/ficheProduit.js"
-      ]
-    },
-    {
-      "matches": [
-        "*://www.leboncoin.fr/recherche?category=9*"
-      ],
-      "css": [
-        "css/commun.css",
-        "css/pageRecherche/styles.css"
-      ],
-      "js": [
-        "js/commun.js",
+        "js/ficheProduit/ficheProduit.js",
         "js/pageRecherche/constantes.js",
         "js/pageRecherche/selecteursCss.js",
-        "js/pageRecherche/pageRecherche.js"
+        "js/pageRecherche/pageRecherche.js",
+        "js/routeur.js"
       ]
     }
   ],

@@ -6,9 +6,11 @@ function clickVoirPlus() {
       clickVoirPlus.compteur++;
     } else {
       // On continue il n'y a pas de bouton "Voir Plus"
+      clickVoirPlus.compteur = 0;
       ameliorer();
     }
   } else {
+    clickVoirPlus.compteur = 0;
     boutonVoirPlus.click();
     ameliorer();
   }
@@ -97,8 +99,14 @@ function ameliorer() {
   supprimerElementsInutiles();
 }
 
-// On clique sur le bouton "Voir Plus"
-window.setTimeout(clickVoirPlus, BOUTON_VOIR_PLUS_TEMPS_ENTRE_TENTATIVES_EN_MS);
+function ficheProduit() {
+  // On clique sur le bouton "Voir Plus"
+  window.setTimeout(clickVoirPlus, BOUTON_VOIR_PLUS_TEMPS_ENTRE_TENTATIVES_EN_MS);
+}
+
+function ficheProduitFin() {
+  console.log('Nettoyage de fiche produit');
+}
 
 // Hook pour les tests unitaires avec Jest
 try {

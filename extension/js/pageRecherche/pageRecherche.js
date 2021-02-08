@@ -1,7 +1,52 @@
-// On récupère les données du document au chargement de la page
-let listing = recupererDonnees(document);
-ameliorerHeader();
-ameliorerListing();
+let listing;
+let observateur;
+
+function pageRecherche() {
+  console.log("page recherche");
+
+  // On récupère les données du document au chargement de la page
+  listing = recupererDonnees(document);
+  ameliorerHeader();
+  ameliorerListing();
+
+  const elListing = document.querySelector('[class*="styles_mainListing"]');
+  observateur = new MutationObserver(function (objets, observateur) {
+    /*
+    Le callback est appelé 2 fois :
+    - 1 fois pour mettre des placeholders pendant le chargement de la page
+    - 1 fois pour mettre les données lorsqu'elles sont chargées (via la XHR)
+    Il faut attendre que la XHR soit finie donc attendre le 2ème appel
+    */
+    if (observateur.compteur >= 2) {
+      observateur.compteur = 1;
+      // C'est la 2ème fois que l'observateur est appelé, on peut mettre à jour la liste
+      // On récupère la page avec les données depuis le cache
+      fetch(window.location.href, { cache: 'force-cache' })
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (texteHtml) {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(texteHtml, "text/html");
+
+          listing = recupererDonnees(doc);
+          ameliorerListing();
+        });
+    } else {
+      observateur.compteur++;
+    }
+  });
+  // On observe les changements sur les noeuds enfants de la liste
+  observateur.compteur = 1;
+  observateur.observe(elListing, { childList: true });
+}
+
+function pageRechercheFin() {
+  console.log('Nettoyage de pageRecherche');
+  if (observateur !== undefined) {
+    observateur.disconnect();
+  }
+}
 
 function recupererDonnees(document) {
   const script = document.querySelector(DATA_ID);
@@ -121,7 +166,9 @@ function ameliorerListing() {
   pubs = document.querySelectorAll(PUB_CRITEO);
   pubs.forEach(pub => {
     const parent = pub.closest('[class*="styles_order"]');
-    parent.style.display = 'none';
+    if (parent !== null) {
+      parent.style.display = 'none';
+    }
   })
 
   // Filtrage par taille du terrain
@@ -332,37 +379,6 @@ function filtrerResultatsParTerrain() {
     }
   }
 }
-
-const elListing = document.querySelector('[class*="styles_mainListing"]');
-const observateur = new MutationObserver(function (objets, observateur) {
-  /*
-  Le callback est appelé 2 fois :
-  - 1 fois pour mettre des placeholders pendant le chargement de la page
-  - 1 fois pour mettre les données lorsqu'elles sont chargées (via la XHR)
-  Il faut attendre que la XHR soit finie donc attendre le 2ème appel
-  */
-  if (observateur.compteur >= 2) {
-    observateur.compteur = 1;
-    // C'est la 2ème fois que l'observateur est appelé, on peut mettre à jour la liste
-    // On récupère la page avec les données depuis le cache
-    fetch(window.location.href, { cache: 'force-cache' })
-      .then(function (response) {
-        return response.text();
-      })
-      .then(function (texteHtml) {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(texteHtml, "text/html");
-
-        listing = recupererDonnees(doc);
-        ameliorerListing();
-      });
-  } else {
-    observateur.compteur++;
-  }
-});
-// On observe les changements sur les noeuds enfants de la liste
-observateur.compteur = 1;
-observateur.observe(elListing, { childList: true });
 
 /*
 Gestion des images en lazy loading
