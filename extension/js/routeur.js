@@ -1,5 +1,17 @@
 
-const conteneurPrincipal = document.querySelector('#container');
+const conteneurPrincipal = document.querySelector(SELECTEUR_CSS_CONTENEUR_PRINCIPAL);
+
+// Lors d'un changement de page un attribut est modifié sur le conteneur principal
+const observateurChangementDePage = new MutationObserver(function (objets, observateur) {
+    const anciennePage = objets[0].oldValue;
+    const nouvellePage = objets[0].target.dataset[ATTRIBUT_PAGE];
+    
+    nettoyerScriptDePage(anciennePage);
+    chargerScriptPourPage(nouvellePage);
+});
+observateurChangementDePage.observe(conteneurPrincipal, { attributes: true, attributeOldValue: true, attributeFilter: [ATTRIBUT_DATASET_PAGE] });
+
+// Détection de la page courante
 let pageCourante = conteneurPrincipal.dataset[ATTRIBUT_PAGE];
 chargerScriptPourPage(pageCourante);
 
@@ -17,14 +29,8 @@ function chargerScriptPourPage(pageCourante) {
     }
 }
 
-const observateurChangementDePage = new MutationObserver(function (objets, observateur) {
-    
-    // Nettoyage de la page qu'on quitte
-    const anciennePage = objets[0].oldValue;
-    const nouvellePage = objets[0].target.dataset[ATTRIBUT_PAGE];
-    console.log("changement de page détecté", anciennePage, ' =>', nouvellePage);
-
-    // On nettoie l'ancienne page
+// On nettoie ce qu'il faut du script pour la prochaine exécution
+function nettoyerScriptDePage(anciennePage) {
     switch (anciennePage) {
         case NOM_PAGE_RECHERCHE:
             pageRechercheFin();
@@ -35,8 +41,4 @@ const observateurChangementDePage = new MutationObserver(function (objets, obser
         default:
             break;
     }
-
-    // On charge le script de la nouvelle page
-    chargerScriptPourPage(nouvellePage);
-});
-observateurChangementDePage.observe(conteneurPrincipal, { attributes: true, attributeOldValue: true, attributeFilter: ['data-pagename'] });
+}
