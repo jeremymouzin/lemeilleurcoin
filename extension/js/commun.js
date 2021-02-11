@@ -19,7 +19,7 @@ function cacherElement(selecteur) {
  * @param {number} surfaceHabitable Taille de la surface du bien habitable
  */
 function extraireSurfacesTerrain(description, surfaceHabitable) {
-  const REGEXP_TERRAIN = /(?<=[\W ])([\d ]+)(m²|m2|has?(?=\W)|ares?(?=\W)|hectares?)/gi;
+  const REGEXP_TERRAIN = /(?<=[\W ])([\d ]+[.,]?[\d ]+)(m²|m2|has?(?=[^a-z]|$)|ares?(?=[^a-z]|$)|hectares?(?=[^a-z]|$))/gi;
   const surfacesTerrain = [];
 
   let correspondance;
@@ -37,6 +37,7 @@ function extraireSurfacesTerrain(description, surfaceHabitable) {
         label: tailleEnM2 + ' m²',
       });
     }
+    if (tailleEnM2 > 1000) console.log(description, taille, unite, tailleEnM2);
   }
 
   return surfacesTerrain;
@@ -49,6 +50,9 @@ function extraireSurfacesTerrain(description, surfaceHabitable) {
  * @param {string} unite L'unité de mesure (cf REGEXP_TERRAIN)
  */
 function convertirEnMetresCarres(taille, unite) {
+  // On ne fait pas attention à la casse
+  unite = unite.toLowerCase();
+  
   // On supprime le 's' final sur les unités s'il y est
   if (unite.startsWith('ha') || unite.startsWith('hectare')) unite = 'ha';
   if (unite.startsWith('are')) unite = 'are';
