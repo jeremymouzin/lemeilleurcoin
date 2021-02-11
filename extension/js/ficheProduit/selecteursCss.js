@@ -11,7 +11,7 @@ const LIEU = '[data-qa-id="adview_spotlight_description_container"] > div:last-c
 // Date de parution de l'annonce
 const DATE_PARUTION = '[data-qa-id="adview_date"]';
 // Bouton "Voir plus"
-const BOUTON_VOIR_PLUS = '[data-qa-id="adview_description_container"]';
+const BOUTON_VOIR_PLUS = '[data-qa-id="adview_description_container"] button';
 
 /* Critères */
 
