@@ -24,7 +24,6 @@ function extraireSurfacesTerrain(description, surfaceHabitable) {
 
   let correspondance;
   while (correspondance = REGEXP_TERRAIN.exec(description)) {
-    console.log(correspondance);
     let [label, taille, unite] = correspondance;
     taille = Number.parseFloat(taille.replace(/ /, ''));
 
@@ -32,7 +31,6 @@ function extraireSurfacesTerrain(description, surfaceHabitable) {
 
     // On suppose que seules les tailles supérieures à la surface habitable
     // du bien sont des surfaces de terrain
-    console.log("coucou", tailleEnM2, surfaceHabitable);
     if (tailleEnM2 > surfaceHabitable) {
       surfacesTerrain.push({
         tailleEnM2,
