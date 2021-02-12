@@ -36,7 +36,6 @@ describe('Conversion de surfaces', () => {
 
 describe('Extraction des surfaces de terrain par la description', () => {
   class DescriptionTest {
-    surfaceHabitable = 100;
     constructor(description, surfaceHabitable, sortieAttendue) {
       this.description = description;
       this.surfaceHabitable = surfaceHabitable;
@@ -47,7 +46,10 @@ describe('Extraction des surfaces de terrain par la description', () => {
   const tests = [
     new DescriptionTest('Terrain de 200 m2', 100, 200),
     new DescriptionTest('Terrain de 200 m²', 100, 200),
+    new DescriptionTest('Terrain de 1 are', 100, 100),
+    new DescriptionTest('Terrain de 1.6 are', 100, 160),
     new DescriptionTest('Terrain de 2 ares', 100, 200),
+    new DescriptionTest('Terrain de 2.8 ares', 100, 280),
     new DescriptionTest('Terrain de 2.3 ha', 100, 23000),
     new DescriptionTest('Terrain de 2.3 hectares', 100, 23000),
     new DescriptionTest('Terrain de 1 ha', 100, 10000),
@@ -63,6 +65,51 @@ describe('Extraction des surfaces de terrain par la description', () => {
     Et un combo 2 545,78ha
     Et tous les 2, 542 m2
     C'est une maison P4 130 m2.
+
+    TODO: Identifier les variations possibles du formatage des surfaces à partir d'exemples et générer les tests correspondants pour couvrir le maximum de cas possibles.
+
+    Quelques descriptions authentiques (avec des fautes de frappes et des formatages douteux) provenant du bon coin et à tester :
+
+    Proximité immédiate du centre ville, sur 4500 M² de parc clos et arboré, vous découvrirez cette charmante propriété édifiée sur sous sol.
+
+    Ce pavillon de 1970 est construit sur sous sol sur un terrain plat de 540 m2 entièrement clôturé.
+
+    Sur son de terrain clos et arboré de 2300 m², il y fait bon vivre pour partager en famille les joies des beaux jours.
+
+    Dpt Allier (03), à vendre DOMERAT maison 5 pièces sur terrain de 585 m2
+
+    L'ensemble sur un terrain clos et arboré de 585 m2 .
+
+    Sur un terrain de 383 m2 clos et fermé, elle est entièrement refaite et comprend :
+
+    Une grande pièce lumineuse de 24 m2 avec baie double vitrage donnant sur un balcon de 3.84 m2 plein sud
+
+    Maison individuelle d'une surface de 105 m² habitable sur terrain de 3 695 m2, à proximité des commerces, des écoles plus un accès bus à 2 min dans quartier calme.
+
+    - et un terrain à bâtir de 1454 m²
+
+    Le tout agrémenté d'un joli terrain arboré de près de 610 m².. .
+
+    Construction de  2015- 110m2 de plain-pied.
+
+    Beau terrain de plus de 600m2.
+
+    Pour finir la maison possède un jardin de 448m2  et un grand garage .
+
+    Le tout sur un terrain de 663m² et la possibilité d'aménager les combles.
+
+    maison mitoyenne rénovée sont 1 maison (dite principale) de 85 m², avec accès entrée principale ou garage via le sas d'entrée
+
+    -Un grand espace jardin aménagable d'une superficie de 430m² actuellement deux partie. 1ère partie aménagée en petit salon de jardin détente et barbecue.
+
+    Maison 1 80m2 :
+    Maison 2 75m2 :
+
+    Grande Maison familiale Commentry 180 m²
+
+    Maison de ville 111M2 à Montluçon sur parcelle de 325M2
+    
+    Vérifier aussi quand il apparaît le mot terrain dans la description mais qu'on extrait aucune superficie supérieure à celle de la surface habitable, un problème de parsing sûrement ?
     */
   ];
 
@@ -72,6 +119,6 @@ describe('Extraction des surfaces de terrain par la description', () => {
         tailleEnM2: test.sortieAttendue,
         label: `${test.sortieAttendue} m²`,
       }]);
-  });
+    });
   });
 });
