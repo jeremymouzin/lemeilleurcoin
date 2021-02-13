@@ -56,63 +56,31 @@ describe("Extraction des surfaces de terrain par la description", () => {
     new DescriptionTest("Terrain de 2.3 ha", 100, 23000),
     new DescriptionTest("Terrain de 2.3 hectares", 100, 23000),
     new DescriptionTest("Terrain de 1 ha", 100, 10000),
+
     /*
-    Terrain de 2 arestation
-    Terrain de 2 ares et 50 m2.
-    Ce terrain fait 1 are
-    Ce terrain fait 2 ares
-    Problème 2.3 has ah ah !
-    Et là 2,3 ha de terrain
-    Et pour la virgule 2,7 ha
-    Et pour la virgule 0,8 ha
-    Et un combo 2 545,78ha
-    Et tous les 2, 542 m2
-    C'est une maison P4 130 m2.
+    L'objectif est d'extraire correctement les surfaces de terrain des descriptions des biens immobiliers.
+    J'ai analysé pas mal de descriptions et voici les variations que j'ai trouvées qu'il va falloir prendre en compte :
 
-    TODO: Identifier les variations possibles du formatage des surfaces à partir d'exemples et générer les tests correspondants pour couvrir le maximum de cas possibles.
-
-    Quelques descriptions authentiques (avec des fautes de frappes et des formatages douteux) provenant du bon coin et à tester :
-
-    Proximité immédiate du centre ville, sur 4500 M² de parc clos et arboré, vous découvrirez cette charmante propriété édifiée sur sous sol.
-
-    Ce pavillon de 1970 est construit sur sous sol sur un terrain plat de 540 m2 entièrement clôturé.
-
-    Sur son de terrain clos et arboré de 2300 m², il y fait bon vivre pour partager en famille les joies des beaux jours.
-
-    Dpt Allier (03), à vendre DOMERAT maison 5 pièces sur terrain de 585 m2
-
-    L'ensemble sur un terrain clos et arboré de 585 m2 .
-
-    Sur un terrain de 383 m2 clos et fermé, elle est entièrement refaite et comprend :
-
-    Une grande pièce lumineuse de 24 m2 avec baie double vitrage donnant sur un balcon de 3.84 m2 plein sud
-
-    Maison individuelle d'une surface de 105 m² habitable sur terrain de 3 695 m2, à proximité des commerces, des écoles plus un accès bus à 2 min dans quartier calme.
-
-    - et un terrain à bâtir de 1454 m²
-
-    Le tout agrémenté d'un joli terrain arboré de près de 610 m².. .
-
-    Construction de  2015- 110m2 de plain-pied.
-
-    Beau terrain de plus de 600m2.
-
-    Pour finir la maison possède un jardin de 448m2  et un grand garage .
-
-    Le tout sur un terrain de 663m² et la possibilité d'aménager les combles.
-
-    maison mitoyenne rénovée sont 1 maison (dite principale) de 85 m², avec accès entrée principale ou garage via le sas d'entrée
-
-    -Un grand espace jardin aménagable d'une superficie de 430m² actuellement deux partie. 1ère partie aménagée en petit salon de jardin détente et barbecue.
-
+    - Parfois l'unité est écrite en majuscules (M2 ou M² au lieu de m², ça peut être sûrement vrai pour 1 HA au lieu de 1 ha)
+    - Parfois les unités sont des are, ares, ha, has, hectare ou hectares
+    - Parfois il y a un espace entre la valeur et l'unité, parfois pas : 150m² ou 150 m²
+    - Les surfaces ont parfois une valeur décimale délimitée par un point ou une virgule avec max 2 chiffres derrières la virgule : 135,12 m2 ou 135.12 m2 etc.
+    - Parfois les valeurs de milliers sont séparées d'un espace : 2 345 m²/ 12 800 m² au lieu de 2345 m² / 12800 m²
+    - Biensûr on peut avoir tous les cas particuliers d'un coup : 12 847,15 M2
+    - Un cas vicieux, un chiffre qui précède mais ne fait pas partie de la surface : "une maison P4 130 m2." (P4 = 4 pièces)
+    - Autre cas vicieux avec un trait d'union juste avant : "Construction de 2015- 110m2 de plain-pied."
+    - J'extrapole le cas précédent à la possibilité de voir par exemple "-150m²" dans une liste comme ça :
+    2 parcelles de terrain :
+    -2500 m2
+    -3 800 m²
+    - Autre cas vicieux, dans une énumération :
     Maison 1 80m2 :
     Maison 2 75m2 :
+    - Le caractère de fin de la surface, après l'unité, peut être un point, une virgule, un retour à la ligne, un ou plusieurs espaces
+    - Enfin il faut faire attention à ne pas confondre une unité avec un mot ! Par exemple "il y a 2 habitations", il ne faut pas extraire "2 ha" de habitations et le confondre avec 2 ha (hectares !)
 
-    Grande Maison familiale Commentry 180 m²
-
-    Maison de ville 111M2 à Montluçon sur parcelle de 325M2
     
-    Vérifier aussi quand il apparaît le mot terrain dans la description mais qu'on extrait aucune superficie supérieure à celle de la surface habitable, un problème de parsing sûrement ?
+    Vérifier aussi quand il apparaît le mot terrain dans la description mais qu'on extrait aucune superficie supérieure à celle de la surface habitable, un problème de parsing sûrement ? Si on détecte ça, il faut l'indiquer avec une icône
     */
   ];
 
