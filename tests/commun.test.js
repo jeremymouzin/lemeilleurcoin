@@ -1,40 +1,43 @@
-const { it, expect } = require('@jest/globals');
-const { extraireSurfacesTerrain, convertirEnMetresCarres } = require('../extension/js/commun');
+const { it, expect } = require("@jest/globals");
+const {
+  extraireSurfacesTerrain,
+  convertirEnMetresCarres,
+} = require("../extension/js/commun");
 
-describe('Conversion de surfaces', () => {
-  it('convertir 1 are en 100 m²', function () {
-    expect(convertirEnMetresCarres(1, 'are')).toBe(100);
-  });
-  it('convertir 2 ares en 200 m²', function () {
-    expect(convertirEnMetresCarres(2, 'ares')).toBe(200);
-  });
-  it('convertir 42 m2 en 42 m²', function () {
-    expect(convertirEnMetresCarres(42, 'm2')).toBe(42);
-  });
-  it('convertir 1250 m² en 1250 m²', function () {
-    expect(convertirEnMetresCarres(1250, 'm²')).toBe(1250);
-  });
-  it('convertir 1 ha en 10000 m²', function () {
-    expect(convertirEnMetresCarres(1, 'ha')).toBe(10000);
-  });
-  it('convertir 2 has en 20000 m²', function () {
-    expect(convertirEnMetresCarres(2, 'has')).toBe(20000);
-  });
-  it('convertir 1 hectare en 10000 m²', function () {
-    expect(convertirEnMetresCarres(1, 'hectare')).toBe(10000);
-  });
-  it('convertir 2 hectares en 20000 m²', function () {
-    expect(convertirEnMetresCarres(2, 'hectares')).toBe(20000);
-  });
-  it('convertir 1.4 hectare en 14000 m²', function () {
-    expect(convertirEnMetresCarres(1.4, 'hectare')).toBe(14000);
-  });
-  it('convertir 2.5 hectares en 25000 m²', function () {
-    expect(convertirEnMetresCarres(2.5, 'hectares')).toBe(25000);
+describe("Conversion de surfaces", () => {
+  const tests = [
+    [1, "are", 100],
+    [2, "ares", 200],
+    [42, "m2", 42],
+    [1250, "m²", 1250],
+    [1, "ha", 10000],
+    [2, "has", 20000],
+    [1, "hectare", 10000],
+    [2, "hectares", 20000],
+    [1.4, "hectare", 14000],
+    [2.5, "hectares", 25000],
+  ];
+
+  tests.forEach((test) => {
+    it(`convertir ${test[0]} ${test[1]} en ${test[2]} m²`, function () {
+      expect(convertirEnMetresCarres(test[0], test[1])).toBe(test[2]);
+    });
+    // On teste aussi avec la 1ère lettre de l'unité en majuscule
+    const uniteLettre1EnMajuscule = test[1][0].toUpperCase() + test[1].slice(1);
+    it(`convertir ${test[0]} ${uniteLettre1EnMajuscule} en ${test[2]} m²`, function () {
+      expect(convertirEnMetresCarres(test[0], uniteLettre1EnMajuscule)).toBe(
+        test[2]
+      );
+    });
+    // On teste avec l'unité en majuscules
+    const uniteEnMajuscules = test[1].toUpperCase();
+    it(`convertir ${test[0]} ${uniteEnMajuscules} en ${test[2]} m²`, function () {
+      expect(convertirEnMetresCarres(test[0], uniteEnMajuscules)).toBe(test[2]);
+    });
   });
 });
 
-describe('Extraction des surfaces de terrain par la description', () => {
+describe("Extraction des surfaces de terrain par la description", () => {
   class DescriptionTest {
     constructor(description, surfaceHabitable, sortieAttendue) {
       this.description = description;
@@ -44,15 +47,15 @@ describe('Extraction des surfaces de terrain par la description', () => {
   }
 
   const tests = [
-    new DescriptionTest('Terrain de 200 m2', 100, 200),
-    new DescriptionTest('Terrain de 200 m²', 100, 200),
-    new DescriptionTest('Terrain de 1 are', 100, 100),
-    new DescriptionTest('Terrain de 1.6 are', 100, 160),
-    new DescriptionTest('Terrain de 2 ares', 100, 200),
-    new DescriptionTest('Terrain de 2.8 ares', 100, 280),
-    new DescriptionTest('Terrain de 2.3 ha', 100, 23000),
-    new DescriptionTest('Terrain de 2.3 hectares', 100, 23000),
-    new DescriptionTest('Terrain de 1 ha', 100, 10000),
+    new DescriptionTest("Terrain de 200 m2", 100, 200),
+    new DescriptionTest("Terrain de 200 m²", 100, 200),
+    new DescriptionTest("Terrain de 1 are", 100, 100),
+    new DescriptionTest("Terrain de 1.6 are", 100, 160),
+    new DescriptionTest("Terrain de 2 ares", 100, 200),
+    new DescriptionTest("Terrain de 2.8 ares", 100, 280),
+    new DescriptionTest("Terrain de 2.3 ha", 100, 23000),
+    new DescriptionTest("Terrain de 2.3 hectares", 100, 23000),
+    new DescriptionTest("Terrain de 1 ha", 100, 10000),
     /*
     Terrain de 2 arestation
     Terrain de 2 ares et 50 m2.
@@ -113,12 +116,16 @@ describe('Extraction des surfaces de terrain par la description', () => {
     */
   ];
 
-  tests.forEach(test => {
+  tests.forEach((test) => {
     it(`extrait ${test.sortieAttendue} m² de "${test.description}"`, function () {
-      expect(extraireSurfacesTerrain(test.description, test.surfaceHabitable)).toMatchObject([{
-        tailleEnM2: test.sortieAttendue,
-        label: `${test.sortieAttendue} m²`,
-      }]);
+      expect(
+        extraireSurfacesTerrain(test.description, test.surfaceHabitable)
+      ).toMatchObject([
+        {
+          tailleEnM2: test.sortieAttendue,
+          label: `${test.sortieAttendue} m²`,
+        },
+      ]);
     });
   });
 });
