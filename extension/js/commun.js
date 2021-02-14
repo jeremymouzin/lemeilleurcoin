@@ -37,7 +37,6 @@ function extraireSurfacesTerrain(description, surfaceHabitable) {
         label: tailleEnM2 + ' m²',
       });
     }
-    if (tailleEnM2 > 1000) console.log(description, taille, unite, tailleEnM2);
   }
 
   return surfacesTerrain;
@@ -46,12 +45,15 @@ function extraireSurfacesTerrain(description, surfaceHabitable) {
 /**
  * Convertit une surface donnée en mètres carrés
  * 
- * @param {number} taille La taille de la surface
+ * @param {string} taille La taille de la surface
  * @param {string} unite L'unité de mesure (cf REGEXP_TERRAIN)
  */
 function convertirEnMetresCarres(taille, unite) {
   // On ne fait pas attention à la casse
   unite = unite.toLowerCase();
+
+  // On renvoie un nombre, pas une chaîne
+  taille = Number.parseFloat(taille.replace(',','.'));
   
   // On supprime le 's' final sur les unités s'il y est
   if (unite.startsWith('ha') || unite.startsWith('hectare')) unite = 'ha';
@@ -59,13 +61,16 @@ function convertirEnMetresCarres(taille, unite) {
 
   switch (unite) {
     case 'are':
-      return taille * 100;
+      taille *= 100;
+      break;
     case 'ha':
-      return taille * 10000;
+      taille *= 10000;
+      break;
     default:
       break;
   }
 
+  taille = Math.trunc(taille);
   return taille;
 }
 
