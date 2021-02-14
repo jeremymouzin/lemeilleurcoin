@@ -55,23 +55,26 @@ describe("Conversion de surfaces", () => {
     unites.forEach((unite) => {
       // On remplace la virgule décimale française par le point '.'
       let sortie = Number.parseFloat(valeur.replace(/,/, "."));
+
       switch (unite.toLowerCase()) {
         case "are":
         case "ares":
           sortie *= 100;
+          // On supprime la partie décimale éventuellement restante
+          sortie = Math.trunc(sortie);
           break;
         case "ha":
         case "has":
         case "hectare":
         case "hectares":
           sortie *= 10000;
+          // On supprime la partie décimale éventuellement restante
+          sortie = Math.trunc(sortie);
           break;
         default:
           break;
       }
 
-      // On supprime la partie décimale éventuellement restante
-      sortie = Math.trunc(sortie);
       tests.push(new ConversionTest(valeur, unite, sortie));
     });
   });

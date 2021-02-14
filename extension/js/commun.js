@@ -24,7 +24,7 @@ function extraireSurfacesTerrain(description, surfaceHabitable) {
 
   let correspondance;
   while (correspondance = REGEXP_TERRAIN.exec(description)) {
-    let [label, taille, unite] = correspondance;
+    let [, taille, unite] = correspondance;
     taille = Number.parseFloat(taille.replace(/ /, ''));
 
     const tailleEnM2 = convertirEnMetresCarres(taille, unite);
@@ -62,15 +62,18 @@ function convertirEnMetresCarres(taille, unite) {
   switch (unite) {
     case 'are':
       taille *= 100;
+      // On supprime la partie décimale éventuellement restante
+      taille = Math.trunc(taille);
       break;
     case 'ha':
       taille *= 10000;
+      // On supprime la partie décimale éventuellement restante
+      taille = Math.trunc(taille);
       break;
     default:
       break;
   }
 
-  taille = Math.trunc(taille);
   return taille;
 }
 
