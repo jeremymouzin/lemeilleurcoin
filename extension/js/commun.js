@@ -5,8 +5,6 @@ const NOM_PAGE_RECHERCHE = 'listing';
 const NOM_PAGE_FICHE_PRODUIT = 'adview';
 const SELECTEUR_CSS_CONTENEUR_PRINCIPAL = '#container';
 
-const REGEXP_TERRAIN = /((\d+ ?\d{3,} ?(m²|m2))|\d+ ?(ha[ .,!]|are[ .,!]|hectare[ .,!]))/gi;
-
 function cacherElement(selecteur) {
   const el = document.querySelector(selecteur);
   if (el !== null) el.style.display = 'none';
@@ -19,14 +17,14 @@ function cacherElement(selecteur) {
  * @param {number} surfaceHabitable Taille de la surface du bien habitable
  */
 function extraireSurfacesTerrain(description, surfaceHabitable) {
-  const REGEXP_TERRAIN = /(?<=[\W ])([\d ]+[.,]?[\d ]+)(m²|m2|has?(?=[^a-z]|$)|ares?(?=[^a-z]|$)|hectares?(?=[^a-z]|$))/gi;
+  const REGEXP_TERRAIN = /((?:\d{1,}|\d{1,3} \d{3})(?:[.,]\d{1,2})?) ?(m²|m2|ares?|has?|hectares?)([^a-z]|$)/gi;
   const surfacesTerrain = [];
 
   let correspondance;
   while (correspondance = REGEXP_TERRAIN.exec(description)) {
     let [, taille, unite] = correspondance;
-    taille = Number.parseFloat(taille.replace(/ /, ''));
-
+    taille = taille.replace(/ /, '').replace(',', '.');
+    
     const tailleEnM2 = convertirEnMetresCarres(taille, unite);
 
     // On suppose que seules les tailles supérieures à la surface habitable
