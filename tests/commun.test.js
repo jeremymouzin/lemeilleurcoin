@@ -133,42 +133,39 @@ Maison 2 75m2 :
 
 */
 
-describe("Extraction des surfaces de terrain par la description", () => {
+describe.only("Extraction des surfaces de terrain par la description", () => {
   class DescriptionTest {
-    constructor(description, surfaceHabitable, sortieAttendue) {
+    constructor(description, surfaceHabitable, sortie) {
       this.description = description;
       this.surfaceHabitable = surfaceHabitable;
-      this.sortieAttendue = sortieAttendue;
+      this.sortie = sortie;
     }
   }
 
-  // const avant = ["", "P4 ", "2015- ", "de ", " "];
-  // const espaces = ["", " "];
-  // const apres = ["", ".", ",", " ", " arboré"];
-
-  const avant = [""];
-  const valeurs = ["7", "42", "256", "1337", "16384", "131072"];
-  const decimales = [""];
+  const avant = ["", "P4 ", "2015- ", "de ", " "];
   const espaces = ["", " "];
-  const unites = ["m²", "m2"];
-  const apres = [""];
-
+  const apres = ["", ".", ",", " ", " arboré"];
+  
   const tests = [];
+
+  // tests.push(new DescriptionTest(
+  //   "131072,42 Hectares",
+  //   Number.parseFloat("131072,42".replace(/,/, ".")) - 1,
+  //   convertirEnMetresCarres("131072,42", "Hectares")
+  // ));
 
   avant.forEach((av) => {
     valeurs.forEach((valeur) => {
-      decimales.forEach((decimale) => {
-        espaces.forEach((espace) => {
-          unites.forEach((unite) => {
-            apres.forEach((ap) => {
-              tests.push(
-                new DescriptionTest(
-                  av + valeur + decimale + espace + unite + ap,
-                  valeur - 1,
-                  convertirEnMetresCarres(valeur + decimale, unite)
-                )
-              );
-            });
+      espaces.forEach((espace) => {
+        unites.forEach((unite) => {
+          apres.forEach((ap) => {
+            tests.push(
+              new DescriptionTest(
+                av + valeur + espace + unite + ap,
+                Number.parseFloat(valeur.replace(/,/, ".")) - 1,
+                convertirEnMetresCarres(valeur, unite)
+              )
+            );
           });
         });
       });
@@ -176,13 +173,13 @@ describe("Extraction des surfaces de terrain par la description", () => {
   });
 
   tests.forEach((test) => {
-    it(`extrait ${test.sortieAttendue} m² de "${test.description}"`, function () {
+    it(`extrait ${test.sortie} m² de "${test.description}"`, function () {
       expect(
         extraireSurfacesTerrain(test.description, test.surfaceHabitable)
       ).toMatchObject([
         {
-          tailleEnM2: test.sortieAttendue,
-          label: `${test.sortieAttendue} m²`,
+          tailleEnM2: test.sortie,
+          label: `${test.sortie} m²`,
         },
       ]);
     });
