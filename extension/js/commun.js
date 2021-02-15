@@ -50,8 +50,14 @@ function convertirEnMetresCarres(taille, unite) {
   // On ne fait pas attention à la casse
   unite = unite.toLowerCase();
 
-  // On renvoie un nombre, pas une chaîne
-  taille = Number.parseFloat(taille.replace(',', '.'));
+  // On retire l'éventuel espace des milliers ("1 337" => "1337")
+  taille = taille.replace(/ /, '');
+
+  // On remplace la virgule française par le point
+  taille = taille.replace(',', '.');
+
+  // On transforme en un nombre
+  taille = Number.parseFloat(taille);
 
   // On supprime le 's' final sur les unités s'il y est
   if (unite.startsWith('ha') || unite.startsWith('hectare')) unite = 'ha';

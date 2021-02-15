@@ -6,7 +6,7 @@ const {
 
 /* Génération des valeurs de surface possibles pour tous les tests */
 // Parfois les valeurs des milliers sont séparées d'un espace : 2 345 m², 12 800 m² etc.
-const tailles = ["7", "42", "256", "1337", "16384", "131072"];
+const tailles = ["7", "42", "256", "1337", "1 337", "16384", "16 384", "131072", "131 072"];
 // Les surfaces ont parfois une valeur décimale délimitée par un point ou une virgule avec max 2 chiffres derrière la virgule : 135,2 m2 ou 135.12 m2 etc.
 const decimales = ["", ".0", ".4", ".42", ",0", ",4", ",42"];
 
@@ -41,8 +41,12 @@ describe("Conversion de surfaces", () => {
   const tests = [];
   valeurs.forEach((valeur) => {
     unites.forEach((unite) => {
+      // On remplace les éventuels espaces des milliers ("1 337" => "1337")
+      let sortie = valeur.replace(/ /, '');
       // On remplace la virgule décimale française par le point '.'
-      let sortie = Number.parseFloat(valeur.replace(/,/, "."));
+      sortie = sortie.replace(/,/, ".");
+      // On transforme en un nombre
+      sortie = Number.parseFloat(sortie);
 
       switch (unite.toLowerCase()) {
         case "are":
