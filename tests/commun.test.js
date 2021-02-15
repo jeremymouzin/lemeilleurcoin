@@ -53,7 +53,7 @@ describe("Conversion de surfaces", () => {
         case "ares":
           sortie *= 100;
           // On supprime la partie décimale éventuellement restante
-          sortie = Math.trunc(sortie);
+          sortie = Math.round(sortie);
           break;
         case "ha":
         case "has":
@@ -61,7 +61,7 @@ describe("Conversion de surfaces", () => {
         case "hectares":
           sortie *= 10000;
           // On supprime la partie décimale éventuellement restante
-          sortie = Math.trunc(sortie);
+          sortie = Math.round(sortie);
           break;
         default:
           break;

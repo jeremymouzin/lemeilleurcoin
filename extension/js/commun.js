@@ -67,12 +67,12 @@ function convertirEnMetresCarres(taille, unite) {
     case 'are':
       taille *= 100;
       // On supprime la partie décimale éventuellement restante
-      taille = Math.trunc(taille);
+      taille = Math.round(taille);
       break;
     case 'ha':
       taille *= 10000;
       // On supprime la partie décimale éventuellement restante
-      taille = Math.trunc(taille);
+      taille = Math.round(taille);
       break;
     default:
       break;
