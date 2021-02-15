@@ -132,8 +132,8 @@ describe("Extraction des surfaces de terrain par la description", () => {
   const avant = ["", "2015- ", " "];
   // Parfois il y a un espace entre la valeur et l'unité, parfois pas : 150m² ou 150 m²
   const espaces = ["", " "];
-  // Après l'unité il peut y avoir un point, une virgule, un retour à la ligne, un espace, un mot
-  const apres = ["", ".", ",", " ", " arboré"];
+  // Après l'unité il peut y avoir un point, une virgule, un retour à la ligne, un espace
+  const apres = ["", ".", ",", " "];
 
   const tests = [];
 
