@@ -109,10 +109,6 @@ L'objectif est de ne pas manquer de potentiels biens avec le terrain voulu, ce n
 J'ai analysé pas mal de descriptions et voici les variations que j'ai trouvées qu'il va falloir prendre en compte :
 
 - Un cas vicieux, un chiffre qui précède mais ne fait pas partie de la surface : "une maison P4 130 m2." (P4 = 4 pièces) => on le considérera comme 4130 m2 vu notre politique d'erreur
-- J'extrapole le cas précédent à la possibilité de voir par exemple "-150m²" dans une liste comme ça :
-2 parcelles de terrain :
--2500 m2
--3 800 m²
 - Autre cas vicieux, dans une énumération :
 Maison 1 80m2 : => On détectera 80m2
 Maison 2 75m2 : => On détectera 75m2
@@ -128,8 +124,12 @@ describe("Extraction des surfaces de terrain par la description", () => {
     }
   }
 
-  // Description vicieuse possible : "Construction de 2015- 110m2 de plain-pied."
-  const avant = ["", "2015- ", " "];
+  // Description possible : "Construction de 2015- 110m2 de plain-pied."
+  // Autre cas ambigu par exemple "-150m²" dans une liste comme ça :
+  // 2 parcelles de terrain :
+  // -2500 m2
+  // -3 800 m²
+  const avant = ["", "2015- ", "-", " "];
   // Parfois il y a un espace entre la valeur et l'unité, parfois pas : 150m² ou 150 m²
   const espaces = ["", " "];
   // Après l'unité il peut y avoir un point, une virgule, un retour à la ligne, un espace
