@@ -104,7 +104,7 @@ J'ai analysé pas mal de descriptions et voici les variations que j'ai trouvées
 - Les surfaces ont parfois une valeur décimale délimitée par un point ou une virgule avec max 2 chiffres derrières la virgule : 135,12 m2 ou 135.12 m2 etc.
 - Parfois les valeurs de milliers sont séparées d'un espace : 2 345 m²/ 12 800 m² au lieu de 2345 m² / 12800 m²
 - Biensûr on peut avoir tous les cas particuliers d'un coup : 12 847,15 M2
-- Un cas vicieux, un chiffre qui précède mais ne fait pas partie de la surface : "une maison P4 130 m2." (P4 = 4 pièces)
+- Un cas vicieux, un chiffre qui précède mais ne fait pas partie de la surface : "une maison P4 130 m2." (P4 = 4 pièces) => on le considérera comme 4130 m2 vu notre politique d'erreur
 - Autre cas vicieux avec un trait d'union juste avant : "Construction de 2015- 110m2 de plain-pied."
 - J'extrapole le cas précédent à la possibilité de voir par exemple "-150m²" dans une liste comme ça :
 2 parcelles de terrain :
@@ -128,7 +128,7 @@ describe("Extraction des surfaces de terrain par la description", () => {
     }
   }
 
-  const avant = ["", "P4 ", "2015- ", "de ", " "];
+  const avant = ["", "2015- ", "de ", " "];
   const espaces = ["", " "];
   const apres = ["", ".", ",", " ", " arboré"];
 
