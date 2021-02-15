@@ -18,27 +18,13 @@ tailles.forEach((taille) => {
 // Nom des unités possibles pour tous les tests
 const unites = [
   "m²",
-  "M²",
   "m2",
-  "M2",
   "are",
-  "Are",
-  "ARE",
   "ares",
-  "Ares",
-  "ARES",
   "ha",
-  "Ha",
-  "HA",
   "has",
-  "Has",
-  "HAS",
   "hectare",
-  "Hectare",
-  "HECTARE",
   "hectares",
-  "Hectares",
-  "HECTARES",
 ];
 
 describe("Conversion de surfaces", () => {
@@ -133,7 +119,7 @@ Maison 2 75m2 :
 
 */
 
-describe.only("Extraction des surfaces de terrain par la description", () => {
+describe("Extraction des surfaces de terrain par la description", () => {
   class DescriptionTest {
     constructor(description, surfaceHabitable, sortie) {
       this.description = description;
@@ -145,7 +131,7 @@ describe.only("Extraction des surfaces de terrain par la description", () => {
   const avant = ["", "P4 ", "2015- ", "de ", " "];
   const espaces = ["", " "];
   const apres = ["", ".", ",", " ", " arboré"];
-  
+
   const tests = [];
 
   // tests.push(new DescriptionTest(
