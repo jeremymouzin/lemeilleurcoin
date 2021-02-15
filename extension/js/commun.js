@@ -17,14 +17,14 @@ function cacherElement(selecteur) {
  * @param {number} surfaceHabitable Taille de la surface du bien habitable
  */
 function extraireSurfacesTerrain(description, surfaceHabitable) {
-  const REGEXP_TERRAIN = /((?:\d{1,}|\d{1,3} \d{3})(?:[.,]\d{1,2})?) ?(m²|m2|ares?|has?|hectares?)([^a-z]|$)/gi;
+  const REGEXP_TERRAIN = /((?:\d{1,}|\d{1,3} \d{3})(?:[.,]\d{1,2})?) ?(m²|m2|ares?|has?|hectares?)(?=[^a-z]|$)/gi;
   const surfacesTerrain = [];
 
   let correspondance;
   while (correspondance = REGEXP_TERRAIN.exec(description)) {
     let [, taille, unite] = correspondance;
     taille = taille.replace(/ /, '').replace(',', '.');
-    
+
     const tailleEnM2 = convertirEnMetresCarres(taille, unite);
 
     // On suppose que seules les tailles supérieures à la surface habitable
@@ -51,8 +51,8 @@ function convertirEnMetresCarres(taille, unite) {
   unite = unite.toLowerCase();
 
   // On renvoie un nombre, pas une chaîne
-  taille = Number.parseFloat(taille.replace(',','.'));
-  
+  taille = Number.parseFloat(taille.replace(',', '.'));
+
   // On supprime le 's' final sur les unités s'il y est
   if (unite.startsWith('ha') || unite.startsWith('hectare')) unite = 'ha';
   if (unite.startsWith('are')) unite = 'are';
