@@ -37,6 +37,13 @@ function extraireSurfacesTerrain(description, surfaceHabitable) {
     }
   }
 
+  if (surfacesTerrain.length === 0) {
+    surfacesTerrain.push({
+      tailleEnM2: 0,
+      label: '0 m²',
+    });
+  }
+
   return surfacesTerrain;
 }
 

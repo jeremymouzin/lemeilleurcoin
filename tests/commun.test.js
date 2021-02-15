@@ -132,7 +132,7 @@ describe("Extraction des surfaces de terrain par la description", () => {
   const avant = ["", "2015- ", "de ", " "];
   // Parfois il y a un espace entre la valeur et l'unité, parfois pas : 150m² ou 150 m²
   const espaces = ["", " "];
-  // Après la surface, après l'unité, peut être un point, une virgule, un retour à la ligne, un ou plusieurs espaces
+  // Après l'unité il peut y avoir un point, une virgule, un retour à la ligne, un espace, un mot
   const apres = ["", ".", ",", " ", " arboré"];
 
   const tests = [];
@@ -149,6 +149,17 @@ describe("Extraction des surfaces de terrain par la description", () => {
                 convertirEnMetresCarres(valeur, unite)
               )
             );
+
+            // Cas particulier "2500 habitants" où l'on pourrait à tord comprendre "2500 ha" (2500 hectares)
+            if (unite === "ha") {
+              tests.push(
+                new DescriptionTest(
+                  av + valeur + espace + unite + "bitants",
+                  Number.parseFloat(valeur.replace(/,/, ".")) - 1,
+                  0 // Il faut évidemment renvoyer 0 m², on ne prend pas en compte cette valeur
+                )
+              );
+            }
           });
         });
       });
