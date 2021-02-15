@@ -106,12 +106,9 @@ L'objectif est d'extraire au mieux les surfaces des terrains des descriptions.
 POLITIQUE D'ERREUR : on préfèrera toujours GARDER une annonce dont on n'est pas totalement sûr qu'il y a un terrain plutôt que de retirer celle-ci des résultats de recherche.
 L'objectif est de ne pas manquer de potentiels biens avec le terrain voulu, ce n'est pas grave si on propose un bien qui ne possède pas le terrain souhaité.
 
-J'ai analysé pas mal de descriptions et voici les variations que j'ai trouvées qu'il va falloir prendre en compte :
+J'ai analysé pas mal de descriptions et voici les variations que j'ai trouvées qui provoqueront des erreurs :
 
 - Un cas vicieux, un chiffre qui précède mais ne fait pas partie de la surface : "une maison P4 130 m2." (P4 = 4 pièces) => on le considérera comme 4130 m2 vu notre politique d'erreur
-- Autre cas vicieux, dans une énumération :
-Maison 1 80m2 : => On détectera 80m2
-Maison 2 75m2 : => On détectera 75m2
 
 */
 
@@ -124,9 +121,11 @@ describe("Extraction des surfaces de terrain par la description", () => {
     }
   }
 
-  // Description possible : "Construction de 2015- 110m2 de plain-pied."
-  // Autre cas ambigu par exemple "-150m²" dans une liste comme ça :
-  // 2 parcelles de terrain :
+  // Quelques cas particuliers...
+  // "Construction de 2015- 110m2 de plain-pied."
+  // ------------
+  // Une valeur qui pourrait être considérée négative "-150m²" dans une liste comme ça :
+  // 2 parcelles de terrain de :
   // -2500 m2
   // -3 800 m²
   const avant = ["", "2015- ", "-", " "];
@@ -165,6 +164,27 @@ describe("Extraction des surfaces de terrain par la description", () => {
       });
     });
   });
+
+  // Cas particuliers, dans une énumération :
+  // Maison 1 80m2 : => On détectera 80m2
+  // Maison 2 75m2 : => On détectera 75m2
+  tests.push(new DescriptionTest(
+    "Maison 1 80m2",
+    50,
+    80
+  ));
+  tests.push(new DescriptionTest(
+    "Maison 2 8m2",
+    5,
+    8
+  ));
+  // Ici, vu notre politique d'erreur, on détectera 2568m2 et pas 568m2
+  // car on ne peut pas faire la différence avec un formatage des milliers avec un espace :/
+  tests.push(new DescriptionTest(
+    "Maison 2 568m2",
+    100,
+    2568
+  ));
 
   tests.forEach((test) => {
     it(`extrait ${test.sortie} m² de "${test.description}"`, function () {
