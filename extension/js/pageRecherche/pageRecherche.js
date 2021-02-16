@@ -263,20 +263,17 @@ function extraireObjet(nomChamp, objListing) {
   if (nomChamp === "terrain") {
     // On doit extraire le terrain de la description
     const description = objListing.body;
-    let correspondance;
-    let taillesTerrain = [];
-    while ((correspondance = REGEXP_TERRAIN.exec(description)) !== null) {
-      taillesTerrain.push(Number.parseInt(correspondance[0].replaceAll(' ', '')));
-    }
-    if (taillesTerrain.length === 0) {
-      taillesTerrain = "< 1000 m²";
-    } else {
-      taillesTerrain = taillesTerrain.map(t => t + " m²").join(', ');
+    for (const attr of objListing.attributes) {
+      if (attr.key === 'square') {
+        surfaceHabitable = attr.value;
+      }
     }
 
+    const surfacesTerrain = extraireSurfacesTerrain(description, surfaceHabitable);
+    // TODO : Gérer les surfaces avec plusieurs parcelles : faire la somme ?
     return {
       key_label: "☘️",
-      value_label: taillesTerrain,
+      value_label: surfacesTerrain[0].tailleEnM2 === 0 ? "Aucun terrain" : surfacesTerrain[0].label,
     };
   } else {
     for (const attr of objListing.attributes) {
@@ -360,16 +357,12 @@ function filtrerResultatsParTerrain() {
     let surface = resultat.dataset.surfaceTerrain;
 
     if (surface !== undefined) {
-      if (surface.startsWith('<')) {
-        cacher = true;
-      } else {
-        // Si l'utilisateur n'a rien mis comme surface maximale, on ne met pas de limite
-        if (surfaceMax === 0) surfaceMax = Number.POSITIVE_INFINITY;
+      // Si l'utilisateur n'a rien mis comme surface maximale, on ne met pas de limite
+      if (surfaceMax === 0) surfaceMax = Number.POSITIVE_INFINITY;
 
-        surface = Number.parseInt(surface);
-        if (surface < surfaceMin || surface > surfaceMax) {
-          cacher = true;
-        }
+      surface = Number.parseInt(surface);
+      if (surface < surfaceMin || surface > surfaceMax) {
+        cacher = true;
       }
       const parent = resultat.parentElement;
       parent.style.display = cacher ? 'none' : 'block';
