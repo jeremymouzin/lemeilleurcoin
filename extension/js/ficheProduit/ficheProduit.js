@@ -17,26 +17,19 @@ function clickVoirPlus() {
 }
 clickVoirPlus.compteur = 0;
 
-function mettreEnSurbrillance(description) {
-  const taillesTerrain = [];
+function mettreEnSurbrillance(description, surfacesTerrain) {
   if (description !== null) {
-    let correspondance;
-    while ((correspondance = REGEXP_TERRAIN.exec(description.textContent)) !== null) {
-      description.innerHTML = description.innerHTML.replace(correspondance[0],
-        `<span class="lmc-surligner">${correspondance[0]}</span>`);
-
-      // On ne récupère que la valeur numérique
-      taillesTerrain.push(Number.parseInt(correspondance[0].replaceAll(' ', '')));
-    }
+    surfacesTerrain.forEach(surface => {
+      surface = surface.tailleOriginale;
+      description.innerHTML = description.innerHTML.replace(surface, `<span class="lmc-surligner">${surface}</span>`);
+    });
   }
-  return taillesTerrain;
 }
 
-function remonterInfosImportantes(taillesTerrain) {
+function remonterInfosImportantes(surfacesTerrain, criteres) {
   const conteneurDescription = document.querySelector(SPOTLIGHT_DESCRIPTION);
 
   // Déplacement des critères énergétiques en haut
-  const criteres = document.querySelector(CONTENEUR_CRITERES);
   conteneurDescription.after(criteres);
 
   // Critères énergétiques en plus gros
@@ -58,15 +51,11 @@ function remonterInfosImportantes(taillesTerrain) {
   prix.classList.add('lmc-prix');
 
   // Ajout de la taille du terrain
+  // TODO: Gérer le cas où il y a plusieurs terrains / parcelles : faire la somme ?
+  const taille = surfacesTerrain[0].label;
   const tailleTerrain = document.createElement('p');
   tailleTerrain.classList.add('lmc-terrain');
-  
-  let taille;
-  if (taillesTerrain.length === 0) {
-    taille = "< 1000 m²";
-  } else {
-    taille = taillesTerrain.map(t => t + " m²").join(', ');
-  }
+
   tailleTerrain.textContent = `☘️ Terrain ${taille}`;
   conteneurDescription.after(tailleTerrain);
 }
@@ -93,8 +82,16 @@ function supprimerElementsInutiles() {
 
 function ameliorer() {
   const description = document.querySelector(DESCRIPTION);
-  const taillesTerrain = mettreEnSurbrillance(description);
-  remonterInfosImportantes(taillesTerrain);
+  const criteres = document.querySelector(CONTENEUR_CRITERES);
+
+  // Taille de la surface habitable
+  let surfaceHabitable = criteres.querySelector(SURFACE_HABITABLE);
+  surfaceHabitable = Number.parseFloat(surfaceHabitable.textContent);
+
+  // Extraction des surfaces de terrain
+  let surfacesTerrain = extraireSurfacesTerrain(description.textContent, surfaceHabitable);
+  mettreEnSurbrillance(description, surfacesTerrain);
+  remonterInfosImportantes(surfacesTerrain, criteres);
   lienGoogleMaps();
   supprimerElementsInutiles();
 }
@@ -107,9 +104,4 @@ function ficheProduit() {
 function ficheProduitFin() {
 }
 
-// Hook pour les tests unitaires avec Jest
-try {
-  module.exports = mettreEnSurbrillance;
-} catch(erreur) {
-  // On est en production, module est undefined c'est normal
-}
+

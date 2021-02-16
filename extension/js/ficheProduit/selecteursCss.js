@@ -23,6 +23,8 @@ const CLASSE_ENERGIE_LETTRES = '[data-qa-id="criteria_item_energy_rate"] [class*
 const GES_LETTRES = '[data-qa-id="criteria_item_ges"] [class*="styles_EnergyCriteria"]';
 // Lettre active d'un critère de classe énergie ou GES
 const CLASSE_ENERGIE_LETTRE_ACTIVE = '[class*="styles_active"]';
+// Surface habitable
+const SURFACE_HABITABLE = '[data-qa-id="criteria_item_square"] > div > p:last-child';
 
 const REFERENCE = '[data-qa-id="criteria_item_custom_ref"]';
 const HONORAIRES = '[data-qa-id="criteria_item_fai_included"]';

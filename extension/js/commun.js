@@ -22,7 +22,7 @@ function extraireSurfacesTerrain(description, surfaceHabitable) {
 
   let correspondance;
   while (correspondance = REGEXP_TERRAIN.exec(description)) {
-    let [, taille, unite] = correspondance;
+    let [tailleOriginale, taille, unite] = correspondance;
     taille = taille.replace(/ /, '').replace(',', '.');
 
     const tailleEnM2 = convertirEnMetresCarres(taille, unite);
@@ -33,6 +33,7 @@ function extraireSurfacesTerrain(description, surfaceHabitable) {
       surfacesTerrain.push({
         tailleEnM2,
         label: tailleEnM2 + ' m²',
+        tailleOriginale,
       });
     }
   }
@@ -41,6 +42,7 @@ function extraireSurfacesTerrain(description, surfaceHabitable) {
     surfacesTerrain.push({
       tailleEnM2: 0,
       label: '0 m²',
+      tailleOriginale: '0 m²',
     });
   }
 
