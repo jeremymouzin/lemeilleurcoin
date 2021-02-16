@@ -3,6 +3,13 @@
 // ID du <script> contenant toutes les données de la page sur les biens immobiliers en JSON !
 const DATA_ID = '#__NEXT_DATA__';
 
+// Listing des résultats de recherche
+const LISTING = '[class*="styles_mainListing"]';
+
+// Sélections dans un item de la liste de résultat
+const DIV_PARENT_ITEM = 'div[class*="styles_adListItem"]';
+const LIEN_ITEM = 'a[data-qa-id*="aditem_container"]';
+
 // Balise <a> utilisée pour chaque item de la liste des résultats de recherche
 const ITEM = '[data-qa-id="aditem_container"]';
 

@@ -7,7 +7,7 @@ function pageRecherche() {
   ameliorerHeader();
   ameliorerListing();
 
-  const elListing = document.querySelector('[class*="styles_mainListing"]');
+  const elListing = document.querySelector(LISTING);
   observateur = new MutationObserver(function (objets, observateur) {
     /*
     Le callback est appelé 2 fois :
@@ -95,8 +95,8 @@ function ameliorerListing() {
 
     // Boutons pour voir toutes les photos
     const photoItem = resultat.querySelector(PHOTO_ITEM);
-    const boutonAvant = creerBoutonPhoto('lmc-bouton-avant');
-    const boutonApres = creerBoutonPhoto('lmc-bouton-apres');
+    const boutonAvant = creerBoutonPhoto(CLASSE_BOUTON_PHOTO_AVANT);
+    const boutonApres = creerBoutonPhoto(CLASSE_BOUTON_PHOTO_APRES);
 
     // On ajoute les boutons après le lien
     const lienItem = photoItem.closest('a');
@@ -107,10 +107,13 @@ function ameliorerListing() {
     lienItem.dataset.numeroImage = 0;
 
     function changerImage(e) {
-      const a = this.closest('div[class*="styles_adListItem"]').querySelector('a[data-qa-id*="aditem_container"]');
+      const divParentItem = this.closest(DIV_PARENT_ITEM);
+
+      const a = divParentItem.querySelector(LIEN_ITEM);
       let numeroImageActuel = +a.dataset.numeroImage;
+
       const nombreImages = listing[id].images.nb_images;
-      const clicSurBoutonAvant = e.currentTarget.className.includes('avant');
+      const clicSurBoutonAvant = e.currentTarget.className.includes(CLASSE_BOUTON_PHOTO_AVANT);
       numeroImageActuel += clicSurBoutonAvant ? -1 : 1;
 
       // On boucle sur les images
@@ -123,7 +126,7 @@ function ameliorerListing() {
       const prochaineSrcImage = listing[id].images.urls[numeroImageActuel];
 
       // On récupère l'image de l'item qu'on édite
-      const img = this.closest('div[class*="styles_adListItem"]').querySelector('img');
+      const img = divParentItem.querySelector('img');
 
       // Et on change sa source
       img.src = prochaineSrcImage;
@@ -176,7 +179,7 @@ function augmenterTaillePhoto(photo) {
 
 function creerBoutonPhoto(classe) {
   const bouton = document.createElement('button');
-  bouton.classList.add('lmc-bouton-photo', classe);
+  bouton.classList.add(CLASSE_BOUTON_PHOTO, classe);
 
   // Petite flèche sympa en contenu
   bouton.innerHTML = "&#10132;";
@@ -186,11 +189,11 @@ function creerBoutonPhoto(classe) {
 
 function creerFieldSetLMC() {
   const fieldSet = document.createElement('fieldset');
-  fieldSet.classList.add('lmc-fieldset');
+  fieldSet.classList.add(CLASSE_FIELDSET);
 
   const legende = document.createElement('legend');
-  legende.classList.add('lmc-legende');
-  legende.textContent = 'Le Meilleur Coin';
+  legende.classList.add(CLASSE_FIELDSET_LEGEND);
+  legende.textContent = TEXTE_FIELDSET_LEGEND;
 
   fieldSet.append(legende);
   return fieldSet;
@@ -209,7 +212,7 @@ function ajouterChamp(nomChamp, id, noeud) {
   }
 
   if ([CLE_GAZ_EFFETS_SERRE, CLE_CLASSE_ENERGIE].includes(nomChamp)) {
-    nouvelleDiv.classList.add('lmc-label-energie');
+    nouvelleDiv.classList.add(CLASSE_LABEL_ENERGIE);
     // Cas particuliers N => Non renseigné, V => Vierge
     if (['N', 'V'].includes(lettre)) {
       lettre = '?';
@@ -271,7 +274,7 @@ function extraireObjet(nomChamp, objListing) {
     // TODO : Gérer les surfaces avec plusieurs parcelles : faire la somme ?
     return {
       key_label: "☘️",
-      value_label: surfacesTerrain[0].tailleEnM2 === 0 ? "Aucun terrain" : surfacesTerrain[0].label,
+      value_label: surfacesTerrain[0].tailleEnM2 === 0 ? TEXTE_AUCUN_TERRAIN : surfacesTerrain[0].label,
     };
   } else {
     for (const attr of objListing.attributes) {
@@ -306,7 +309,7 @@ function ajoutFiltrageSurfaceTerrain() {
   const barreOutils = document.querySelector(BARRE_OUTILS_RECHERCHE_DIV);
 
   const fieldSet = creerFieldSetLMC();
-  fieldSet.classList.add('lmc-filtre-terrain');
+  fieldSet.classList.add(CLASSE_FILTRE_TERRAIN);
 
   const VALEURS_TERRAIN = {
     CLE_TERRAIN_MIN: DEFAUT_TERRAIN_MIN_EN_M2,
@@ -318,13 +321,13 @@ function ajoutFiltrageSurfaceTerrain() {
     const surfaceTerrainMin = result.CLE_TERRAIN_MIN;
     const surfaceTerrainMax = result.CLE_TERRAIN_MAX;
 
-    const labelMin = creerInputNumber(INPUT_TERRAIN_MIN_ID, 'Terrain min :', surfaceTerrainMin);
-    const labelMax = creerInputNumber(INPUT_TERRAIN_MAX_ID, 'Terrain max :', surfaceTerrainMax);
+    const labelMin = creerInputNumber(INPUT_TERRAIN_MIN_ID, TEXTE_LABEL_TERRAIN_MIN, surfaceTerrainMin);
+    const labelMax = creerInputNumber(INPUT_TERRAIN_MAX_ID, TEXTE_LABEL_TERRAIN_MAX, surfaceTerrainMax);
     fieldSet.append(labelMin);
     fieldSet.append(labelMax);
 
     const boutonValider = document.createElement('button');
-    boutonValider.textContent = "Filtrer";
+    boutonValider.textContent = TEXTE_BOUTON_FILTRER;
 
     boutonValider.addEventListener('click', filtrerResultatsParTerrain);
 
@@ -379,7 +382,7 @@ function gererImagesLazyLoading() {
 
   observateurImages = new MutationObserver(function (objets, observateur) {
     const photo = objets[0].target;
-    if (!photo.classList.contains('lmc-photo')) {
+    if (!photo.classList.contains(CLASSE_PHOTO_ITEM)) {
       augmenterTaillePhoto(photo);
     }
   });

@@ -34,3 +34,20 @@ const CLE_TERRAIN_MIN = 'terrainMin';
 const CLE_TERRAIN_MAX = 'terrainMax';
 const DEFAUT_TERRAIN_MIN_EN_M2 = 0;
 const DEFAUT_TERRAIN_MAX_EN_M2 = 4000;
+
+// Nom des classes CSS utilisées
+const CLASSE_BOUTON_PHOTO_AVANT = 'lmc-bouton-avant';
+const CLASSE_BOUTON_PHOTO_APRES = 'lmc-bouton-apres';
+const CLASSE_BOUTON_PHOTO = 'lmc-bouton-photo';
+const CLASSE_FIELDSET = 'lmc-fieldset';
+const CLASSE_FIELDSET_LEGEND = 'lmc-legende';
+const CLASSE_LABEL_ENERGIE = 'lmc-label-energie';
+const CLASSE_FILTRE_TERRAIN = 'lmc-filtre-terrain';
+const CLASSE_PHOTO_ITEM = 'lmc-photo';
+
+// Contenu texte ajouté dynamiquement en JS
+const TEXTE_FIELDSET_LEGEND = 'Le Meilleur Coin';
+const TEXTE_LABEL_TERRAIN_MIN = 'Terrain min :';
+const TEXTE_LABEL_TERRAIN_MAX = 'Terrain max :';
+const TEXTE_BOUTON_FILTRER = 'Filtrer';
+const TEXTE_AUCUN_TERRAIN = 'Aucun terrain';
