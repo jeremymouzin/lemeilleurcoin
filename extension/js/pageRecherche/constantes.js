@@ -18,9 +18,15 @@ const COULEURS_GES = {
   'G': '#8835d9',
 };
 
+// Clé des données récupérées depuis le <script> transformé en JSON
+const CLE_NB_PIECES = 'rooms';
+const CLE_SURFACE_HABITABLE = 'square';
+const CLE_CLASSE_ENERGIE = 'energy_rate';
+const CLE_GAZ_EFFETS_SERRE = 'ges';
+
 const NOM_LABELS = {
-  'rooms': "Pièces",
-  'square': "Surface",
+  [CLE_NB_PIECES]: "Pièces",
+  [CLE_SURFACE_HABITABLE]: "Surface",
 };
 
 // Gestion du filtrage par taille de terrain

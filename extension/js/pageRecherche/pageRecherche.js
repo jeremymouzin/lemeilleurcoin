@@ -83,14 +83,14 @@ function ameliorerListing() {
     const fieldSet = creerFieldSetLMC();
     const tailleTerrain = ajouterChamp('terrain', id, fieldSet);
     resultat.dataset.surfaceTerrain = tailleTerrain;
-    ajouterChamp('energy_rate', id, fieldSet);
-    ajouterChamp('ges', id, fieldSet);
+    ajouterChamp(CLE_CLASSE_ENERGIE, id, fieldSet);
+    ajouterChamp(CLE_GAZ_EFFETS_SERRE, id, fieldSet);
     lastDiv.after(fieldSet);
 
     // Remplacement du titre par le nombre de pièces + surface
     const titreItem = resultat.querySelector(TITRE_ITEM);
-    const pieces = extraireObjet('rooms', listing[id]);
-    const surface = extraireObjet('square', listing[id]);
+    const pieces = extraireObjet(CLE_NB_PIECES, listing[id]);
+    const surface = extraireObjet(CLE_SURFACE_HABITABLE, listing[id]);
     titreItem.textContent = `${surface.value_label} — ${pieces.value} ${pieces.key_label.toLowerCase()}`;
 
     // Boutons pour voir toutes les photos
@@ -208,7 +208,7 @@ function ajouterChamp(nomChamp, id, noeud) {
     nouvelleDiv.style.fontWeight = "600";
   }
 
-  if (["ges", "energy_rate"].includes(nomChamp)) {
+  if ([CLE_GAZ_EFFETS_SERRE, CLE_CLASSE_ENERGIE].includes(nomChamp)) {
     nouvelleDiv.classList.add('lmc-label-energie');
     // Cas particuliers N => Non renseigné, V => Vierge
     if (['N', 'V'].includes(lettre)) {
@@ -219,7 +219,7 @@ function ajouterChamp(nomChamp, id, noeud) {
     label = lettre;
   }
 
-  if (["ges", "energy_rate"].includes(nomChamp)) {
+  if ([CLE_GAZ_EFFETS_SERRE, CLE_CLASSE_ENERGIE].includes(nomChamp)) {
     nouvelleDiv.textContent = `${label}`;
   } else if (nomChamp === "terrain") {
     nouvelleDiv.textContent = `${donnees.key_label} ${label}`;
@@ -227,7 +227,7 @@ function ajouterChamp(nomChamp, id, noeud) {
     nouvelleDiv.textContent = `${donnees.key_label} : ${label}`;
   }
 
-  if (nomChamp === "energy_rate") {
+  if (nomChamp === CLE_CLASSE_ENERGIE) {
     nouvelleDiv.style.backgroundColor = COULEURS_ENERGIE[lettre];
     if ('C' <= lettre && lettre <= 'E' || ['N', 'V'].includes(lettre)) {
       nouvelleDiv.style.color = '#1A1A1A';
@@ -236,7 +236,7 @@ function ajouterChamp(nomChamp, id, noeud) {
     }
   }
 
-  if (nomChamp === "ges") {
+  if (nomChamp === CLE_GAZ_EFFETS_SERRE) {
     nouvelleDiv.style.backgroundColor = COULEURS_ENERGIE[lettre];
     if ('C' <= lettre && lettre <= 'E' || ['N', 'V'].includes(lettre)) {
       nouvelleDiv.style.color = '#1A1A1A';
@@ -262,7 +262,7 @@ function extraireObjet(nomChamp, objListing) {
     // On doit extraire le terrain de la description
     const description = objListing.body;
     for (const attr of objListing.attributes) {
-      if (attr.key === 'square') {
+      if (attr.key === CLE_SURFACE_HABITABLE) {
         surfaceHabitable = attr.value;
       }
     }
