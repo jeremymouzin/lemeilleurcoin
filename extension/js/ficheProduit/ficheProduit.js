@@ -20,8 +20,10 @@ clickVoirPlus.compteur = 0;
 function mettreEnSurbrillance(description, surfacesTerrain) {
   if (description !== null) {
     surfacesTerrain.forEach(surface => {
-      surface = surface.tailleOriginale;
-      description.innerHTML = description.innerHTML.replace(surface, `<span class="lmc-surligner">${surface}</span>`);
+      if (surface.tailleEnM2 > 0) {
+        surface = surface.tailleOriginale;
+        description.innerHTML = description.innerHTML.replace(surface, `<span class="lmc-surligner">${surface}</span>`);
+      }
     });
   }
 }
