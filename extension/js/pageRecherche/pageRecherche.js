@@ -362,6 +362,10 @@ function filtrerResultatsParTerrain() {
       if (surfaceMax === 0) surfaceMax = Number.POSITIVE_INFINITY;
 
       surface = Number.parseInt(surface);
+
+      // S'il n'y a pas de terrain on met la surface à 0
+      if (Number.isNaN(surface)) surface = 0;
+
       if (surface < surfaceMin || surface > surfaceMax) {
         cacher = true;
       }
