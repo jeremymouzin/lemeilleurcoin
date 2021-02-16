@@ -85,8 +85,6 @@ function ameliorerListing() {
     resultat.dataset.surfaceTerrain = tailleTerrain;
     ajouterChamp('energy_rate', id, fieldSet);
     ajouterChamp('ges', id, fieldSet);
-    ajouterChamp('rooms', id, fieldSet);
-    ajouterChamp('square', id, fieldSet);
     lastDiv.after(fieldSet);
 
     // Remplacement du titre par le nombre de pièces + surface
