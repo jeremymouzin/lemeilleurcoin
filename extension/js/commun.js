@@ -59,8 +59,8 @@ function convertirEnMetresCarres(taille, unite) {
   // On ne fait pas attention à la casse
   unite = unite.toLowerCase();
 
-  // On retire l'éventuel espace des milliers ("1 337" => "1337")
-  taille = taille.replace(/ /, '');
+  // On retire l'éventuel espace (ou espace insécable) des milliers ("1 337" => "1337")
+  taille = taille.replace(/ |&nbsp;/, '');
 
   // On remplace la virgule française par le point
   taille = taille.replace(',', '.');
