@@ -17,7 +17,7 @@ function cacherElement(selecteur) {
  * @param {number} surfaceHabitable Taille de la surface du bien habitable
  */
 function extraireSurfacesTerrain(description, surfaceHabitable) {
-  const REGEXP_TERRAIN = /((?:\d{1,}|\d{1,3}(?: |&nbsp;)\d{3})(?:[.,]\d{1,2})?)(?: |&nbsp;)?(m²|m2|ares?|has?|hectares?)(?=[^a-z]|$)/gi;
+  const REGEXP_TERRAIN = /((?:\d{1,}|\d{1,3}(?: |&nbsp;|\u00a0)\d{3})(?:[.,]\d{1,2})?)(?: |&nbsp;|\u00a0)?(m²|m2|ares?|has?|hectares?)(?=[^a-z]|$)/gi;
   const surfacesTerrain = [];
 
   let correspondance;
@@ -59,7 +59,7 @@ function convertirEnMetresCarres(taille, unite) {
   unite = unite.toLowerCase();
 
   // On retire l'éventuel espace (ou espace insécable) des milliers ("1 337" => "1337")
-  taille = taille.replace(/ |&nbsp;/, '');
+  taille = taille.replace(/ |&nbsp;|\u00a0/, '');
 
   // On remplace la virgule française par le point
   taille = taille.replace(',', '.');

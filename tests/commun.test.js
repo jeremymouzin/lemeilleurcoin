@@ -6,8 +6,8 @@ const {
 
 /* Génération des valeurs de surface possibles pour tous les tests */
 // Parfois les valeurs des milliers sont séparées d'un espace : 2 345 m², 12 800 m² etc.
-// ou d'un espace insécable (&nbsp;)
-const tailles = ["7", "42", "256", "1337", "1 337", "1&nbsp;337", "16384", "16 384", "16&nbsp;384", "131072", "131 072", "131&nbsp;072"];
+// ou d'un espace insécable (&nbsp; ou \u00a0)
+const tailles = ["7", "42", "256", "1337", "1 337", "1&nbsp;337", "1\u00a0337", "16384", "16 384", "16&nbsp;384", "16\u00a0384", "131072", "131 072", "131&nbsp;072", "131\u00a0072"];
 // Les surfaces ont parfois une valeur décimale délimitée par un point ou une virgule avec max 2 chiffres derrière la virgule : 135,2 m2 ou 135.12 m2 etc.
 const decimales = ["", ".0", ".4", ".42", ",0", ",4", ",42"];
 
@@ -43,7 +43,7 @@ describe("Conversion de surfaces", () => {
   valeurs.forEach((valeur) => {
     unites.forEach((unite) => {
       // On remplace les éventuels espaces (ou espaces insécables) des milliers ("1 337" => "1337")
-      let sortie = valeur.replace(/ |&nbsp;/, '');
+      let sortie = valeur.replace(/ |&nbsp;|\u00a0/, '');
       // On remplace la virgule décimale française par le point '.'
       sortie = sortie.replace(/,/, ".");
       // On transforme en un nombre
@@ -97,7 +97,6 @@ describe("Conversion de surfaces", () => {
 });
 
 // TODO
-// - Enfin il faut faire attention à ne pas confondre une unité avec un mot ! Par exemple "il y a 2 habitations", il ne faut pas extraire "2 ha" de habitations et le confondre avec 2 ha (hectares !)
 // Vérifier aussi quand il apparaît le mot terrain dans la description mais qu'on extrait aucune superficie supérieure à celle de la surface habitable, un problème de parsing sûrement ? Si on détecte ça, il faut l'indiquer avec une icône
 
 /*
@@ -127,9 +126,9 @@ describe("Extraction des surfaces de terrain par la description", () => {
   // -3 800 m²
   const avant = ["", "2015- ", "-", " "];
   // Parfois il y a un espace (ou espace insécable) entre la valeur et l'unité, parfois pas : 150m² ou 150 m²
-  const espaces = ["", " ", "&nbsp;"];
+  const espaces = ["", " ", "&nbsp;", "\u00a0"];
   // Après l'unité il peut y avoir un point, une virgule, un retour à la ligne, un espace, un espace insécable
-  const apres = ["", ".", ",", " ", "&nbsp;"];
+  const apres = ["", ".", ",", " ", "&nbsp;", "\u00a0"];
 
   const tests = [];
 
