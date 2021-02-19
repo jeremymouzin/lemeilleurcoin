@@ -17,13 +17,12 @@ function cacherElement(selecteur) {
  * @param {number} surfaceHabitable Taille de la surface du bien habitable
  */
 function extraireSurfacesTerrain(description, surfaceHabitable) {
-  const REGEXP_TERRAIN = /((?:\d{1,}|\d{1,3} \d{3})(?:[.,]\d{1,2})?) ?(m²|m2|ares?|has?|hectares?)(?=[^a-z]|$)/gi;
+  const REGEXP_TERRAIN = /((?:\d{1,}|\d{1,3}(?: |&nbsp;)\d{3})(?:[.,]\d{1,2})?)(?: |&nbsp;)?(m²|m2|ares?|has?|hectares?)(?=[^a-z]|$)/gi;
   const surfacesTerrain = [];
 
   let correspondance;
   while (correspondance = REGEXP_TERRAIN.exec(description)) {
     let [tailleOriginale, taille, unite] = correspondance;
-    taille = taille.replace(/ /, '').replace(',', '.');
 
     const tailleEnM2 = convertirEnMetresCarres(taille, unite);
 
