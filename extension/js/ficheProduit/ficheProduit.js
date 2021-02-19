@@ -91,7 +91,7 @@ function ameliorer() {
   surfaceHabitable = Number.parseFloat(surfaceHabitable.textContent);
 
   // Extraction des surfaces de terrain
-  let surfacesTerrain = extraireSurfacesTerrain(description.textContent, surfaceHabitable);
+  let surfacesTerrain = extraireSurfacesTerrain(description.innerHTML, surfaceHabitable);
   mettreEnSurbrillance(description, surfacesTerrain);
   remonterInfosImportantes(surfacesTerrain, criteres);
   lienGoogleMaps();
