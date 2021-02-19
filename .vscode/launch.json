@@ -19,7 +19,8 @@
       "request": "launch",
       "args": [
         "--runInBand",
-        "--colors"
+        "--colors",
+        "--silent",
       ],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
