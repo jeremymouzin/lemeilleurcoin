@@ -37,14 +37,6 @@ On préfixe les classes de "lmc-" (acronyme de Le Meilleur Coin) pour éviter d'
   letter-spacing: .04em;
 }
 
-.lmc-legende {
-  padding: 0.4rem 1.4rem;
-  border-radius: 6px;
-  background-color: var(--lmc-background-color);
-  font-size: 1.4rem;
-  border: 1px solid var(--lmc-accent-color);
-}
-
 .lmc-filtre-terrain button {
   background-color: #4183d7;
   align-self: flex-start;
