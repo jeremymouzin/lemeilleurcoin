@@ -88,11 +88,12 @@ function ameliorerListing() {
     ajouterChamp(CLE_GAZ_EFFETS_SERRE, id, fieldSet);
     lastDiv.after(fieldSet);
 
-    // Remplacement du titre par le nombre de pièces + surface
+    // Suppression du titre
     const titreItem = resultat.querySelector(TITRE_ITEM);
+    titreItem.remove();
+
     const pieces = extraireObjet(CLE_NB_PIECES, listing[id]);
     const surface = extraireObjet(CLE_SURFACE_HABITABLE, listing[id]);
-    titreItem.textContent = `${surface.value_label} — ${pieces.value} ${pieces.key_label.toLowerCase()}`;
 
     // Boutons pour voir toutes les photos
     const photoItem = resultat.querySelector(PHOTO_ITEM);
@@ -152,7 +153,7 @@ function ameliorerListing() {
   // Augmentation de la taille de police du prix;
   const prixItem = document.querySelectorAll(PRIX_ITEM);
   prixItem.forEach(prix => {
-    prix.style.fontSize = "3rem";
+    prix.style.fontSize = "4.8rem";
   });
 
   // Suppression des pubs TABOOLA
