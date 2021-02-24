@@ -91,6 +91,8 @@ function ameliorerListing() {
     const tailleTerrain = ajouterChamp('terrain', id, infosBien);
     resultat.dataset.surfaceTerrain = tailleTerrain;
 
+    ajouterChamp(CLE_SURFACE_HABITABLE, id, infosBien);
+
     ajouterChamp(CLE_CLASSE_ENERGIE, id, infosBien);
     ajouterChamp(CLE_GAZ_EFFETS_SERRE, id, infosBien);
 
@@ -194,6 +196,7 @@ function ajouterChamp(nomChamp, id, noeud) {
   let lettre = donnees.value_label[0];
 
   const nouvelleDiv = document.createElement('div');
+  nouvelleDiv.classList.add(CLASSE_INFOS_ICONE);
 
   if ([CLE_GAZ_EFFETS_SERRE, CLE_CLASSE_ENERGIE].includes(nomChamp)) {
     nouvelleDiv.classList.add(CLASSE_LABEL_ENERGIE);
@@ -209,19 +212,20 @@ function ajouterChamp(nomChamp, id, noeud) {
   if ([CLE_GAZ_EFFETS_SERRE, CLE_CLASSE_ENERGIE].includes(nomChamp)) {
     nouvelleDiv.textContent = `${label}`;
   } else if (nomChamp === "terrain") {
-    nouvelleDiv.classList.add(CLASSE_INFOS_ICONE);
     nouvelleDiv.innerHTML = `<img src="${chrome.runtime.getURL('images/icone-terrain.png')}" alt="icône terrain">`;
 
     const tailleTerrain = Number.parseInt(donnees.value_label);
     if (Number.isNaN(tailleTerrain)) {
       nouvelleDiv.innerHTML += `<p>${TEXTE_AUCUN_TERRAIN}</p>`;
     } else {
-      nouvelleDiv.innerHTML += `<p><span class="${CLASSE_INFOS_TERRAIN}">${tailleTerrain}</span>m²</p>`;
+      nouvelleDiv.innerHTML += `<p><span class="${CLASSE_INFOS_VALEUR}">${tailleTerrain}</span>m²</p>`;
     }
   } else if (nomChamp === CLE_SURFACE_HABITABLE) {
     // On récupère le nombre de pièces en plus
-    // const nbPieces = extraireObjet(CLE_NB_PIECES, listing[id]);
-    console.log("nbPieces", nbPieces);
+    const nbPieces = extraireObjet(CLE_NB_PIECES, listing[id]).value;
+    const surfaceHabitable = Number.parseInt(label);
+
+    nouvelleDiv.innerHTML = `<img src="${chrome.runtime.getURL('images/icone-maison.png')}" alt="plan maison"><p><span class="${CLASSE_INFOS_VALEUR}">${surfaceHabitable}</span>m² — <span class="${CLASSE_INFOS_VALEUR}">${nbPieces}</span>pièces</p>`;
   } else {
     nouvelleDiv.textContent = `${donnees.key_label} : ${label}`;
   }
