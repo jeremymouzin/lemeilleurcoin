@@ -23,10 +23,12 @@ const CLE_NB_PIECES = 'rooms';
 const CLE_SURFACE_HABITABLE = 'square';
 const CLE_CLASSE_ENERGIE = 'energy_rate';
 const CLE_GAZ_EFFETS_SERRE = 'ges';
+const CLE_LIEU = 'location';
 
 const NOM_LABELS = {
   [CLE_NB_PIECES]: "Pièces",
   [CLE_SURFACE_HABITABLE]: "Surface",
+  [CLE_LIEU]: "Lieu",
 };
 
 // Gestion du filtrage par taille de terrain

@@ -93,6 +93,8 @@ function ameliorerListing() {
 
     ajouterChamp(CLE_SURFACE_HABITABLE, id, infosBien);
 
+    ajouterChamp(CLE_LIEU, id, infosBien);
+
     ajouterChamp(CLE_CLASSE_ENERGIE, id, infosBien);
     ajouterChamp(CLE_GAZ_EFFETS_SERRE, id, infosBien);
 
@@ -191,6 +193,7 @@ function creerBoutonPhoto(classe) {
 }
 
 function ajouterChamp(nomChamp, id, noeud) {
+  console.log(listing[id]);
   const donnees = extraireObjet(nomChamp, listing[id]);
   let label = donnees.value_label;
   let lettre = donnees.value_label[0];
@@ -226,6 +229,8 @@ function ajouterChamp(nomChamp, id, noeud) {
     const surfaceHabitable = Number.parseInt(label);
 
     nouvelleDiv.innerHTML = `<img src="${chrome.runtime.getURL('images/icone-maison.png')}" alt="plan maison"><p><span class="${CLASSE_INFOS_VALEUR}">${surfaceHabitable}</span>m² — <span class="${CLASSE_INFOS_VALEUR}">${nbPieces}</span>pièces</p>`;
+  } else if (nomChamp === CLE_LIEU) {
+    nouvelleDiv.innerHTML = `<img src="${chrome.runtime.getURL('images/icone-gps.png')}" alt="GPS"><p><span>${label}</span></p>`;
   } else {
     nouvelleDiv.textContent = `${donnees.key_label} : ${label}`;
   }
@@ -276,6 +281,11 @@ function extraireObjet(nomChamp, objListing) {
       key_label: "☘️",
       value_label: surfacesTerrain[0].tailleEnM2 === 0 ? TEXTE_AUCUN_TERRAIN : surfacesTerrain[0].label,
     };
+  } else if (nomChamp === CLE_LIEU) {
+    return {
+      key_label: NOM_LABELS[nomChamp],
+      value_label: objListing.location.city_label,
+    }
   } else {
     for (const attr of objListing.attributes) {
       if (attr.key === nomChamp) {
