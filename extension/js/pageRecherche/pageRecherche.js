@@ -193,7 +193,6 @@ function creerBoutonPhoto(classe) {
 }
 
 function ajouterChamp(nomChamp, id, noeud) {
-  console.log(listing[id]);
   const donnees = extraireObjet(nomChamp, listing[id]);
   let label = donnees.value_label;
   let lettre = donnees.value_label[0];
@@ -201,20 +200,7 @@ function ajouterChamp(nomChamp, id, noeud) {
   const nouvelleDiv = document.createElement('div');
   nouvelleDiv.classList.add(CLASSE_INFOS_ICONE);
 
-  if ([CLE_GAZ_EFFETS_SERRE, CLE_CLASSE_ENERGIE].includes(nomChamp)) {
-    nouvelleDiv.classList.add(CLASSE_LABEL_ENERGIE);
-    // Cas particuliers N => Non renseigné, V => Vierge
-    if (['N', 'V'].includes(lettre)) {
-      lettre = '?';
-      nouvelleDiv.style.backgroundColor = '#A1A1A1';
-    }
-    // On affiche que la lettre
-    label = lettre;
-  }
-
-  if ([CLE_GAZ_EFFETS_SERRE, CLE_CLASSE_ENERGIE].includes(nomChamp)) {
-    nouvelleDiv.textContent = `${label}`;
-  } else if (nomChamp === "terrain") {
+  if (nomChamp === "terrain") {
     nouvelleDiv.innerHTML = `<img src="${chrome.runtime.getURL('images/icone-terrain.png')}" alt="icône terrain">`;
 
     const tailleTerrain = Number.parseInt(donnees.value_label);
@@ -231,32 +217,45 @@ function ajouterChamp(nomChamp, id, noeud) {
     nouvelleDiv.innerHTML = `<img src="${chrome.runtime.getURL('images/icone-maison.png')}" alt="plan maison"><p><span class="${CLASSE_INFOS_VALEUR}">${surfaceHabitable}</span>m² — <span class="${CLASSE_INFOS_VALEUR}">${nbPieces}</span>pièces</p>`;
   } else if (nomChamp === CLE_LIEU) {
     nouvelleDiv.innerHTML = `<img src="${chrome.runtime.getURL('images/icone-gps.png')}" alt="GPS"><p><span>${label}</span></p>`;
-  } else {
-    nouvelleDiv.textContent = `${donnees.key_label} : ${label}`;
   }
 
   if (nomChamp === CLE_CLASSE_ENERGIE) {
-    nouvelleDiv.style.backgroundColor = COULEURS_ENERGIE[lettre];
-    if ('C' <= lettre && lettre <= 'E' || ['N', 'V'].includes(lettre)) {
-      nouvelleDiv.style.color = '#1A1A1A';
-    } else {
-      nouvelleDiv.style.color = 'white';
-    }
-  }
+    // On récupère le GES en plus
+    const ges = extraireObjet(CLE_GAZ_EFFETS_SERRE, listing[id]);
+    let lettreGes = ges.value_label[0];
 
-  if (nomChamp === CLE_GAZ_EFFETS_SERRE) {
-    nouvelleDiv.style.backgroundColor = COULEURS_ENERGIE[lettre];
-    if ('C' <= lettre && lettre <= 'E' || ['N', 'V'].includes(lettre)) {
-      nouvelleDiv.style.color = '#1A1A1A';
-    } else {
-      nouvelleDiv.style.color = 'white';
-    }
+    let style = calculerStyleLabelEnergie(lettreGes);
+
+    nouvelleDiv.innerHTML += `<img src="${chrome.runtime.getURL('images/icone-ges.png')}"><div class="${CLASSE_LABEL_ENERGIE}" style="background-color: ${style.backgroundColor}; color: ${style.color};">${style.lettre}</div>`;
+
+    style = calculerStyleLabelEnergie(lettre);
+
+    nouvelleDiv.innerHTML += `<img src="${chrome.runtime.getURL('images/icone-energie.png')}" style="margin-left: 2.4rem"><div class="${CLASSE_LABEL_ENERGIE}" style="background-color: ${style.backgroundColor}; color: ${style.color};">${style.lettre}</div>`;
   }
 
   noeud.append(nouvelleDiv);
 
   if (nomChamp === "terrain") {
     return label;
+  }
+}
+
+function calculerStyleLabelEnergie(lettre) {
+  let backgroundColor = COULEURS_ENERGIE[lettre];
+  let color = "white";
+
+  if (['N', 'V'].includes(lettre)) {
+    lettre = '?';
+    backgroundColor = '#A1A1A1';
+  }
+  if ('C' <= lettre && lettre <= 'E' || ['N', 'V'].includes(lettre)) {
+    color = '#1A1A1A';
+  }
+
+  return {
+    lettre,
+    backgroundColor,
+    color,
   }
 }
 
