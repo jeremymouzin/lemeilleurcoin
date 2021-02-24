@@ -80,7 +80,8 @@ function ameliorerListing() {
     const lastDiv = resultat.querySelector(DERNIERE_DIV_INFOS_ITEM);
 
     // Création de nouvelles informations
-    const fieldSet = creerFieldSetLMC();
+    const fieldSet = document.createElement('fieldset');
+
     const tailleTerrain = ajouterChamp('terrain', id, fieldSet);
     resultat.dataset.surfaceTerrain = tailleTerrain;
     ajouterChamp(CLE_CLASSE_ENERGIE, id, fieldSet);
@@ -185,18 +186,6 @@ function creerBoutonPhoto(classe) {
   bouton.innerHTML = "&#10132;";
 
   return bouton;
-}
-
-function creerFieldSetLMC() {
-  const fieldSet = document.createElement('fieldset');
-  fieldSet.classList.add(CLASSE_FIELDSET);
-
-  const legende = document.createElement('legend');
-  legende.classList.add(CLASSE_FIELDSET_LEGEND);
-  legende.textContent = TEXTE_FIELDSET_LEGEND;
-
-  fieldSet.append(legende);
-  return fieldSet;
 }
 
 function ajouterChamp(nomChamp, id, noeud) {
@@ -308,9 +297,15 @@ function creerInputNumber(id, label, valeur) {
 function ajoutFiltrageSurfaceTerrain() {
   const barreOutils = document.querySelector(BARRE_OUTILS_RECHERCHE_DIV);
 
-  const fieldSet = creerFieldSetLMC();
+  const fieldSet = document.createElement('fieldset');
   fieldSet.classList.add(CLASSE_FILTRE_TERRAIN);
-
+  /*
+  <p class="title">terrain</p>
+  
+  <p>Entre <input type="number"> et <input type="number"> m2
+    
+    <button>Filtrer</button>
+    */
   const VALEURS_TERRAIN = {
     CLE_TERRAIN_MIN: DEFAUT_TERRAIN_MIN_EN_M2,
     CLE_TERRAIN_MAX: DEFAUT_TERRAIN_MAX_EN_M2,
@@ -321,10 +316,10 @@ function ajoutFiltrageSurfaceTerrain() {
     const surfaceTerrainMin = result.CLE_TERRAIN_MIN;
     const surfaceTerrainMax = result.CLE_TERRAIN_MAX;
 
-    const labelMin = creerInputNumber(INPUT_TERRAIN_MIN_ID, TEXTE_LABEL_TERRAIN_MIN, surfaceTerrainMin);
-    const labelMax = creerInputNumber(INPUT_TERRAIN_MAX_ID, TEXTE_LABEL_TERRAIN_MAX, surfaceTerrainMax);
-    fieldSet.append(labelMin);
-    fieldSet.append(labelMax);
+    fieldSet.innerHTML = `<p class=${CLASSE_TITRE_TERRAIN}>terrain</p>
+
+    <p>Entre <input type="number" id="${INPUT_TERRAIN_MIN_ID}" value="${surfaceTerrainMin}" onfocus="this.select();"> et <input type="number" id="${INPUT_TERRAIN_MAX_ID}" value="${surfaceTerrainMax}" onfocus="this.select();"> m²</p>
+    `;
 
     const boutonValider = document.createElement('button');
     boutonValider.textContent = TEXTE_BOUTON_FILTRER;
@@ -338,8 +333,8 @@ function ajoutFiltrageSurfaceTerrain() {
 }
 
 function filtrerResultatsParTerrain() {
-  const inputTerrainMin = document.querySelector(`#${INPUT_TERRAIN_MIN_ID}`);
-  const inputTerrainMax = document.querySelector(`#${INPUT_TERRAIN_MAX_ID}`);
+  const inputTerrainMin = document.querySelector(`#${INPUT_TERRAIN_MIN_ID} `);
+  const inputTerrainMax = document.querySelector(`#${INPUT_TERRAIN_MAX_ID} `);
 
   if (inputTerrainMin === null || inputTerrainMax === null) return;
 

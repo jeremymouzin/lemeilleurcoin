@@ -20,17 +20,21 @@ On préfixe les classes de "lmc-" (acronyme de Le Meilleur Coin) pour éviter d'
   align-items: center;
 }
 
-.lmc-fieldset {
+.lmc-filtre-terrain {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  background-color: var(--lmc-background-color);
-  margin-top: 1rem;
-  border-radius: 6px;
-  padding: 12px;
+  padding: 0 1.2rem;
   font-size: 1.4rem;
-  border: 1px solid var(--lmc-accent-color);
-  margin-bottom: 2rem;
+}
+
+.lmc-titre-terrain {
+  color: #8A8A8A;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+  padding-top: 1.2rem;
+  font-weight: 600;
+  letter-spacing: .04em;
 }
 
 .lmc-legende {
@@ -55,7 +59,7 @@ On préfixe les classes de "lmc-" (acronyme de Le Meilleur Coin) pour éviter d'
 
 .lmc-filtre-terrain input {
   --height: 3rem;
-  margin-left: 1rem;
+  margin: 0 .8rem 1.2rem;
   font-size: 1.4rem;
   border-radius: var(--height);
   border: 1px solid var(--lmc-accent-color);
@@ -64,6 +68,8 @@ On préfixe les classes de "lmc-" (acronyme de Le Meilleur Coin) pour éviter d'
   max-width: 10rem;
   padding: 0 2rem;
   outline: none;
+  max-width: 10.5ch;
+  vertical-align: baseline;
 }
 
 .lmc-filtre-terrain input:focus,
