@@ -103,3 +103,8 @@ On préfixe les classes de "lmc-" (acronyme de Le Meilleur Coin) pour éviter d'
   left: calc(var(--largeur-photo) - var(--marge));
   transform: translate(-100%, -50%);
 }
+
+span[data-qa-id="aditem_price"].lmc-item-prix {
+  font-size: 4.8rem;
+  margin-top: 1.2rem;
+}

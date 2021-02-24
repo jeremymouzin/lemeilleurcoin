@@ -92,9 +92,6 @@ function ameliorerListing() {
     const titreItem = resultat.querySelector(TITRE_ITEM);
     titreItem.remove();
 
-    const pieces = extraireObjet(CLE_NB_PIECES, listing[id]);
-    const surface = extraireObjet(CLE_SURFACE_HABITABLE, listing[id]);
-
     // Boutons pour voir toutes les photos
     const photoItem = resultat.querySelector(PHOTO_ITEM);
     const boutonAvant = creerBoutonPhoto(CLASSE_BOUTON_PHOTO_AVANT);
@@ -153,7 +150,7 @@ function ameliorerListing() {
   // Augmentation de la taille de police du prix;
   const prixItem = document.querySelectorAll(PRIX_ITEM);
   prixItem.forEach(prix => {
-    prix.style.fontSize = "4.8rem";
+    prix.classList.add("lmc-item-prix");
   });
 
   // Suppression des pubs TABOOLA
