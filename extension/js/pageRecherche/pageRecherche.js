@@ -177,6 +177,12 @@ function ameliorerListing() {
     }
   })
 
+  // Suppression des pubs GOOGLE
+  pubs = document.querySelectorAll(PUB_GOOGLE);
+  pubs.forEach(pub => {
+    pub.style.display = 'none';
+  });
+
   // Filtrage par taille du terrain
   filtrerResultatsParTerrain();
 }

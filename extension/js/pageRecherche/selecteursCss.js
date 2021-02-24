@@ -44,3 +44,4 @@ const DERNIERE_DIV_INFOS_ITEM = 'div > div > div > div + div > div + div';
 const PUB_TABOOLA = '[id*="taboola"]';
 const PUB_CRITEO = '[id*="criteo"]';
 const PUB_CRITEO_PARENT = '[class*="styles_order"]';
+const PUB_GOOGLE = 'div.googleafs';
