@@ -1,5 +1,6 @@
 let listing;
 let observateur;
+let filtrageActif = false;
 
 function pageRecherche() {
   // On récupère les données du document au chargement de la page
@@ -28,6 +29,8 @@ function pageRecherche() {
           const doc = parser.parseFromString(texteHtml, "text/html");
 
           listing = recupererDonnees(doc);
+          // Lorsqu'on change de page on désactive le filtre qui va se réactiver automatiquement après
+          filtrageActif = false;
           ameliorerListing();
         });
     } else {
@@ -325,18 +328,44 @@ function ajoutFiltrageSurfaceTerrain() {
     <p>Entre <input type="number" id="${INPUT_TERRAIN_MIN_ID}" value="${surfaceTerrainMin}" onfocus="this.select();"> et <input type="number" id="${INPUT_TERRAIN_MAX_ID}" value="${surfaceTerrainMax}" onfocus="this.select();"> m²</p>
     `;
 
-    const boutonValider = document.createElement('button');
-    boutonValider.textContent = TEXTE_BOUTON_FILTRER;
+    const boutonFiltrer = document.createElement('button');
+    boutonFiltrer.id = ID_BOUTON_FILTRER;
+    boutonFiltrer.textContent = TEXTE_BOUTON_FILTRER;
 
-    boutonValider.addEventListener('click', filtrerResultatsParTerrain);
+    boutonFiltrer.addEventListener('click', filtrerResultatsParTerrain);
 
-    fieldSet.append(boutonValider);
+    fieldSet.append(boutonFiltrer);
     barreOutils.after(fieldSet);
 
   });
 }
 
 function filtrerResultatsParTerrain() {
+  const boutonFiltrer = document.querySelector(`#${ID_BOUTON_FILTRER}`);
+
+  if (filtrageActif) {
+    // Si le filtrage est actif, on le désactive
+    filtrageActif = false;
+    if (boutonFiltrer) {
+      boutonFiltrer.textContent = TEXTE_BOUTON_FILTRER;
+      boutonFiltrer.style.backgroundColor = "";
+
+      const listeResultats = document.querySelectorAll(ITEM);
+      for (const resultat of listeResultats) {
+        const parent = resultat.parentElement;
+        parent.style.display = 'block';
+      }
+      return;
+    }
+  } else {
+    // Si le filtrage est inactif, on l'active
+    if (boutonFiltrer) {
+      filtrageActif = true;
+      boutonFiltrer.textContent = TEXTE_BOUTON_DESACTIVER_FILTRER;
+      boutonFiltrer.style.backgroundColor = "red";
+    }
+  }
+
   const inputTerrainMin = document.querySelector(`#${INPUT_TERRAIN_MIN_ID} `);
   const inputTerrainMax = document.querySelector(`#${INPUT_TERRAIN_MAX_ID} `);
 
@@ -360,14 +389,20 @@ function filtrerResultatsParTerrain() {
       // Si l'utilisateur n'a rien mis comme surface maximale, on ne met pas de limite
       if (surfaceMax === 0) surfaceMax = Number.POSITIVE_INFINITY;
 
-      surface = Number.parseInt(surface);
+      // S'il existe un terrain dont la taille est inconnue, on ne le cache jamais
+      if (surface === TEXTE_TAILLE_TERRAIN_INCONNUE) {
+        cacher = false;
+      } else {
+        surface = Number.parseInt(surface);
 
-      // S'il n'y a pas de terrain on met la surface à 0
-      if (Number.isNaN(surface)) surface = 0;
+        // S'il n'y a pas de terrain on met la surface à 0
+        if (Number.isNaN(surface)) surface = 0;
 
-      if (surface < surfaceMin || surface > surfaceMax) {
-        cacher = true;
+        if (surface < surfaceMin || surface > surfaceMax) {
+          cacher = true;
+        }
       }
+
       const parent = resultat.parentElement;
       parent.style.display = cacher ? 'none' : 'block';
     }

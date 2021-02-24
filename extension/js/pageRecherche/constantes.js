@@ -50,5 +50,9 @@ const CLASSE_INFOS_VALEUR = 'lmc-infos-valeur';
 
 // Contenu texte ajouté dynamiquement en JS
 const TEXTE_BOUTON_FILTRER = 'Filtrer';
+const TEXTE_BOUTON_DESACTIVER_FILTRER = 'Désactiver filtrage';
 const TEXTE_AUCUN_TERRAIN = 'Aucun terrain';
 const TEXTE_TAILLE_TERRAIN_INCONNUE = 'Terrain présent mais taille non mentionnée';
+
+// ID de certains éléments
+const ID_BOUTON_FILTRER = "lmc-bouton-filtrer";
