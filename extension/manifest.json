@@ -32,5 +32,14 @@
   ],
   "permissions": [
     "storage"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "images/*.png"
+      ],
+      "matches": [],
+      "extension_ids": []
+    }
   ]
 }

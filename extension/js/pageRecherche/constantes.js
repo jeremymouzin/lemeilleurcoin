@@ -43,6 +43,8 @@ const CLASSE_LABEL_ENERGIE = 'lmc-label-energie';
 const CLASSE_FILTRE_TERRAIN = 'lmc-filtre-terrain';
 const CLASSE_TITRE_TERRAIN = 'lmc-titre-terrain';
 const CLASSE_PHOTO_ITEM = 'lmc-photo';
+const CLASSE_INFOS_ICONE = 'lmc-infos-icone';
+const CLASSE_INFOS_TERRAIN = 'lmc-infos-terrain';
 
 // Contenu texte ajouté dynamiquement en JS
 const TEXTE_BOUTON_FILTRER = 'Filtrer';

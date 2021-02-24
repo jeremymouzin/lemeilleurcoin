@@ -77,20 +77,22 @@ function ameliorerListing() {
     // Filtrage des ID correspondant aux pubs !
     if (listing[id] === undefined) continue;
 
-    const lastDiv = resultat.querySelector(DERNIERE_DIV_INFOS_ITEM);
-
-    // Création de nouvelles informations
-    const fieldSet = document.createElement('fieldset');
-
-    const tailleTerrain = ajouterChamp('terrain', id, fieldSet);
-    resultat.dataset.surfaceTerrain = tailleTerrain;
-    ajouterChamp(CLE_CLASSE_ENERGIE, id, fieldSet);
-    ajouterChamp(CLE_GAZ_EFFETS_SERRE, id, fieldSet);
-    lastDiv.after(fieldSet);
-
     // Suppression du titre
     const titreItem = resultat.querySelector(TITRE_ITEM);
     titreItem.remove();
+
+    // Affichage des informations importantes avec les icônes
+    const infosBien = resultat.querySelector(DERNIERE_DIV_INFOS_ITEM);
+
+    // On supprime tout le contenu de base du site
+    infosBien.innerHTML = "";
+
+    // On ajoute les infos avec les icônes
+    const tailleTerrain = ajouterChamp('terrain', id, infosBien);
+    resultat.dataset.surfaceTerrain = tailleTerrain;
+
+    ajouterChamp(CLE_CLASSE_ENERGIE, id, infosBien);
+    ajouterChamp(CLE_GAZ_EFFETS_SERRE, id, infosBien);
 
     // Boutons pour voir toutes les photos
     const photoItem = resultat.querySelector(PHOTO_ITEM);
@@ -193,11 +195,6 @@ function ajouterChamp(nomChamp, id, noeud) {
 
   const nouvelleDiv = document.createElement('div');
 
-  if (nomChamp === "terrain") {
-    nouvelleDiv.style.fontSize = "2rem";
-    nouvelleDiv.style.fontWeight = "600";
-  }
-
   if ([CLE_GAZ_EFFETS_SERRE, CLE_CLASSE_ENERGIE].includes(nomChamp)) {
     nouvelleDiv.classList.add(CLASSE_LABEL_ENERGIE);
     // Cas particuliers N => Non renseigné, V => Vierge
@@ -212,7 +209,19 @@ function ajouterChamp(nomChamp, id, noeud) {
   if ([CLE_GAZ_EFFETS_SERRE, CLE_CLASSE_ENERGIE].includes(nomChamp)) {
     nouvelleDiv.textContent = `${label}`;
   } else if (nomChamp === "terrain") {
-    nouvelleDiv.textContent = `${donnees.key_label} ${label}`;
+    nouvelleDiv.classList.add(CLASSE_INFOS_ICONE);
+    nouvelleDiv.innerHTML = `<img src="${chrome.runtime.getURL('images/icone-terrain.png')}" alt="icône terrain">`;
+
+    const tailleTerrain = Number.parseInt(donnees.value_label);
+    if (Number.isNaN(tailleTerrain)) {
+      nouvelleDiv.innerHTML += `<p>${TEXTE_AUCUN_TERRAIN}</p>`;
+    } else {
+      nouvelleDiv.innerHTML += `<p><span class="${CLASSE_INFOS_TERRAIN}">${tailleTerrain}</span>m²</p>`;
+    }
+  } else if (nomChamp === CLE_SURFACE_HABITABLE) {
+    // On récupère le nombre de pièces en plus
+    // const nbPieces = extraireObjet(CLE_NB_PIECES, listing[id]);
+    console.log("nbPieces", nbPieces);
   } else {
     nouvelleDiv.textContent = `${donnees.key_label} : ${label}`;
   }
