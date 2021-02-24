@@ -96,9 +96,6 @@ describe("Conversion de surfaces", () => {
   });
 });
 
-// TODO
-// Vérifier aussi quand il apparaît le mot terrain dans la description mais qu'on extrait aucune superficie supérieure à celle de la surface habitable, un problème de parsing sûrement ? Si on détecte ça, il faut l'indiquer avec une icône
-
 /*
 
 L'objectif est d'extraire au mieux les surfaces des terrains des descriptions.

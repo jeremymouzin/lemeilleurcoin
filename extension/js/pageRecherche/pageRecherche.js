@@ -205,7 +205,7 @@ function ajouterChamp(nomChamp, id, noeud) {
 
     const tailleTerrain = Number.parseInt(donnees.value_label);
     if (Number.isNaN(tailleTerrain)) {
-      nouvelleDiv.innerHTML += `<p>${TEXTE_AUCUN_TERRAIN}</p>`;
+      nouvelleDiv.innerHTML += `<p>${donnees.value_label}</p>`;
     } else {
       nouvelleDiv.innerHTML += `<p><span class="${CLASSE_INFOS_VALEUR}">${tailleTerrain}</span>m²</p>`;
     }
@@ -274,15 +274,20 @@ function extraireObjet(nomChamp, objListing) {
       }
     }
 
-    const surfacesTerrain = extraireSurfacesTerrain(description, surfaceHabitable);
     // TODO : Gérer les surfaces avec plusieurs parcelles : faire la somme ?
-    return {
-      key_label: "☘️",
-      value_label: surfacesTerrain[0].tailleEnM2 === 0 ? TEXTE_AUCUN_TERRAIN : surfacesTerrain[0].label,
-    };
+    const surfacesTerrain = extraireSurfacesTerrain(description, surfaceHabitable)[0];
+    if (surfacesTerrain.motTerrainTrouve && surfacesTerrain.tailleEnM2 === 0) {
+      // On trouve le mot terrain dans la description mais aucune mention de sa taille ! Il faut l'indiquer à l'utilisateur
+      return {
+        value_label: TEXTE_TAILLE_TERRAIN_INCONNUE,
+      }
+    } else {
+      return {
+        value_label: surfacesTerrain.tailleEnM2 === 0 ? TEXTE_AUCUN_TERRAIN : surfacesTerrain.label,
+      };
+    }
   } else if (nomChamp === CLE_LIEU) {
     return {
-      key_label: NOM_LABELS[nomChamp],
       value_label: objListing.location.city_label,
     }
   } else {
@@ -292,7 +297,6 @@ function extraireObjet(nomChamp, objListing) {
       }
     }
     return {
-      key_label: NOM_LABELS[nomChamp],
       value_label: "inconnu",
     };
   }
