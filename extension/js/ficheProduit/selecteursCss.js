@@ -7,7 +7,7 @@ const DESCRIPTION = '[data-qa-id="adview_description_container"] span';
 // Prix dans la description
 const PRIX = '[data-qa-id="adview_spotlight_description_container"] [data-qa-id="adview_price"] > span';
 // Nom du lieu du bien
-const LIEU = '[data-qa-id="adview_spotlight_description_container"] > div:nth-child(2) > div > span';
+const LIEU = '[data-qa-id="adview_spotlight_description_container"] > div:nth-child(2) > div > span:last-child';
 // Date de parution de l'annonce
 const DATE_PARUTION = '[data-qa-id="adview_date"]';
 // Bouton "Voir plus"
