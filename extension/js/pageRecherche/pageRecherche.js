@@ -278,32 +278,12 @@ function extraireObjet(nomChamp, objListing) {
 
 /* Filtrage par taille de terrain */
 
-function creerInputNumber(id, label, valeur) {
-  const input = document.createElement('input');
-  input.type = "number";
-  input.value = valeur;
-  input.id = id;
-
-  const elLabel = document.createElement('label');
-  elLabel.textContent = label;
-  elLabel.for = id;
-  elLabel.appendChild(input);
-
-  return elLabel;
-}
-
 function ajoutFiltrageSurfaceTerrain() {
   const barreOutils = document.querySelector(BARRE_OUTILS_RECHERCHE_DIV);
 
   const fieldSet = document.createElement('fieldset');
   fieldSet.classList.add(CLASSE_FILTRE_TERRAIN);
-  /*
-  <p class="title">terrain</p>
-  
-  <p>Entre <input type="number"> et <input type="number"> m2
-    
-    <button>Filtrer</button>
-    */
+
   const VALEURS_TERRAIN = {
     CLE_TERRAIN_MIN: DEFAUT_TERRAIN_MIN_EN_M2,
     CLE_TERRAIN_MAX: DEFAUT_TERRAIN_MAX_EN_M2,
