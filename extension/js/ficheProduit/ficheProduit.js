@@ -50,14 +50,18 @@ function remonterInfosImportantes(surfacesTerrain, criteres) {
 
   // Ajout de la taille du terrain
   // TODO: Gérer le cas où il y a plusieurs terrains / parcelles : faire la somme ?
-  const taille = surfacesTerrain[0].label;
+  const taille = surfacesTerrain[0].tailleEnM2;
   const tailleTerrain = document.createElement('p');
-  tailleTerrain.classList.add('lmc-terrain');
+  tailleTerrain.classList.add('lmc-infos-icone');
 
-  tailleTerrain.textContent = `☘️ Terrain ${taille}`;
+  tailleTerrain.innerHTML = `<img src="${chrome.runtime.getURL('images/icone-terrain.png')}" alt="icône terrain"><p><span class="${CLASSE_INFOS_VALEUR}">${taille}</span>m²</p>`;
 
   const conteneurDescription = document.querySelector(SPOTLIGHT_DESCRIPTION);
   conteneurDescription.after(tailleTerrain);
+
+  // Suppression des options de l'annonce (remontée en tête de liste etc.)
+  const options = document.querySelector(OPTIONS_ANNONCE);
+  if (options !== null) options.remove();
 }
 
 function lienGoogleMaps() {
@@ -72,8 +76,6 @@ function lienGoogleMaps() {
 }
 
 function supprimerElementsInutiles() {
-  // Date de parution
-  cacherElement(DATE_PARUTION);
   // Référence inutile
   cacherElement(REFERENCE);
   // Honoraires, c'est déjà marqué dans l'annonce !

@@ -12,6 +12,8 @@ const LIEU = '[data-qa-id="adview_spotlight_description_container"] > div:nth-ch
 const DATE_PARUTION = '[data-qa-id="adview_date"]';
 // Bouton "Voir plus"
 const BOUTON_VOIR_PLUS = '[data-qa-id="adview_description_container"] button';
+// Options de l'annonce (remontée en tête de liste etc.)
+const OPTIONS_ANNONCE = '[class*="styles_Options"]';
 
 /* Critères */
 
