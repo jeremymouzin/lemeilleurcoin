@@ -15,15 +15,23 @@ Vous cherchez un bien immobilier sur le site [leboncoin.fr](https://www.leboncoi
 
 ## Quelles sont les améliorations apportées par l'extension ?
 
-Depuis les résultats de recherche :
-- Affichage du nombre de pièces, de la surface habitable, de la surface du terrain (si disponible), de la classe énergie et GES directement dans les résultats de recherche, plus besoin de cliquer pour avoir ses informations !
+Le principal atout de cette extension est la détection de la taille du terrain via les descriptions des biens et le filtrage par taille de terrain. Il y a encore plein d'autres améliorations pratiques listées ci-après.
+
+Filtrage lors des recherches :
+- Indiquez la taille min et max du terrain et filtrez les résultats en 1 clic !
+- Cachez les annonces qui vendent des biens à construire
+
+Informations complémentaires lors des recherches :
+- Surface du terrain (si disponible)
+- Photos en grand format avec possibilité de voir toutes les photos directement depuis la recherche !
+- Détection des projets de construction
+- Affichage d'informations utiles avec un design moderne : prix, surface habitable, nombre de pièces, localisation, classe énergie et GES
 
 Depuis une fiche produit :
+- Affichage de la taille du terrain
 - Un clic sur le nom de la commune du bien vous renvoie vers sa position dans Google Maps
 - Plus besoin de cliquer sur le lien "Voir plus" pour voir la description complète, l'extension le fait pour vous
-- Extraction de la taille du terrain depuis la description de l'annonce et mise en surbrillance de celle-ci (fond jaune)
-- Certaines informations importantes sont remontées tout en haut de l'annonce (Classe énergie, GES, taille du terrain)
-- Bien d'autres à venir !
+- Mise en surbrillance en jaune de la taille du terrain dans la description
 
 ## Vous voulez contribuer ?
 
