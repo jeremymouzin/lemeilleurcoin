@@ -29,9 +29,12 @@ function pageRecherche() {
           const doc = parser.parseFromString(texteHtml, "text/html");
 
           listing = recupererDonnees(doc);
-          // Lorsqu'on change de page on désactive le filtre qui va se réactiver automatiquement après
-          filtrageActif = false;
           ameliorerListing();
+
+          // Lorsqu'on change de page le listing se met à jour.
+          // Il faut refiltrer ce nouveau listing si le filtrage
+          // était activé avant le changement de page
+          if (filtrageActif) activerFiltrage();
         });
     } else {
       observateur.compteur++;
@@ -182,9 +185,6 @@ function ameliorerListing() {
   pubs.forEach(pub => {
     pub.style.display = 'none';
   });
-
-  // Filtrage par taille du terrain
-  filtrerResultatsParTerrain();
 }
 
 function augmenterTaillePhoto(photo) {
@@ -338,7 +338,7 @@ function ajoutFiltrageSurfaceTerrain() {
     boutonFiltrer.id = ID_BOUTON_FILTRER;
     boutonFiltrer.textContent = TEXTE_BOUTON_FILTRER;
 
-    boutonFiltrer.addEventListener('click', filtrerResultatsParTerrain);
+    boutonFiltrer.addEventListener('click', basculerFiltrage);
 
     fieldSet.append(boutonFiltrer);
     barreOutils.after(fieldSet);
@@ -346,71 +346,78 @@ function ajoutFiltrageSurfaceTerrain() {
   });
 }
 
-function filtrerResultatsParTerrain() {
+function basculerFiltrage() {
+  if (filtrageActif) {
+    desactiverFiltrage();
+  } else {
+    activerFiltrage();
+  }
+}
+
+function desactiverFiltrage() {
   const boutonFiltrer = document.querySelector(`#${ID_BOUTON_FILTRER}`);
 
-  if (filtrageActif) {
-    // Si le filtrage est actif, on le désactive
+  if (boutonFiltrer) {
     filtrageActif = false;
-    if (boutonFiltrer) {
-      boutonFiltrer.textContent = TEXTE_BOUTON_FILTRER;
-      boutonFiltrer.style.backgroundColor = "";
+    boutonFiltrer.textContent = TEXTE_BOUTON_FILTRER;
+    boutonFiltrer.style.backgroundColor = "";
 
-      const listeResultats = document.querySelectorAll(ITEM);
-      for (const resultat of listeResultats) {
-        const parent = resultat.parentElement;
-        parent.style.display = 'block';
-      }
-      return;
-    }
-  } else {
-    // Si le filtrage est inactif, on l'active
-    if (boutonFiltrer) {
-      filtrageActif = true;
-      boutonFiltrer.textContent = TEXTE_BOUTON_DESACTIVER_FILTRER;
-      boutonFiltrer.style.backgroundColor = "red";
+    const listeResultats = document.querySelectorAll(ITEM);
+    for (const resultat of listeResultats) {
+      const parent = resultat.parentElement;
+      parent.style.display = 'block';
     }
   }
+}
 
-  const inputTerrainMin = document.querySelector(`#${INPUT_TERRAIN_MIN_ID} `);
-  const inputTerrainMax = document.querySelector(`#${INPUT_TERRAIN_MAX_ID} `);
+function activerFiltrage() {
+  const boutonFiltrer = document.querySelector(`#${ID_BOUTON_FILTRER}`);
 
-  if (inputTerrainMin === null || inputTerrainMax === null) return;
+  if (boutonFiltrer) {
+    filtrageActif = true;
+    boutonFiltrer.textContent = TEXTE_BOUTON_DESACTIVER_FILTRER;
+    boutonFiltrer.style.backgroundColor = "red";
 
-  const surfaceMin = +inputTerrainMin.value;
-  let surfaceMax = +inputTerrainMax.value;
+    const inputTerrainMin = document.querySelector(`#${INPUT_TERRAIN_MIN_ID} `);
+    const inputTerrainMax = document.querySelector(`#${INPUT_TERRAIN_MAX_ID} `);
 
-  // On sauvegarde les valeurs dans le stockage de l'extension
-  chrome.storage.sync.set({
-    CLE_TERRAIN_MIN: surfaceMin,
-    CLE_TERRAIN_MAX: surfaceMax
-  }, () => { });
+    if (inputTerrainMin === null || inputTerrainMax === null) return;
 
-  const listeResultats = document.querySelectorAll(ITEM);
-  for (const resultat of listeResultats) {
-    let cacher = false;
-    let surface = resultat.dataset.surfaceTerrain;
+    const surfaceMin = +inputTerrainMin.value;
+    let surfaceMax = +inputTerrainMax.value;
 
-    if (surface !== undefined) {
-      // Si l'utilisateur n'a rien mis comme surface maximale, on ne met pas de limite
-      if (surfaceMax === 0) surfaceMax = Number.POSITIVE_INFINITY;
+    // On sauvegarde les valeurs dans le stockage de l'extension
+    chrome.storage.sync.set({
+      CLE_TERRAIN_MIN: surfaceMin,
+      CLE_TERRAIN_MAX: surfaceMax
+    }, () => { });
 
-      // S'il existe un terrain dont la taille est inconnue, on ne le cache jamais
-      if (surface === TEXTE_TAILLE_TERRAIN_INCONNUE) {
-        cacher = false;
-      } else {
-        surface = Number.parseInt(surface);
+    const listeResultats = document.querySelectorAll(ITEM);
+    for (const resultat of listeResultats) {
+      let cacher = false;
+      let surface = resultat.dataset.surfaceTerrain;
 
-        // S'il n'y a pas de terrain on met la surface à 0
-        if (Number.isNaN(surface)) surface = 0;
+      if (surface !== undefined) {
+        // Si l'utilisateur n'a rien mis comme surface maximale, on ne met pas de limite
+        if (surfaceMax === 0) surfaceMax = Number.POSITIVE_INFINITY;
 
-        if (surface < surfaceMin || surface > surfaceMax) {
-          cacher = true;
+        // S'il existe un terrain dont la taille est inconnue, on ne le cache jamais
+        if (surface === TEXTE_TAILLE_TERRAIN_INCONNUE) {
+          cacher = false;
+        } else {
+          surface = Number.parseInt(surface);
+
+          // S'il n'y a pas de terrain on met la surface à 0
+          if (Number.isNaN(surface)) surface = 0;
+
+          if (surface < surfaceMin || surface > surfaceMax) {
+            cacher = true;
+          }
         }
-      }
 
-      const parent = resultat.parentElement;
-      parent.style.display = cacher ? 'none' : 'block';
+        const parent = resultat.parentElement;
+        parent.style.display = cacher ? 'none' : 'block';
+      }
     }
   }
 }
