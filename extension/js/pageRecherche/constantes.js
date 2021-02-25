@@ -31,11 +31,14 @@ const NOM_LABELS = {
   [CLE_LIEU]: "Lieu",
 };
 
-// Gestion du filtrage par taille de terrain
+// Gestion du filtrage par taille de terrain / type de bien
 const CLE_TERRAIN_MIN = 'terrainMin';
 const CLE_TERRAIN_MAX = 'terrainMax';
+const CLE_CACHER_PROJET_CONSTRUCTION = 'cacherProjetConstruction';
 const DEFAUT_TERRAIN_MIN_EN_M2 = 0;
 const DEFAUT_TERRAIN_MAX_EN_M2 = 4000;
+const DEFAULT_CACHER_PROJET_CONSTRUCTION = false;
+const TEXTE_CACHER_PROJET_CONSTRUCTION = "Cacher les projets de construction";
 
 // Nom des classes CSS utilisées
 const CLASSE_BOUTON_PHOTO_AVANT = 'lmc-bouton-avant';
@@ -43,6 +46,7 @@ const CLASSE_BOUTON_PHOTO_APRES = 'lmc-bouton-apres';
 const CLASSE_BOUTON_PHOTO = 'lmc-bouton-photo';
 const CLASSE_LABEL_ENERGIE = 'lmc-label-energie';
 const CLASSE_FILTRE_TERRAIN = 'lmc-filtre-terrain';
+const CLASSE_FILTRE_TERRAIN_LIGNE = 'lmc-filtre-terrain-ligne';
 const CLASSE_TITRE_TERRAIN = 'lmc-titre-terrain';
 const CLASSE_PHOTO_ITEM = 'lmc-photo';
 const CLASSE_INFOS_ICONE = 'lmc-infos-icone';

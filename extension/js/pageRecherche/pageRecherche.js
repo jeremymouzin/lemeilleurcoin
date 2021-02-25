@@ -338,16 +338,23 @@ function ajoutFiltrageSurfaceTerrain() {
   const VALEURS_TERRAIN = {
     CLE_TERRAIN_MIN: DEFAUT_TERRAIN_MIN_EN_M2,
     CLE_TERRAIN_MAX: DEFAUT_TERRAIN_MAX_EN_M2,
+    CLE_CACHER_PROJET_CONSTRUCTION: DEFAULT_CACHER_PROJET_CONSTRUCTION,
   };
 
   // Récupération des valeurs précédemment sauvegardées (ou utilisation de celles par défaut)
   chrome.storage.sync.get(VALEURS_TERRAIN, function (result) {
     const surfaceTerrainMin = result.CLE_TERRAIN_MIN;
     const surfaceTerrainMax = result.CLE_TERRAIN_MAX;
+    const cacherProjetConstruction = result.CLE_CACHER_PROJET_CONSTRUCTION;
 
     fieldSet.innerHTML = `<p class=${CLASSE_TITRE_TERRAIN}>terrain</p>
 
     <p>Entre <input type="number" id="${INPUT_TERRAIN_MIN_ID}" value="${surfaceTerrainMin}" onfocus="this.select();"> et <input type="number" id="${INPUT_TERRAIN_MAX_ID}" value="${surfaceTerrainMax}" onfocus="this.select();"> m²</p>
+
+    <div class="${CLASSE_FILTRE_TERRAIN_LIGNE}">
+    <input type="checkbox" id="${INPUT_CACHER_PROJET_CONSTRUCTION_ID}" ${cacherProjetConstruction ? "checked" : ""}>
+    <label for="${INPUT_CACHER_PROJET_CONSTRUCTION_ID}">${TEXTE_CACHER_PROJET_CONSTRUCTION}</label>
+    </div>
     `;
 
     const boutonFiltrer = document.createElement('button');
@@ -396,16 +403,19 @@ function activerFiltrage() {
 
     const inputTerrainMin = document.querySelector(`#${INPUT_TERRAIN_MIN_ID} `);
     const inputTerrainMax = document.querySelector(`#${INPUT_TERRAIN_MAX_ID} `);
+    let cacherProjetConstruction = document.querySelector(`#${INPUT_CACHER_PROJET_CONSTRUCTION_ID}`);
 
     if (inputTerrainMin === null || inputTerrainMax === null) return;
 
+    cacherProjetConstruction = cacherProjetConstruction.checked;
     const surfaceMin = +inputTerrainMin.value;
     let surfaceMax = +inputTerrainMax.value;
 
     // On sauvegarde les valeurs dans le stockage de l'extension
     chrome.storage.sync.set({
       CLE_TERRAIN_MIN: surfaceMin,
-      CLE_TERRAIN_MAX: surfaceMax
+      CLE_TERRAIN_MAX: surfaceMax,
+      CLE_CACHER_PROJET_CONSTRUCTION: cacherProjetConstruction,
     }, () => { });
 
     const listeResultats = document.querySelectorAll(ITEM);
@@ -420,6 +430,9 @@ function activerFiltrage() {
         // S'il existe un terrain dont la taille est inconnue, on ne le cache jamais
         if (surface === TEXTE_TAILLE_TERRAIN_INCONNUE) {
           cacher = false;
+        } else if (surface === TEXTE_PROJET_CONSTRUCTION && cacherProjetConstruction) {
+          // Si c'est un projet de construction et qu'on doit le cacher, on le cache !
+          cacher = true;
         } else {
           surface = Number.parseInt(surface);
 

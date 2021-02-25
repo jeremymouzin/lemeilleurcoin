@@ -19,6 +19,7 @@ const BARRE_OUTILS_RECHERCHE_DIV = 'body noscript + div + div > div:last-child >
 // ID des inputs terrain min et max
 const INPUT_TERRAIN_MIN_ID = 'terrainMin';
 const INPUT_TERRAIN_MAX_ID = 'terrainMax';
+const INPUT_CACHER_PROJET_CONSTRUCTION_ID = 'cacherProjetConstruction';
 
 // Titre inutile "Annonces Maison à vendre et vente appartement :"
 const TITRE_INUTILE = '[class*="styles_ListingFilters"] + div';

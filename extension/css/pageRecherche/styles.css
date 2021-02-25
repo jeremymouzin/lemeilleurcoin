@@ -69,6 +69,20 @@ On préfixe les classes de "lmc-" (acronyme de Le Meilleur Coin) pour éviter d'
   box-shadow: 0 0 0 1px var(--lmc-accent-color);
 }
 
+.lmc-filtre-terrain-ligne {
+  display: flex;
+  align-items: center;
+}
+
+.lmc-filtre-terrain-ligne label {
+  margin: 0 0 0 1rem;
+}
+
+.lmc-filtre-terrain-ligne input[type="checkbox"] {
+  margin: 0;
+  width: 1.6rem;
+}
+
 .lmc-photo {
   flex-basis: var(--largeur-photo) !important;
 }
