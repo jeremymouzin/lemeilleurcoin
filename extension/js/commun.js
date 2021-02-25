@@ -18,9 +18,18 @@ function cacherElement(selecteur) {
  */
 function extraireSurfacesTerrain(description, surfaceHabitable) {
   const REGEXP_TERRAIN = /((?:\d{1,}|\d{1,3}(?: |&nbsp;|\u00a0)\d{3})(?:[.,]\d{1,2})?)(?: |&nbsp;|\u00a0)?(m²|m2|ares?|has?|hectares?)(?=[^a-z]|$)/gi;
+  const LISTE_REGEXP_PROJET_CONSTRUCTION = [
+    /maison neuve à construire/gi,
+    /projet de construction/gi,
+  ]
+
   const surfacesTerrain = [];
 
   const motTerrainTrouve = description.search(/terrain/gi) >= 0;
+  let projetConstruction = false;
+  LISTE_REGEXP_PROJET_CONSTRUCTION.forEach(regexp => {
+    if (description.search(regexp) >= 0) projetConstruction = true;
+  });
 
   let correspondance;
   while (correspondance = REGEXP_TERRAIN.exec(description)) {
@@ -36,6 +45,7 @@ function extraireSurfacesTerrain(description, surfaceHabitable) {
         label: tailleEnM2 + ' m²',
         tailleOriginale,
         motTerrainTrouve,
+        projetConstruction,
       });
     }
   }
@@ -46,6 +56,7 @@ function extraireSurfacesTerrain(description, surfaceHabitable) {
       label: '0 m²',
       tailleOriginale: '0 m²',
       motTerrainTrouve,
+      projetConstruction,
     });
   }
 

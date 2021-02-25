@@ -212,9 +212,14 @@ function ajouterChamp(nomChamp, id, noeud) {
   if (nomChamp === "terrain") {
     nouvelleDiv.innerHTML = `<img src="${chrome.runtime.getURL('images/icone-terrain.png')}" alt="icône terrain">`;
 
-    const tailleTerrain = Number.parseInt(donnees.value_label);
+    if (label === TEXTE_PROJET_CONSTRUCTION) {
+      nouvelleDiv.innerHTML += `<img src="${chrome.runtime.getURL('images/icone-construction.png')}" alt="icône construction">`;
+      nouvelleDiv.style.color = "red";
+    }
+
+    const tailleTerrain = Number.parseInt(label);
     if (Number.isNaN(tailleTerrain)) {
-      nouvelleDiv.innerHTML += `<p>${donnees.value_label}</p>`;
+      nouvelleDiv.innerHTML += `<p>${label}</p>`;
     } else {
       nouvelleDiv.innerHTML += `<p><span class="${CLASSE_INFOS_VALEUR}">${tailleTerrain}</span>m²</p>`;
     }
@@ -285,16 +290,24 @@ function extraireObjet(nomChamp, objListing) {
 
     // TODO : Gérer les surfaces avec plusieurs parcelles : faire la somme ?
     const surfacesTerrain = extraireSurfacesTerrain(description, surfaceHabitable)[0];
+
+    // Si c'est un projet en construction, on l'indique à l'utilisateur
+    if (surfacesTerrain.projetConstruction) {
+      return {
+        value_label: TEXTE_PROJET_CONSTRUCTION,
+      }
+    }
+
+    // Si on trouve le mot terrain dans la description mais aucune mention de sa taille, il faut l'indiquer à l'utilisateur
     if (surfacesTerrain.motTerrainTrouve && surfacesTerrain.tailleEnM2 === 0) {
-      // On trouve le mot terrain dans la description mais aucune mention de sa taille ! Il faut l'indiquer à l'utilisateur
       return {
         value_label: TEXTE_TAILLE_TERRAIN_INCONNUE,
       }
-    } else {
-      return {
-        value_label: surfacesTerrain.tailleEnM2 === 0 ? TEXTE_AUCUN_TERRAIN : surfacesTerrain.label,
-      };
     }
+
+    return {
+      value_label: surfacesTerrain.tailleEnM2 === 0 ? TEXTE_AUCUN_TERRAIN : surfacesTerrain.label,
+    };
   } else if (nomChamp === CLE_LIEU) {
     return {
       value_label: objListing.location.city_label,
