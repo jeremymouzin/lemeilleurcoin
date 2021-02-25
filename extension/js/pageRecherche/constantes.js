@@ -8,28 +8,12 @@ const COULEURS_ENERGIE = {
   'G': '#fa1c1f',
 };
 
-const COULEURS_GES = {
-  'A': '#f6edfe',
-  'B': '#e4c7fb',
-  'C': '#d2adf1',
-  'D': '#c99aef',
-  'E': '#b77ae9',
-  'F': '#a659e9',
-  'G': '#8835d9',
-};
-
 // Clé des données récupérées depuis le <script> transformé en JSON
 const CLE_NB_PIECES = 'rooms';
 const CLE_SURFACE_HABITABLE = 'square';
 const CLE_CLASSE_ENERGIE = 'energy_rate';
 const CLE_GAZ_EFFETS_SERRE = 'ges';
 const CLE_LIEU = 'location';
-
-const NOM_LABELS = {
-  [CLE_NB_PIECES]: "Pièces",
-  [CLE_SURFACE_HABITABLE]: "Surface",
-  [CLE_LIEU]: "Lieu",
-};
 
 // Gestion du filtrage par taille de terrain / type de bien
 const CLE_TERRAIN_MIN = 'terrainMin';
