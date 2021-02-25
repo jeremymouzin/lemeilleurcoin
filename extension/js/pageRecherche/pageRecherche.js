@@ -319,6 +319,9 @@ function ajoutFiltrageSurfaceTerrain() {
   const fieldSet = document.createElement('fieldset');
   fieldSet.classList.add(CLASSE_FILTRE_TERRAIN);
 
+  // Quand l'utilisateur change une valeur de filtre, on désactive le filtrage en cours
+  fieldSet.addEventListener('input', desactiverFiltrage);
+
   const VALEURS_TERRAIN = {
     CLE_TERRAIN_MIN: DEFAUT_TERRAIN_MIN_EN_M2,
     CLE_TERRAIN_MAX: DEFAUT_TERRAIN_MAX_EN_M2,
