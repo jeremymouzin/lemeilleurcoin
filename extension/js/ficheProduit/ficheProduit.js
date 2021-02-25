@@ -29,10 +29,6 @@ function mettreEnSurbrillance(description, surfacesTerrain) {
 }
 
 function remonterInfosImportantes(surfacesTerrain, criteres) {
-  const conteneurDescription = document.querySelector(SPOTLIGHT_DESCRIPTION);
-
-  // Déplacement des critères énergétiques en haut
-  conteneurDescription.after(criteres);
 
   // Critères énergétiques en plus gros
   const energie = document.querySelector(CLASSE_ENERGIE_LETTRES);
@@ -59,6 +55,8 @@ function remonterInfosImportantes(surfacesTerrain, criteres) {
   tailleTerrain.classList.add('lmc-terrain');
 
   tailleTerrain.textContent = `☘️ Terrain ${taille}`;
+
+  const conteneurDescription = document.querySelector(SPOTLIGHT_DESCRIPTION);
   conteneurDescription.after(tailleTerrain);
 }
 
