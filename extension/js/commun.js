@@ -20,7 +20,7 @@ function extraireSurfacesTerrain(description, surfaceHabitable) {
   const REGEXP_TERRAIN = /((?:\d{1,}|\d{1,3}(?: |&nbsp;|\u00a0)\d{3})(?:[.,]\d{1,2})?)(?: |&nbsp;|\u00a0)?(m²|m2|ares?|has?|hectares?)(?=[^a-z]|$)/gi;
   const surfacesTerrain = [];
 
-  const motTerrainTrouve = description.search("terrain") >= 0;
+  const motTerrainTrouve = description.search(/terrain/gi) >= 0;
 
   let correspondance;
   while (correspondance = REGEXP_TERRAIN.exec(description)) {
