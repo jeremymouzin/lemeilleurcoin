@@ -38,7 +38,7 @@ const CLE_CACHER_PROJET_CONSTRUCTION = 'cacherProjetConstruction';
 const DEFAUT_TERRAIN_MIN_EN_M2 = 0;
 const DEFAUT_TERRAIN_MAX_EN_M2 = 4000;
 const DEFAULT_CACHER_PROJET_CONSTRUCTION = false;
-const TEXTE_CACHER_PROJET_CONSTRUCTION = "Cacher les projets de construction";
+const TEXTE_CACHER_PROJET_CONSTRUCTION = "Ne pas afficher les projets de construction";
 
 // Nom des classes CSS utilisées
 const CLASSE_BOUTON_PHOTO_AVANT = 'lmc-bouton-avant';
