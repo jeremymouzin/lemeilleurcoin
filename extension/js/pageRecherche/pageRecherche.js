@@ -3,11 +3,6 @@ let observateur;
 let filtrageActif = false;
 
 function pageRecherche() {
-  // On récupère les données du document au chargement de la page
-  listing = recupererDonnees(document);
-  ameliorerHeader();
-  ameliorerListing();
-
   observateur = new MutationObserver(function (objets, observateur) {
     /*
     Le callback est appelé 2 fois :
@@ -17,7 +12,13 @@ function pageRecherche() {
     */
     if (observateur.compteur >= 2) {
       observateur.compteur = 1;
-      // C'est la 2ème fois que l'observateur est appelé, on peut mettre à jour la liste
+      // C'est la 2ème fois que l'observateur est appelé, on peut éventuellement mettre à jour la liste
+
+      // On ne met à jour que si on est sur une recherche dans ventes immobilières
+      if (!onEstDansVenteImmobiliere()) {
+        return;
+      }
+
       // On récupère la page avec les données depuis le cache
       fetch(window.location.href, { cache: 'force-cache' })
         .then(function (response) {
@@ -43,6 +44,19 @@ function pageRecherche() {
   observateur.compteur = 1;
   const elListing = document.querySelector(LISTING);
   if (elListing !== null) observateur.observe(elListing, { childList: true });
+
+  // On effectue des modifications sur la page que si on est sur la page de vente immobilière
+  if (onEstDansVenteImmobiliere()) {
+    // On récupère les données du document au chargement de la page
+    listing = recupererDonnees(document);
+    ameliorerHeader();
+    ameliorerListing();
+  }
+}
+
+function onEstDansVenteImmobiliere() {
+  const url = window.location.href;
+  return url.search('category=9') >= 0 || url.search('ventes_immobilieres') >= 0;
 }
 
 function pageRechercheFin() {
@@ -66,6 +80,7 @@ function recupererDonnees(document) {
       }
       return listing;
     } catch (erreur) {
+      console.error(erreur);
       rechargerCettePage();
     }
   } else {
@@ -304,9 +319,10 @@ function calculerStyleLabelEnergie(lettre) {
   }
 }
 
+// On extrait l'ID du bien depuis une URL comme par exemple :
+// https://www.leboncoin.fr/ventes_immobilieres/1863026394.htm?ac=558505705
 function extraireID(url) {
-  const id = url.split('.htm')[0].split('/ventes_immobilieres/')[1];
-  return id;
+  return /\/(\d*)\.htm/gi.exec(url)[1];
 }
 
 function extraireObjet(nomChamp, objListing) {
