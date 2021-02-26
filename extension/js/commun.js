@@ -5,6 +5,9 @@ const NOM_PAGE_RECHERCHE = 'listing';
 const NOM_PAGE_FICHE_PRODUIT = 'adview';
 const SELECTEUR_CSS_CONTENEUR_PRINCIPAL = '#container';
 
+// Classes CSS communes
+const CLASSE_INFOS_ICONE = 'lmc-infos-icone';
+
 function cacherElement(selecteur) {
   const el = document.querySelector(selecteur);
   if (el !== null) el.style.display = 'none';

@@ -34,25 +34,25 @@ function remonterInfosImportantes(surfacesTerrain, criteres) {
   const energie = document.querySelector(CRITERE_CLASSE_ENERGIE_LETTRES);
   if (energie !== null) {
     const energieActif = energie.querySelector(CRITERE_CLASSE_ENERGIE_LETTRE_ACTIVE);
-    energieActif.classList.add('lmc-energie-lettre-active');
+    energieActif.classList.add(CLASSE_ENERGIE_LETTRE_ACTIVE);
   }
 
   // Idem pour GES
   const ges = document.querySelector(GES_LETTRES);
   if (ges !== null) {
     const gesActif = ges.querySelector(CRITERE_CLASSE_ENERGIE_LETTRE_ACTIVE);
-    gesActif.classList.add('lmc-energie-lettre-active');
+    gesActif.classList.add(CLASSE_ENERGIE_LETTRE_ACTIVE);
   }
 
   // Prix en plus gros
   const prix = document.querySelector(PRIX);
-  prix.classList.add('lmc-prix');
+  prix.classList.add(CLASSE_PRIX);
 
   // Ajout de la taille du terrain
   // TODO: Gérer le cas où il y a plusieurs terrains / parcelles : faire la somme ?
   const taille = surfacesTerrain[0].tailleEnM2;
   const tailleTerrain = document.createElement('p');
-  tailleTerrain.classList.add('lmc-infos-icone');
+  tailleTerrain.classList.add(CLASSE_INFOS_ICONE);
 
   tailleTerrain.innerHTML = `<img src="${chrome.runtime.getURL('images/icone-terrain.png')}" alt="icône terrain"><p><span class="${CLASSE_INFOS_VALEUR}">${taille}</span>m²</p>`;
 
@@ -68,7 +68,7 @@ function lienGoogleMaps() {
   const googleMapsURL = 'https://www.google.fr/maps/search/';
   let lieu = document.querySelector(LIEU);
   if (lieu !== null) {
-    lieu.classList.add('lmc-lieu');
+    lieu.classList.add(CLASSE_LIEU);
     const nomLieu = lieu.firstChild.textContent;
     const urlFinale = googleMapsURL + nomLieu.replace(' ', '+');
     lieu.innerHTML = `<a href="${urlFinale}" target="_blank">${nomLieu}</a>`;
