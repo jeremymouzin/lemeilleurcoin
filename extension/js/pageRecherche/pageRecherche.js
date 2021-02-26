@@ -16,6 +16,8 @@ function pageRecherche() {
 
       // On ne met à jour que si on est sur une recherche dans ventes immobilières
       if (!onEstDansVenteImmobiliere()) {
+        // Sinon on retire les options de filtrage dans le header
+        supprimerHeader();
         return;
       }
 
@@ -28,8 +30,7 @@ function pageRecherche() {
           const parser = new DOMParser();
           const doc = parser.parseFromString(texteHtml, "text/html");
 
-          listing = recupererDonnees(doc);
-          ameliorerListing();
+          ameliorerInterface(doc);
 
           // Lorsqu'on change de page le listing se met à jour.
           // Il faut refiltrer ce nouveau listing si le filtrage
@@ -48,10 +49,16 @@ function pageRecherche() {
   // On effectue des modifications sur la page que si on est sur la page de vente immobilière
   if (onEstDansVenteImmobiliere()) {
     // On récupère les données du document au chargement de la page
-    listing = recupererDonnees(document);
-    ameliorerHeader();
-    ameliorerListing();
+    ameliorerInterface(document);
+  } else {
+    supprimerHeader();
   }
+}
+
+function ameliorerInterface(document) {
+  listing = recupererDonnees(document);
+  ameliorerListing();
+  ameliorerHeader();
 }
 
 function onEstDansVenteImmobiliere() {
@@ -100,6 +107,11 @@ function ameliorerHeader() {
   // Largeur 100% sur la liste des résultats
   const listeResultat = document.querySelector(LISTE_RESULTATS);
   if (listeResultat !== null) listeResultat.style.flexBasis = "100%";
+}
+
+function supprimerHeader() {
+  const elFiltrageTerrain = document.querySelector(`.${CLASSE_FILTRE_TERRAIN}`);
+  if (elFiltrageTerrain !== null) elFiltrageTerrain.remove();
 }
 
 function ameliorerListing() {
@@ -376,6 +388,10 @@ function extraireObjet(nomChamp, objListing) {
 function ajoutFiltrageSurfaceTerrain() {
   const barreOutils = document.querySelector(BARRE_OUTILS_RECHERCHE_DIV);
   if (barreOutils === null) return;
+
+  // On n'ajoute le filtrage que s'il n'y est pas déjà
+  const elFiltrageTerrain = document.querySelector(`.${CLASSE_FILTRE_TERRAIN}`);
+  if (elFiltrageTerrain !== null) return;
 
   const fieldSet = document.createElement('fieldset');
   fieldSet.classList.add(CLASSE_FILTRE_TERRAIN);
