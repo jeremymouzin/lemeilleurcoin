@@ -162,7 +162,7 @@ function ameliorerListing() {
   // Augmentation de la taille de police du prix;
   const prixItem = document.querySelectorAll(PRIX_ITEM);
   prixItem.forEach(prix => {
-    prix.classList.add("lmc-item-prix");
+    prix.classList.add(CLASSE_PRIX_ITEM);
   });
 
   // Suppression des pubs TABOOLA
@@ -188,7 +188,7 @@ function ameliorerListing() {
 }
 
 function augmenterTaillePhoto(photo) {
-  photo.classList.add('lmc-photo');
+  photo.classList.add(CLASSE_PHOTO_ITEM);
 }
 
 function creerBoutonPhoto(classe) {
