@@ -51,6 +51,10 @@ function pageRechercheFin() {
   }
 }
 
+function rechargerCettePage() {
+  window.location.assign(window.location);
+}
+
 function recupererDonnees(document) {
   const script = document.querySelector(DATA_ID);
   if (script !== null) {
@@ -62,8 +66,10 @@ function recupererDonnees(document) {
       }
       return listing;
     } catch (erreur) {
-      console.log(erreur);
+      rechargerCettePage();
     }
+  } else {
+    rechargerCettePage();
   }
 }
 
@@ -87,8 +93,11 @@ function ameliorerListing() {
     for (const resultat of listeResultats) {
       const id = extraireID(resultat.href);
 
-      // Filtrage des ID correspondant aux pubs !
-      if (listing[id] === undefined) continue;
+      // S'il manque une info pour un bien, on recharge la page
+      if (listing === undefined || listing[id] === undefined) {
+        rechargerCettePage();
+        return;
+      }
 
       // Suppression du titre
       const titreItem = resultat.querySelector(TITRE_ITEM);

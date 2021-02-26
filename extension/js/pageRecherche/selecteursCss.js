@@ -11,7 +11,7 @@ const DIV_PARENT_ITEM = 'div[class*="styles_adListItem"]';
 const LIEN_ITEM = 'a[data-qa-id*="aditem_container"]';
 
 // Balise <a> utilisée pour chaque item de la liste des résultats de recherche
-const ITEM = '[data-qa-id="aditem_container"]';
+const ITEM = `${LISTING} [class*="styles_adListItem"] [data-qa-id="aditem_container"]`;
 
 // Dernière div dans le header avec les options de recherche
 const BARRE_OUTILS_RECHERCHE_DIV = 'body noscript + div + div > div:last-child > div > div > div:nth-child(3)';
