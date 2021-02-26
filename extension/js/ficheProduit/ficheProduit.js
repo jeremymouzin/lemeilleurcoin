@@ -31,16 +31,16 @@ function mettreEnSurbrillance(description, surfacesTerrain) {
 function remonterInfosImportantes(surfacesTerrain, criteres) {
 
   // Critères énergétiques en plus gros
-  const energie = document.querySelector(CLASSE_ENERGIE_LETTRES);
+  const energie = document.querySelector(CRITERE_CLASSE_ENERGIE_LETTRES);
   if (energie !== null) {
-    const energieActif = energie.querySelector(CLASSE_ENERGIE_LETTRE_ACTIVE);
+    const energieActif = energie.querySelector(CRITERE_CLASSE_ENERGIE_LETTRE_ACTIVE);
     energieActif.classList.add('lmc-energie-lettre-active');
   }
 
   // Idem pour GES
   const ges = document.querySelector(GES_LETTRES);
   if (ges !== null) {
-    const gesActif = ges.querySelector(CLASSE_ENERGIE_LETTRE_ACTIVE);
+    const gesActif = ges.querySelector(CRITERE_CLASSE_ENERGIE_LETTRE_ACTIVE);
     gesActif.classList.add('lmc-energie-lettre-active');
   }
 
