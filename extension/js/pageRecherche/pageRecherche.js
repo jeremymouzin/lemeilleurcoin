@@ -8,7 +8,6 @@ function pageRecherche() {
   ameliorerHeader();
   ameliorerListing();
 
-  const elListing = document.querySelector(LISTING);
   observateur = new MutationObserver(function (objets, observateur) {
     /*
     Le callback est appelé 2 fois :
@@ -42,7 +41,8 @@ function pageRecherche() {
   });
   // On observe les changements sur les noeuds enfants de la liste
   observateur.compteur = 1;
-  observateur.observe(elListing, { childList: true });
+  const elListing = document.querySelector(LISTING);
+  if (elListing !== null) observateur.observe(elListing, { childList: true });
 }
 
 function pageRechercheFin() {
@@ -53,12 +53,18 @@ function pageRechercheFin() {
 
 function recupererDonnees(document) {
   const script = document.querySelector(DATA_ID);
-  const donnees = JSON.parse(script.textContent).props.pageProps.listingData.ads;
-  const listing = {};
-  for (donnee of donnees) {
-    listing[donnee.list_id] = donnee;
+  if (script !== null) {
+    try {
+      const donnees = JSON.parse(script.textContent).props.pageProps.listingData.ads;
+      const listing = {};
+      for (donnee of donnees) {
+        listing[donnee.list_id] = donnee;
+      }
+      return listing;
+    } catch (erreur) {
+      console.log(erreur);
+    }
   }
-  return listing;
 }
 
 function ameliorerHeader() {
@@ -68,123 +74,139 @@ function ameliorerHeader() {
 
   // Centrage des options de filtrage et de tri
   const barreOptions = document.querySelector(BARRE_OPTIONS_FILTRAGE_ET_TRI);
-  barreOptions.style.justifyContent = "center";
+  if (barreOptions !== null) barreOptions.style.justifyContent = "center";
 
   // Largeur 100% sur la liste des résultats
   const listeResultat = document.querySelector(LISTE_RESULTATS);
-  listeResultat.style.flexBasis = "100%";
+  if (listeResultat !== null) listeResultat.style.flexBasis = "100%";
 }
 
 function ameliorerListing() {
   const listeResultats = document.querySelectorAll(ITEM);
-  for (const resultat of listeResultats) {
-    const id = extraireID(resultat.href);
+  if (listeResultats !== null) {
+    for (const resultat of listeResultats) {
+      const id = extraireID(resultat.href);
 
-    // Filtrage des ID correspondant aux pubs !
-    if (listing[id] === undefined) continue;
+      // Filtrage des ID correspondant aux pubs !
+      if (listing[id] === undefined) continue;
 
-    // Suppression du titre
-    const titreItem = resultat.querySelector(TITRE_ITEM);
-    titreItem.remove();
+      // Suppression du titre
+      const titreItem = resultat.querySelector(TITRE_ITEM);
+      if (titreItem !== null) titreItem.remove();
 
-    // Affichage des informations importantes avec les icônes
-    const infosBien = resultat.querySelector(DERNIERE_DIV_INFOS_ITEM);
+      // Affichage des informations importantes avec les icônes
+      const infosBien = resultat.querySelector(DERNIERE_DIV_INFOS_ITEM);
+      if (infosBien === null) continue;
 
-    // On supprime tout le contenu de base du site
-    infosBien.innerHTML = "";
+      // On supprime tout le contenu de base du site
+      infosBien.innerHTML = "";
 
-    // On ajoute les infos avec les icônes
-    const tailleTerrain = ajouterChamp('terrain', id, infosBien);
-    resultat.dataset.surfaceTerrain = tailleTerrain;
+      // On ajoute les infos avec les icônes
+      const tailleTerrain = ajouterChamp('terrain', id, infosBien);
+      resultat.dataset.surfaceTerrain = tailleTerrain;
 
-    ajouterChamp(CLE_SURFACE_HABITABLE, id, infosBien);
+      ajouterChamp(CLE_SURFACE_HABITABLE, id, infosBien);
 
-    ajouterChamp(CLE_LIEU, id, infosBien);
+      ajouterChamp(CLE_LIEU, id, infosBien);
 
-    ajouterChamp(CLE_CLASSE_ENERGIE, id, infosBien);
-    ajouterChamp(CLE_GAZ_EFFETS_SERRE, id, infosBien);
+      ajouterChamp(CLE_CLASSE_ENERGIE, id, infosBien);
+      ajouterChamp(CLE_GAZ_EFFETS_SERRE, id, infosBien);
 
-    // Boutons pour voir toutes les photos
-    const photoItem = resultat.querySelector(PHOTO_ITEM);
-    const boutonAvant = creerBoutonPhoto(CLASSE_BOUTON_PHOTO_AVANT);
-    const boutonApres = creerBoutonPhoto(CLASSE_BOUTON_PHOTO_APRES);
+      // Boutons pour voir toutes les photos
+      const photoItem = resultat.querySelector(PHOTO_ITEM);
+      const boutonAvant = creerBoutonPhoto(CLASSE_BOUTON_PHOTO_AVANT);
+      const boutonApres = creerBoutonPhoto(CLASSE_BOUTON_PHOTO_APRES);
 
-    // On ajoute les boutons après le lien
-    const lienItem = photoItem.closest('a');
-    lienItem.after(boutonAvant);
-    lienItem.after(boutonApres);
+      // On ajoute les boutons après le lien
+      if (photoItem === null) continue;
+      const lienItem = photoItem.closest('a');
+      lienItem.after(boutonAvant);
+      lienItem.after(boutonApres);
 
-    // On "retient" le numéro de l'image sur le <a>
-    lienItem.dataset.numeroImage = 0;
+      // On "retient" le numéro de l'image sur le <a>
+      lienItem.dataset.numeroImage = 0;
 
-    function changerImage(e) {
-      const divParentItem = this.closest(DIV_PARENT_ITEM);
+      function changerImage(e) {
+        const divParentItem = this.closest(DIV_PARENT_ITEM);
+        if (divParentItem === null) return;
 
-      const a = divParentItem.querySelector(LIEN_ITEM);
-      let numeroImageActuel = +a.dataset.numeroImage;
+        const a = divParentItem.querySelector(LIEN_ITEM);
+        if (a === null) return;
+        let numeroImageActuel = +a.dataset.numeroImage;
 
-      const nombreImages = listing[id].images.nb_images;
-      const clicSurBoutonAvant = e.currentTarget.className.includes(CLASSE_BOUTON_PHOTO_AVANT);
-      numeroImageActuel += clicSurBoutonAvant ? -1 : 1;
+        const nombreImages = listing[id].images.nb_images;
+        const clicSurBoutonAvant = e.currentTarget.className.includes(CLASSE_BOUTON_PHOTO_AVANT);
+        numeroImageActuel += clicSurBoutonAvant ? -1 : 1;
 
-      // On boucle sur les images
-      if (numeroImageActuel > nombreImages - 1) {
-        numeroImageActuel = 0;
-      } else if (numeroImageActuel < 0) {
-        numeroImageActuel = nombreImages - 1;
+        // On boucle sur les images
+        if (numeroImageActuel > nombreImages - 1) {
+          numeroImageActuel = 0;
+        } else if (numeroImageActuel < 0) {
+          numeroImageActuel = nombreImages - 1;
+        }
+
+        const prochaineSrcImage = listing[id].images.urls[numeroImageActuel];
+
+        // On récupère l'image de l'item qu'on édite
+        const img = divParentItem.querySelector('img');
+
+        // Et on change sa source
+        if (img !== null) img.src = prochaineSrcImage;
+
+        // On stocke le numéro de l'image dans le lien <a>
+        a.dataset.numeroImage = numeroImageActuel;
       }
 
-      const prochaineSrcImage = listing[id].images.urls[numeroImageActuel];
-
-      // On récupère l'image de l'item qu'on édite
-      const img = divParentItem.querySelector('img');
-
-      // Et on change sa source
-      img.src = prochaineSrcImage;
-
-      // On stocke le numéro de l'image dans le lien <a>
-      a.dataset.numeroImage = numeroImageActuel;
+      boutonAvant.addEventListener('click', changerImage);
+      boutonApres.addEventListener('click', changerImage);
     }
-
-    boutonAvant.addEventListener('click', changerImage);
-    boutonApres.addEventListener('click', changerImage);
   }
 
   // Augmentation de la largeur de la photo
   const photoItem = document.querySelectorAll(PHOTO_ITEM);
-  photoItem.forEach(photo => {
-    augmenterTaillePhoto(photo);
-  });
+  if (photoItem !== null) {
+    photoItem.forEach(photo => {
+      augmenterTaillePhoto(photo);
+    });
+  }
 
   // Augmentation de la largeur des photos en lazy loading
   gererImagesLazyLoading();
 
   // Augmentation de la taille de police du prix;
   const prixItem = document.querySelectorAll(PRIX_ITEM);
-  prixItem.forEach(prix => {
-    prix.classList.add(CLASSE_PRIX_ITEM);
-  });
+  if (prixItem !== null) {
+    prixItem.forEach(prix => {
+      prix.classList.add(CLASSE_PRIX_ITEM);
+    });
+  }
 
   // Suppression des pubs TABOOLA
   let pubs = document.querySelectorAll(PUB_TABOOLA);
-  pubs.forEach(pub => {
-    pub.style.display = 'none';
-  });
+  if (pubs !== null) {
+    pubs.forEach(pub => {
+      pub.style.display = 'none';
+    });
+  }
 
   // Suppression des pubs CRITEO
   pubs = document.querySelectorAll(PUB_CRITEO);
-  pubs.forEach(pub => {
-    const parent = pub.closest('[class*="styles_order"]');
-    if (parent !== null) {
-      parent.style.display = 'none';
-    }
-  })
+  if (pubs !== null) {
+    pubs.forEach(pub => {
+      const parent = pub.closest('[class*="styles_order"]');
+      if (parent !== null) {
+        parent.style.display = 'none';
+      }
+    })
+  }
 
   // Suppression des pubs GOOGLE
   pubs = document.querySelectorAll(PUB_GOOGLE);
-  pubs.forEach(pub => {
-    pub.style.display = 'none';
-  });
+  if (pubs !== null) {
+    pubs.forEach(pub => {
+      pub.style.display = 'none';
+    });
+  }
 }
 
 function augmenterTaillePhoto(photo) {
@@ -328,6 +350,7 @@ function extraireObjet(nomChamp, objListing) {
 
 function ajoutFiltrageSurfaceTerrain() {
   const barreOutils = document.querySelector(BARRE_OUTILS_RECHERCHE_DIV);
+  if (barreOutils === null) return;
 
   const fieldSet = document.createElement('fieldset');
   fieldSet.classList.add(CLASSE_FILTRE_TERRAIN);
@@ -380,15 +403,17 @@ function basculerFiltrage() {
 function desactiverFiltrage() {
   const boutonFiltrer = document.querySelector(`#${ID_BOUTON_FILTRER}`);
 
-  if (boutonFiltrer) {
+  if (boutonFiltrer !== null) {
     filtrageActif = false;
     boutonFiltrer.textContent = TEXTE_BOUTON_FILTRER;
     boutonFiltrer.style.backgroundColor = "";
 
     const listeResultats = document.querySelectorAll(ITEM);
-    for (const resultat of listeResultats) {
-      const parent = resultat.parentElement;
-      parent.style.display = 'block';
+    if (listeResultats !== null) {
+      for (const resultat of listeResultats) {
+        const parent = resultat.parentElement;
+        parent.style.display = 'block';
+      }
     }
   }
 }
@@ -396,16 +421,16 @@ function desactiverFiltrage() {
 function activerFiltrage() {
   const boutonFiltrer = document.querySelector(`#${ID_BOUTON_FILTRER}`);
 
-  if (boutonFiltrer) {
-    filtrageActif = true;
-    boutonFiltrer.textContent = TEXTE_BOUTON_DESACTIVER_FILTRER;
-    boutonFiltrer.style.backgroundColor = "red";
-
+  if (boutonFiltrer !== null) {
     const inputTerrainMin = document.querySelector(`#${INPUT_TERRAIN_MIN_ID} `);
     const inputTerrainMax = document.querySelector(`#${INPUT_TERRAIN_MAX_ID} `);
     let cacherProjetConstruction = document.querySelector(`#${INPUT_CACHER_PROJET_CONSTRUCTION_ID}`);
 
-    if (inputTerrainMin === null || inputTerrainMax === null) return;
+    if (inputTerrainMin === null || inputTerrainMax === null || cacherProjetConstruction === null) return;
+
+    filtrageActif = true;
+    boutonFiltrer.textContent = TEXTE_BOUTON_DESACTIVER_FILTRER;
+    boutonFiltrer.style.backgroundColor = "red";
 
     cacherProjetConstruction = cacherProjetConstruction.checked;
     const surfaceMin = +inputTerrainMin.value;
@@ -419,6 +444,8 @@ function activerFiltrage() {
     }, () => { });
 
     const listeResultats = document.querySelectorAll(ITEM);
+    if (listeResultats === null) return;
+
     for (const resultat of listeResultats) {
       let cacher = false;
       let surface = resultat.dataset.surfaceTerrain;
@@ -459,6 +486,7 @@ L'objectif de ce code est de détecter quand une photo se charge et de lui réap
 function gererImagesLazyLoading() {
 
   const imgLazy = document.querySelectorAll(PHOTO_ITEM);
+  if (imgLazy === null) return;
 
   observateurImages = new MutationObserver(function (objets, observateur) {
     const photo = objets[0].target;

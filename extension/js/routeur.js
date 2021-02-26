@@ -5,15 +5,18 @@ const conteneurPrincipal = document.querySelector(SELECTEUR_CSS_CONTENEUR_PRINCI
 const observateurChangementDePage = new MutationObserver(function (objets, observateur) {
     const anciennePage = objets[0].oldValue;
     const nouvellePage = objets[0].target.dataset[ATTRIBUT_PAGE];
-    
+
     nettoyerScriptDePage(anciennePage);
     chargerScriptPourPage(nouvellePage);
 });
-observateurChangementDePage.observe(conteneurPrincipal, { attributes: true, attributeOldValue: true, attributeFilter: [ATTRIBUT_DATASET_PAGE] });
 
-// Détection de la page courante
-let pageCourante = conteneurPrincipal.dataset[ATTRIBUT_PAGE];
-chargerScriptPourPage(pageCourante);
+if (conteneurPrincipal !== null) {
+    observateurChangementDePage.observe(conteneurPrincipal, { attributes: true, attributeOldValue: true, attributeFilter: [ATTRIBUT_DATASET_PAGE] });
+
+    // Détection de la page courante
+    let pageCourante = conteneurPrincipal.dataset[ATTRIBUT_PAGE];
+    chargerScriptPourPage(pageCourante);
+}
 
 // On exécute le script qui va bien en fonction de la page
 function chargerScriptPourPage(pageCourante) {

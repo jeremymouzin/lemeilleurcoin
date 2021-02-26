@@ -34,19 +34,19 @@ function remonterInfosImportantes(surfacesTerrain, criteres) {
   const energie = document.querySelector(CRITERE_CLASSE_ENERGIE_LETTRES);
   if (energie !== null) {
     const energieActif = energie.querySelector(CRITERE_CLASSE_ENERGIE_LETTRE_ACTIVE);
-    energieActif.classList.add(CLASSE_ENERGIE_LETTRE_ACTIVE);
+    if (energieActif !== null) energieActif.classList.add(CLASSE_ENERGIE_LETTRE_ACTIVE);
   }
 
   // Idem pour GES
   const ges = document.querySelector(GES_LETTRES);
   if (ges !== null) {
     const gesActif = ges.querySelector(CRITERE_CLASSE_ENERGIE_LETTRE_ACTIVE);
-    gesActif.classList.add(CLASSE_ENERGIE_LETTRE_ACTIVE);
+    if (gesActif !== null) gesActif.classList.add(CLASSE_ENERGIE_LETTRE_ACTIVE);
   }
 
   // Prix en plus gros
   const prix = document.querySelector(PRIX);
-  prix.classList.add(CLASSE_PRIX);
+  if (prix !== null) prix.classList.add(CLASSE_PRIX);
 
   // Ajout de la taille du terrain
   // TODO: Gérer le cas où il y a plusieurs terrains / parcelles : faire la somme ?
@@ -57,7 +57,7 @@ function remonterInfosImportantes(surfacesTerrain, criteres) {
   tailleTerrain.innerHTML = `<img src="${chrome.runtime.getURL('images/icone-terrain.png')}" alt="icône terrain"><p><span class="${CLASSE_INFOS_VALEUR}">${taille}</span>m²</p>`;
 
   const conteneurDescription = document.querySelector(SPOTLIGHT_DESCRIPTION);
-  conteneurDescription.after(tailleTerrain);
+  if (conteneurDescription !== null) conteneurDescription.after(tailleTerrain);
 
   // Suppression des options de l'annonce (remontée en tête de liste etc.)
   const options = document.querySelector(OPTIONS_ANNONCE);
@@ -85,6 +85,8 @@ function supprimerElementsInutiles() {
 function ameliorer() {
   const description = document.querySelector(DESCRIPTION);
   const criteres = document.querySelector(CONTENEUR_CRITERES);
+
+  if (description === null || criteres === null) return;
 
   // Taille de la surface habitable
   let surfaceHabitable = criteres.querySelector(SURFACE_HABITABLE);
