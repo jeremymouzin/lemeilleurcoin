@@ -61,6 +61,9 @@ function extraireSurfacesTerrain(description, surfaceHabitable) {
       motTerrainTrouve,
       projetConstruction,
     });
+  } else {
+    // On trie les surfaces de la plus grande à la plus petite
+    surfacesTerrain.sort((a, b) => b.tailleEnM2 - a.tailleEnM2);
   }
 
   return surfacesTerrain;
