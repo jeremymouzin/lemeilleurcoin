@@ -1,6 +1,6 @@
 # Le Meilleur Coin (extension Chrome)
 
-Vous êtes sur le dépôt officiel de l'extension Chrome [Le Meilleur Coin]().
+Vous êtes sur le dépôt officiel de l'extension Chrome [Le Meilleur Coin](https://chrome.google.com/webstore/detail/le-meilleur-coin/idifhoemclmdkjfoeajlahgdgjimjmna).
 Le code source est rédigé en français par volonté pédagogique pour mes étudiants.
 
 ## Description détaillée
