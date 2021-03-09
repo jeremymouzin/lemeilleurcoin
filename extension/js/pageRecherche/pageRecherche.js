@@ -114,6 +114,58 @@ function supprimerHeader() {
   if (elFiltrageTerrain !== null) elFiltrageTerrain.remove();
 }
 
+function ameliorerPhoto(elPicture, id) {
+  const photoImg = document.createElement('img');
+  elPicture.replaceWith(photoImg);
+  photoImg.src = listing[id].images.urls[0];
+
+  // Boutons pour voir toutes les photos
+  const boutonAvant = creerBoutonPhoto(CLASSE_BOUTON_PHOTO_AVANT);
+  const boutonApres = creerBoutonPhoto(CLASSE_BOUTON_PHOTO_APRES);
+
+  // On ajoute les boutons après le lien
+  const lienItem = photoImg.closest('a');
+  lienItem.after(boutonAvant);
+  lienItem.after(boutonApres);
+
+  // On "retient" le numéro de l'image sur le <a>
+  lienItem.dataset.numeroImage = 0;
+
+  function changerImage(e) {
+    const divParentItem = this.closest(DIV_PARENT_ITEM);
+    if (divParentItem === null) return;
+
+    const a = divParentItem.querySelector(LIEN_ITEM);
+    if (a === null) return;
+    let numeroImageActuel = +a.dataset.numeroImage;
+
+    const nombreImages = listing[id].images.nb_images;
+    const clicSurBoutonAvant = e.currentTarget.className.includes(CLASSE_BOUTON_PHOTO_AVANT);
+    numeroImageActuel += clicSurBoutonAvant ? -1 : 1;
+
+    // On boucle sur les images
+    if (numeroImageActuel > nombreImages - 1) {
+      numeroImageActuel = 0;
+    } else if (numeroImageActuel < 0) {
+      numeroImageActuel = nombreImages - 1;
+    }
+
+    const prochaineSrcImage = listing[id].images.urls[numeroImageActuel];
+
+    // On récupère l'image de l'item qu'on édite
+    const img = divParentItem.querySelector('img');
+
+    // Et on change sa source
+    if (img !== null) img.src = prochaineSrcImage;
+
+    // On stocke le numéro de l'image dans le lien <a>
+    a.dataset.numeroImage = numeroImageActuel;
+  }
+
+  boutonAvant.addEventListener('click', changerImage);
+  boutonApres.addEventListener('click', changerImage);
+}
+
 function ameliorerListing() {
   const listeResultats = document.querySelectorAll(ITEM);
   if (listeResultats !== null) {
@@ -154,62 +206,13 @@ function ameliorerListing() {
       ajouterChamp(CLE_CLASSE_ENERGIE, id, infosBien);
       ajouterChamp(CLE_GAZ_EFFETS_SERRE, id, infosBien);
 
-      // Boutons pour voir toutes les photos
-      const photoItem = resultat.querySelector(PHOTO_ITEM);
-      const boutonAvant = creerBoutonPhoto(CLASSE_BOUTON_PHOTO_AVANT);
-      const boutonApres = creerBoutonPhoto(CLASSE_BOUTON_PHOTO_APRES);
+      // Gestion des photos
+      const elPicture = resultat.querySelector(PHOTO_ITEM);
+      if (elPicture === null) continue;
 
-      // On ajoute les boutons après le lien
-      if (photoItem === null) continue;
-      const lienItem = photoItem.closest('a');
-      lienItem.after(boutonAvant);
-      lienItem.after(boutonApres);
-
-      // On "retient" le numéro de l'image sur le <a>
-      lienItem.dataset.numeroImage = 0;
-
-      function changerImage(e) {
-        const divParentItem = this.closest(DIV_PARENT_ITEM);
-        if (divParentItem === null) return;
-
-        const a = divParentItem.querySelector(LIEN_ITEM);
-        if (a === null) return;
-        let numeroImageActuel = +a.dataset.numeroImage;
-
-        const nombreImages = listing[id].images.nb_images;
-        const clicSurBoutonAvant = e.currentTarget.className.includes(CLASSE_BOUTON_PHOTO_AVANT);
-        numeroImageActuel += clicSurBoutonAvant ? -1 : 1;
-
-        // On boucle sur les images
-        if (numeroImageActuel > nombreImages - 1) {
-          numeroImageActuel = 0;
-        } else if (numeroImageActuel < 0) {
-          numeroImageActuel = nombreImages - 1;
-        }
-
-        const prochaineSrcImage = listing[id].images.urls[numeroImageActuel];
-
-        // On récupère l'image de l'item qu'on édite
-        const img = divParentItem.querySelector('img');
-
-        // Et on change sa source
-        if (img !== null) img.src = prochaineSrcImage;
-
-        // On stocke le numéro de l'image dans le lien <a>
-        a.dataset.numeroImage = numeroImageActuel;
-      }
-
-      boutonAvant.addEventListener('click', changerImage);
-      boutonApres.addEventListener('click', changerImage);
+      // On remplace le <picture> par un simple <img>
+      ameliorerPhoto(elPicture, id);
     }
-  }
-
-  // Augmentation de la largeur de la photo
-  const photoItem = document.querySelectorAll(PHOTO_ITEM);
-  if (photoItem !== null) {
-    photoItem.forEach(photo => {
-      augmenterTaillePhoto(photo);
-    });
   }
 
   // Augmentation de la largeur des photos en lazy loading
@@ -249,10 +252,6 @@ function ameliorerListing() {
       pub.style.display = 'none';
     });
   }
-}
-
-function augmenterTaillePhoto(photo) {
-  photo.classList.add(CLASSE_PHOTO_ITEM);
 }
 
 function creerBoutonPhoto(classe) {
@@ -527,19 +526,19 @@ function activerFiltrage() {
 
 /*
 Gestion des images en lazy loading
-Lors du chargement de la liste des résultats de recherche, certaines images sont chargées au moment du scroll et leurs classes sont réaffectées... écrasant ma classe permettant de mettre la photo en grand.
-L'objectif de ce code est de détecter quand une photo se charge et de lui réappliquer à nouveau ma classe.
+Lors du chargement de la liste des résultats de recherche, certaines images sont chargées au moment du scroll et leurs classes sont réaffectées...
+L'objectif de ce code est de détecter quand une photo se charge et de la modifier comme on veut
 */
 function gererImagesLazyLoading() {
 
-  const imgLazy = document.querySelectorAll(PHOTO_ITEM);
+  const imgLazy = document.querySelectorAll(DIV_LAZYLOADING);
   if (imgLazy === null) return;
 
   observateurImages = new MutationObserver(function (objets, observateur) {
-    const photo = objets[0].target;
-    if (!photo.classList.contains(CLASSE_PHOTO_ITEM)) {
-      augmenterTaillePhoto(photo);
-    }
+    const elPicture = objets[0].target.querySelector('picture');
+    const lienItem = elPicture.closest('a');
+    const id = extraireID(lienItem.href);
+    ameliorerPhoto(elPicture, id);
   });
 
   imgLazy.forEach(img => {

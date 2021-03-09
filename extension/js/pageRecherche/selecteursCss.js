@@ -34,7 +34,8 @@ const BARRE_OPTIONS_FILTRAGE_ET_TRI = '[class*="styles_ListingFilters"]';
 const LISTE_RESULTATS = '[class*="styles_classifiedColumn"]';
 
 // Éléments dans les items
-const PHOTO_ITEM = '[data-qa-id="aditem_container"] > div > div > div > div > div:first-child';
+const PHOTO_ITEM = '[data-qa-id="aditem_container"] picture';
+const DIV_LAZYLOADING = '[data-qa-id="aditem_container"] .LazyLoad';
 const PRIX_ITEM = '[data-qa-id="aditem_container"] [data-qa-id="aditem_price"]';
 const TITRE_ITEM = '[data-qa-id="aditem_title"]';
 

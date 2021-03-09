@@ -32,7 +32,6 @@ const CLASSE_LABEL_ENERGIE = 'lmc-label-energie';
 const CLASSE_FILTRE_TERRAIN = 'lmc-filtre-terrain';
 const CLASSE_FILTRE_TERRAIN_LIGNE = 'lmc-filtre-terrain-ligne';
 const CLASSE_TITRE_TERRAIN = 'lmc-titre-terrain';
-const CLASSE_PHOTO_ITEM = 'lmc-photo';
 const CLASSE_PRIX_ITEM = 'lmc-item-prix';
 const CLASSE_INFOS_VALEUR = 'lmc-infos-valeur';
 const CLASSE_INFOS = 'lmc-infos';
