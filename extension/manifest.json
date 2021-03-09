@@ -1,7 +1,7 @@
 {
   "name": "Le Meilleur Coin",
   "description": "Améliorez votre expérience de recherche en biens immobiliers sur le site leboncoin !",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "manifest_version": 3,
   "icons": {
     "16": "icone/icon16.png",
