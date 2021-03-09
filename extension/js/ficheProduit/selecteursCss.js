@@ -24,7 +24,7 @@ const GES_LETTRES = '[data-qa-id="criteria_item_ges"] [class*="styles_EnergyCrit
 // Lettre active d'un critère de classe énergie ou GES
 const CRITERE_CLASSE_ENERGIE_LETTRE_ACTIVE = '[class*="styles_active"]';
 // Surface habitable
-const SURFACE_HABITABLE = '[data-qa-id="criteria_item_square"] > div > p:last-child';
+const SURFACE_HABITABLE = '[data-qa-id="criteria_item_square"] > div > span:last-child';
 
 const REFERENCE = '[data-qa-id="criteria_item_custom_ref"]';
 const HONORAIRES = '[data-qa-id="criteria_item_fai_included"]';

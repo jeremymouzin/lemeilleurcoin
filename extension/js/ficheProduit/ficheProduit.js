@@ -88,16 +88,18 @@ function ameliorer() {
 
   if (description === null || criteres === null) return;
 
+  lienGoogleMaps();
+  supprimerElementsInutiles();
+
   // Taille de la surface habitable
   let surfaceHabitable = criteres.querySelector(SURFACE_HABITABLE);
+  if (surfaceHabitable === null) return;
   surfaceHabitable = Number.parseFloat(surfaceHabitable.textContent);
 
   // Extraction des surfaces de terrain
   let surfacesTerrain = extraireSurfacesTerrain(description.innerHTML, surfaceHabitable);
   mettreEnSurbrillance(description, surfacesTerrain);
   remonterInfosImportantes(surfacesTerrain, criteres);
-  lienGoogleMaps();
-  supprimerElementsInutiles();
 }
 
 function ficheProduit() {
