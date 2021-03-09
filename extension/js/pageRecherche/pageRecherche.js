@@ -137,6 +137,12 @@ function ameliorerListing() {
       // On supprime tout le contenu de base du site
       infosBien.innerHTML = "";
 
+      // On corrige le layout pour nos besoins
+      infosBien.classList.add(CLASSE_INFOS);
+      // On corrige le layout de la grid d'un item
+      const gridDiv = resultat.querySelector(ITEM_DIV_GRID);
+      gridDiv.classList.add(CLASSE_INFOS_GRID);
+
       // On ajoute les infos avec les icônes
       const tailleTerrain = ajouterChamp('terrain', id, infosBien);
       resultat.dataset.surfaceTerrain = tailleTerrain;

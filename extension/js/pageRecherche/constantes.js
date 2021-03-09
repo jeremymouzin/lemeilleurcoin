@@ -35,6 +35,8 @@ const CLASSE_TITRE_TERRAIN = 'lmc-titre-terrain';
 const CLASSE_PHOTO_ITEM = 'lmc-photo';
 const CLASSE_PRIX_ITEM = 'lmc-item-prix';
 const CLASSE_INFOS_VALEUR = 'lmc-infos-valeur';
+const CLASSE_INFOS = 'lmc-infos';
+const CLASSE_INFOS_GRID = 'lmc-infos-grid';
 
 // Contenu texte ajouté dynamiquement en JS
 const TEXTE_BOUTON_FILTRER = 'Filtrer';
