@@ -96,6 +96,11 @@ On préfixe les classes de "lmc-" (acronyme de Le Meilleur Coin) pour éviter d'
   line-height: 1;
 }
 
+.lmc-bouton-photo:active {
+  color: white;
+  background-color: limegreen;
+}
+
 .lmc-bouton-avant {
   transform: rotate(.5turn) translateY(50%);
   left: var(--marge);
