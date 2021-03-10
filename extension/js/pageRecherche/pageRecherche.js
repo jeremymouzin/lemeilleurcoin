@@ -183,7 +183,7 @@ function ameliorerListing() {
       if (titreItem !== null) titreItem.remove();
 
       // Affichage des informations importantes avec les icônes
-      const infosBien = resultat.querySelector(DERNIERE_DIV_INFOS_ITEM);
+      const infosBien = resultat.querySelector(DIV_INFOS_ITEM);
       if (infosBien === null) continue;
 
       // On supprime tout le contenu de base du site

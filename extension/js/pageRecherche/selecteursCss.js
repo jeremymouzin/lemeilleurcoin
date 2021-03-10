@@ -40,7 +40,7 @@ const PRIX_ITEM = '[data-qa-id="aditem_container"] [data-qa-id="aditem_price"]';
 const TITRE_ITEM = '[data-qa-id="aditem_title"]';
 
 // Dernière div dans les informations à droite de la photo du bien sur chaque item
-const DERNIERE_DIV_INFOS_ITEM = 'div > div:last-child > div:last-child';
+const DIV_INFOS_ITEM = 'div:first-child > div:last-child > div:last-child > div:first-child';
 // Div de grid de l'item
 const ITEM_DIV_GRID = `${ITEM} > div`;
 
