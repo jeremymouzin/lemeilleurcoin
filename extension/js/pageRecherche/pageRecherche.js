@@ -405,16 +405,16 @@ function ajoutFiltrageSurfaceTerrain() {
   fieldSet.addEventListener('input', desactiverFiltrage);
 
   const VALEURS_TERRAIN = {
-    CLE_TERRAIN_MIN: DEFAUT_TERRAIN_MIN_EN_M2,
-    CLE_TERRAIN_MAX: DEFAUT_TERRAIN_MAX_EN_M2,
-    CLE_CACHER_PROJET_CONSTRUCTION: DEFAULT_CACHER_PROJET_CONSTRUCTION,
+    [CLE_TERRAIN_MIN]: DEFAUT_TERRAIN_MIN_EN_M2,
+    [CLE_TERRAIN_MAX]: DEFAUT_TERRAIN_MAX_EN_M2,
+    [CLE_CACHER_PROJET_CONSTRUCTION]: DEFAULT_CACHER_PROJET_CONSTRUCTION,
   };
 
   // Récupération des valeurs précédemment sauvegardées (ou utilisation de celles par défaut)
   chrome.storage.sync.get(VALEURS_TERRAIN, function (result) {
-    const surfaceTerrainMin = result.CLE_TERRAIN_MIN;
-    const surfaceTerrainMax = result.CLE_TERRAIN_MAX;
-    const cacherProjetConstruction = result.CLE_CACHER_PROJET_CONSTRUCTION;
+    const surfaceTerrainMin = result[CLE_TERRAIN_MIN];
+    const surfaceTerrainMax = result[CLE_TERRAIN_MAX];
+    const cacherProjetConstruction = result[CLE_CACHER_PROJET_CONSTRUCTION];
 
     fieldSet.innerHTML = `<p class=${CLASSE_TITRE_TERRAIN}>terrain</p>
 
@@ -484,9 +484,9 @@ function activerFiltrage() {
 
     // On sauvegarde les valeurs dans le stockage de l'extension
     chrome.storage.sync.set({
-      CLE_TERRAIN_MIN: surfaceMin,
-      CLE_TERRAIN_MAX: surfaceMax,
-      CLE_CACHER_PROJET_CONSTRUCTION: cacherProjetConstruction,
+      [CLE_TERRAIN_MIN]: surfaceMin,
+      [CLE_TERRAIN_MAX]: surfaceMax,
+      [CLE_CACHER_PROJET_CONSTRUCTION]: cacherProjetConstruction,
     }, () => { });
 
     const listeResultats = document.querySelectorAll(ITEM);
