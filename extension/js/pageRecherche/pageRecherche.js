@@ -273,10 +273,10 @@ function ajouterChamp(nomChamp, id, noeud) {
   nouvelleDiv.classList.add(CLASSE_INFOS_ICONE);
 
   if (nomChamp === "terrain") {
-    nouvelleDiv.innerHTML = `<img src="${chrome.runtime.getURL('images/icone-terrain.png')}" alt="icône terrain">`;
+    nouvelleDiv.innerHTML = `<img src="${chrome.runtime.getURL('images/icone-terrain.png')}" alt="terrain">`;
 
     if (label === TEXTE_PROJET_CONSTRUCTION) {
-      nouvelleDiv.innerHTML += `<img src="${chrome.runtime.getURL('images/icone-construction.png')}" alt="icône construction">`;
+      nouvelleDiv.innerHTML += `<img src="${chrome.runtime.getURL('images/icone-construction.png')}" alt="construction">`;
       nouvelleDiv.style.color = "red";
     }
 

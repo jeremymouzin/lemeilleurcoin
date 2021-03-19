@@ -54,7 +54,7 @@ function remonterInfosImportantes(surfacesTerrain, criteres) {
   const tailleTerrain = document.createElement('p');
   tailleTerrain.classList.add(CLASSE_INFOS_ICONE);
 
-  tailleTerrain.innerHTML = `<img src="${chrome.runtime.getURL('images/icone-terrain.png')}" alt="icône terrain"><p><span class="${CLASSE_INFOS_VALEUR}">${taille}</span>m²</p>`;
+  tailleTerrain.innerHTML = `<img src="${chrome.runtime.getURL('images/icone-terrain.png')}" alt="terrain"><p><span class="${CLASSE_INFOS_VALEUR}">${taille}</span>m²</p>`;
 
   const conteneurDescription = document.querySelector(SPOTLIGHT_DESCRIPTION);
   if (conteneurDescription !== null) conteneurDescription.after(tailleTerrain);
