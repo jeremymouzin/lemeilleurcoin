@@ -7,6 +7,7 @@ const SELECTEUR_CSS_CONTENEUR_PRINCIPAL = '#container';
 
 // Classes CSS communes
 const CLASSE_INFOS_ICONE = 'lmc-infos-icone';
+const CLASSE_INFOS_VALEUR = 'lmc-infos-valeur';
 
 function cacherElement(selecteur) {
   const el = document.querySelector(selecteur);
