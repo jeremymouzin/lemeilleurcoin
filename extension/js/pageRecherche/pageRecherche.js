@@ -634,9 +634,11 @@ function gererImagesLazyLoading() {
 
   observateurImages = new MutationObserver(function (objets, observateur) {
     const elPicture = objets[0].target.querySelector('picture');
-    const lienItem = elPicture.closest('a');
-    const id = extraireID(lienItem.href);
-    ameliorerPhoto(elPicture, id);
+    if (elPicture !== null) {
+      const lienItem = elPicture.closest('a');
+      const id = extraireID(lienItem.href);
+      ameliorerPhoto(elPicture, id);
+    }
   });
 
   imgLazy.forEach(img => {
