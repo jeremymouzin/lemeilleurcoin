@@ -117,7 +117,10 @@ function supprimerHeader() {
 function ameliorerPhoto(elPicture, id) {
   const photoImg = document.createElement('img');
   elPicture.replaceWith(photoImg);
-  photoImg.src = listing[id].images.urls[0];
+
+  if (listing[id] && listing[id].images && listing[id].images.urls) {
+    photoImg.src = listing[id].images.urls[0];
+  }
 
   // Boutons pour voir toutes les photos
   const boutonAvant = creerBoutonPhoto(CLASSE_BOUTON_PHOTO_AVANT);
@@ -210,19 +213,19 @@ function ameliorerListing() {
         ajouterChamp(CLE_CLASSE_ENERGIE, id, infosBien);
         ajouterChamp(CLE_GAZ_EFFETS_SERRE, id, infosBien);
 
-        // Gestion des photos
-        const elPicture = resultat.querySelector(PHOTO_ITEM);
-        if (elPicture === null) continue;
-
-        // On remplace le <picture> par un simple <img>
-        ameliorerPhoto(elPicture, id);
-
         // Gestion du masquage des annonces
         ajouterBoutonMasquerAnnonce(resultat, id);
 
         if (annonceEstMasquee(id)) {
           decorerAnnonceMasquee(resultat, id);
         }
+
+        // Gestion des photos
+        const elPicture = resultat.querySelector(PHOTO_ITEM);
+        if (elPicture === null) continue;
+
+        // On remplace le <picture> par un simple <img>
+        ameliorerPhoto(elPicture, id);
       }
     }
   });
