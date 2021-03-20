@@ -9,6 +9,10 @@ const SELECTEUR_CSS_CONTENEUR_PRINCIPAL = '#container';
 const CLASSE_INFOS_ICONE = 'lmc-infos-icone';
 const CLASSE_INFOS_VALEUR = 'lmc-infos-valeur';
 
+// Variables JS communes
+let annoncesMasquees = [];
+const CLE_LISTE_ANNONCES_MASQUEES = "annonces-masquees";
+
 function cacherElement(selecteur) {
   const el = document.querySelector(selecteur);
   if (el !== null) el.style.display = 'none';
@@ -116,4 +120,21 @@ try {
   module.exports = { extraireSurfacesTerrain, convertirEnMetresCarres };
 } catch (erreur) {
   // On est en production, module est undefined c'est normal
+}
+
+// On extrait l'ID du bien depuis une URL comme par exemple :
+// https://www.leboncoin.fr/ventes_immobilieres/1863026394.htm?ac=558505705
+function extraireID(url) {
+  return /\/(\d*)\.htm/gi.exec(url)[1];
+}
+
+/* Gestion du masquage des annonces */
+function chargerAnnoncesMasquees(callback) {
+  chrome.storage.sync.get({ [CLE_LISTE_ANNONCES_MASQUEES]: [] }, callback);
+}
+
+function sauvegarderAnnoncesMasquees(callback) {
+  chrome.storage.sync.set({
+    [CLE_LISTE_ANNONCES_MASQUEES]: annoncesMasquees
+  }, callback);
 }

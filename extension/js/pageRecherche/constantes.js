@@ -42,6 +42,12 @@ const TEXTE_BOUTON_DESACTIVER_FILTRER = 'Désactiver filtrage';
 const TEXTE_AUCUN_TERRAIN = 'Aucun terrain';
 const TEXTE_TAILLE_TERRAIN_INCONNUE = 'Terrain présent mais taille non mentionnée';
 const TEXTE_PROJET_CONSTRUCTION = 'Projet de construction';
+const TEXTE_CROIX_BOUTON_MASQUER_ANNONCE = "&times;";
 
 // ID de certains éléments
 const ID_BOUTON_FILTRER = "lmc-bouton-filtrer";
+
+// Masquer une annonce
+const CLASSE_INFOS_MASQUAGE = "lmc-infos-masquage";
+const CLASSE_BOUTON_CROIX_MASQUER = "lmc-bouton-croix-masquer";
+const CLASSE_BOUTON_CROIX_DEMASQUER = "lmc-bouton-croix-demasquer";

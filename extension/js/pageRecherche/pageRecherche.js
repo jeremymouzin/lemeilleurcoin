@@ -167,53 +167,65 @@ function ameliorerPhoto(elPicture, id) {
 }
 
 function ameliorerListing() {
-  const listeResultats = document.querySelectorAll(ITEM);
-  if (listeResultats !== null) {
-    for (const resultat of listeResultats) {
-      const id = extraireID(resultat.href);
+  // On récupère d'abord les annonces masquées
+  chargerAnnoncesMasquees(function (resultat) {
+    annoncesMasquees = resultat[CLE_LISTE_ANNONCES_MASQUEES];
 
-      // S'il manque une info pour un bien, on recharge la page
-      if (listing === undefined || listing[id] === undefined) {
-        rechargerCettePage();
-        return;
+    const listeResultats = document.querySelectorAll(ITEM);
+    if (listeResultats !== null) {
+      for (const resultat of listeResultats) {
+        const id = extraireID(resultat.href);
+
+        // S'il manque une info pour un bien, on recharge la page
+        if (listing === undefined || listing[id] === undefined) {
+          rechargerCettePage();
+          return;
+        }
+
+        // Suppression du titre
+        const titreItem = resultat.querySelector(TITRE_ITEM);
+        if (titreItem !== null) titreItem.remove();
+
+        // Affichage des informations importantes avec les icônes
+        const infosBien = resultat.querySelector(DIV_INFOS_ITEM);
+        if (infosBien === null) continue;
+
+        // On supprime tout le contenu de base du site
+        infosBien.innerHTML = "";
+
+        // On corrige le layout pour nos besoins
+        infosBien.classList.add(CLASSE_INFOS);
+        // On corrige le layout de la grid d'un item
+        const gridDiv = resultat.querySelector(ITEM_DIV_GRID);
+        gridDiv.classList.add(CLASSE_INFOS_GRID);
+
+        // On ajoute les infos avec les icônes
+        const tailleTerrain = ajouterChamp('terrain', id, infosBien);
+        resultat.dataset.surfaceTerrain = tailleTerrain;
+
+        ajouterChamp(CLE_SURFACE_HABITABLE, id, infosBien);
+
+        ajouterChamp(CLE_LIEU, id, infosBien);
+
+        ajouterChamp(CLE_CLASSE_ENERGIE, id, infosBien);
+        ajouterChamp(CLE_GAZ_EFFETS_SERRE, id, infosBien);
+
+        // Gestion des photos
+        const elPicture = resultat.querySelector(PHOTO_ITEM);
+        if (elPicture === null) continue;
+
+        // On remplace le <picture> par un simple <img>
+        ameliorerPhoto(elPicture, id);
+
+        // Gestion du masquage des annonces
+        ajouterBoutonMasquerAnnonce(resultat, id);
+
+        if (annonceEstMasquee(id)) {
+          decorerAnnonceMasquee(resultat, id);
+        }
       }
-
-      // Suppression du titre
-      const titreItem = resultat.querySelector(TITRE_ITEM);
-      if (titreItem !== null) titreItem.remove();
-
-      // Affichage des informations importantes avec les icônes
-      const infosBien = resultat.querySelector(DIV_INFOS_ITEM);
-      if (infosBien === null) continue;
-
-      // On supprime tout le contenu de base du site
-      infosBien.innerHTML = "";
-
-      // On corrige le layout pour nos besoins
-      infosBien.classList.add(CLASSE_INFOS);
-      // On corrige le layout de la grid d'un item
-      const gridDiv = resultat.querySelector(ITEM_DIV_GRID);
-      gridDiv.classList.add(CLASSE_INFOS_GRID);
-
-      // On ajoute les infos avec les icônes
-      const tailleTerrain = ajouterChamp('terrain', id, infosBien);
-      resultat.dataset.surfaceTerrain = tailleTerrain;
-
-      ajouterChamp(CLE_SURFACE_HABITABLE, id, infosBien);
-
-      ajouterChamp(CLE_LIEU, id, infosBien);
-
-      ajouterChamp(CLE_CLASSE_ENERGIE, id, infosBien);
-      ajouterChamp(CLE_GAZ_EFFETS_SERRE, id, infosBien);
-
-      // Gestion des photos
-      const elPicture = resultat.querySelector(PHOTO_ITEM);
-      if (elPicture === null) continue;
-
-      // On remplace le <picture> par un simple <img>
-      ameliorerPhoto(elPicture, id);
     }
-  }
+  });
 
   // Augmentation de la largeur des photos en lazy loading
   gererImagesLazyLoading();
@@ -254,6 +266,95 @@ function ameliorerListing() {
   }
 }
 
+function ajouterBoutonMasquerAnnonce(item, id) {
+  // Création du bouton
+  const boutonMasquer = document.createElement('button');
+  boutonMasquer.innerHTML = TEXTE_CROIX_BOUTON_MASQUER_ANNONCE;
+  boutonMasquer.classList.add(CLASSE_BOUTON_CROIX_MASQUER);
+
+  boutonMasquer.addEventListener('click', function (e) {
+    if (annonceEstMasquee(id)) {
+      // Si l'annonce est déjà masquée, on la démasque
+      demasquerAnnonce(item, id);
+    } else {
+      // L'annonce n'est pas masquée, on la masque
+      masquerAnnonce(item, id);
+    }
+  });
+
+  item.after(boutonMasquer);
+}
+
+function annonceEstMasquee(id) {
+  return annoncesMasquees.some(annonce => annonce.id === id);
+}
+
+function decorerAnnonceMasquee(item, id) {
+  const infosAnnonce = annoncesMasquees.find(annonce => annonce.id === id);
+  if (infosAnnonce !== undefined) {
+    // Le bouton doit devenir un bouton de démasquage
+    const boutonMasquer = item.parentElement.querySelector(`.${CLASSE_BOUTON_CROIX_MASQUER}`);
+    if (boutonMasquer !== null) {
+      boutonMasquer.classList.add(CLASSE_BOUTON_CROIX_DEMASQUER);
+    }
+
+    const infosMasquage = document.createElement('div');
+    infosMasquage.classList.add(CLASSE_INFOS_MASQUAGE);
+    let { motif, prix, date } = infosAnnonce;
+    infosMasquage.innerHTML = `<div><p>Annonce masquée le ${date}</p>
+    <p>Motif : ${motif}</p>
+    <p>Prix (au ${date}) : ${prix} €</p></div>`;
+    item.after(infosMasquage);
+  }
+}
+
+function masquerAnnonce(item, id) {
+  if (listing[id] === undefined) return;
+
+  const prix = listing[id].price[0];
+  const ville = extraireObjet(CLE_LIEU, listing[id]).value_label;
+  const url = item.href;
+  const date = new Intl.DateTimeFormat('fr-FR').format(new Date());
+  const motif = window.prompt("Motif du masquage ?", "");
+  if (motif !== null) {
+    // On supprime l'annonce masquée si elle était déjà présente
+    annoncesMasquees = annoncesMasquees.filter(annonce => annonce.id !== id);
+    // On ajoute / met à jour l'annonce
+    annoncesMasquees.push({
+      id,
+      prix,
+      ville,
+      date,
+      url,
+      motif,
+    });
+
+    // On sauvegarde la liste des annonces masquées
+    sauvegarderAnnoncesMasquees(function () {
+      // On décore l'annonce masquée avec ses informations
+      decorerAnnonceMasquee(item, id);
+    });
+  }
+}
+
+function demasquerAnnonce(item, id) {
+  // On démasque l'annonce
+  const infosMasquage = item.parentElement.querySelector(`.${CLASSE_INFOS_MASQUAGE}`);
+  if (infosMasquage !== null) {
+    infosMasquage.remove();
+  }
+
+  // On retire l'ID de la liste des annonces masquées
+  annoncesMasquees.splice(annoncesMasquees.indexOf(id), 1);
+  sauvegarderAnnoncesMasquees();
+
+  // Le bouton doit devenir un bouton de masquage
+  const boutonMasquer = item.parentElement.querySelector(`.${CLASSE_BOUTON_CROIX_MASQUER}`);
+  if (boutonMasquer !== null) {
+    boutonMasquer.classList.remove(CLASSE_BOUTON_CROIX_DEMASQUER);
+  }
+}
+
 function creerBoutonPhoto(classe) {
   const bouton = document.createElement('button');
   bouton.classList.add(CLASSE_BOUTON_PHOTO, classe);
@@ -273,10 +374,10 @@ function ajouterChamp(nomChamp, id, noeud) {
   nouvelleDiv.classList.add(CLASSE_INFOS_ICONE);
 
   if (nomChamp === "terrain") {
-    nouvelleDiv.innerHTML = `<img src="${chrome.runtime.getURL('images/icone-terrain.png')}" alt="terrain">`;
+    nouvelleDiv.innerHTML = `<img src="${chrome.runtime.getURL('images/icone-terrain.png')}" alt="Terrain">`;
 
     if (label === TEXTE_PROJET_CONSTRUCTION) {
-      nouvelleDiv.innerHTML += `<img src="${chrome.runtime.getURL('images/icone-construction.png')}" alt="construction">`;
+      nouvelleDiv.innerHTML += `<img src="${chrome.runtime.getURL('images/icone-construction.png')}" alt="Construction">`;
       nouvelleDiv.style.color = "red";
     }
 
@@ -291,7 +392,7 @@ function ajouterChamp(nomChamp, id, noeud) {
     const nbPieces = extraireObjet(CLE_NB_PIECES, listing[id]).value;
     const surfaceHabitable = Number.parseInt(label);
 
-    nouvelleDiv.innerHTML = `<img src="${chrome.runtime.getURL('images/icone-maison.png')}" alt="plan maison"><p><span class="${CLASSE_INFOS_VALEUR}">${surfaceHabitable}</span>m² — <span class="${CLASSE_INFOS_VALEUR}">${nbPieces}</span>pièces</p>`;
+    nouvelleDiv.innerHTML = `<img src="${chrome.runtime.getURL('images/icone-maison.png')}" alt="Plan maison"><p><span class="${CLASSE_INFOS_VALEUR}">${surfaceHabitable}</span>m² — <span class="${CLASSE_INFOS_VALEUR}">${nbPieces}</span>pièces</p>`;
   } else if (nomChamp === CLE_LIEU) {
     nouvelleDiv.innerHTML = `<img src="${chrome.runtime.getURL('images/icone-gps.png')}" alt="GPS"><p><span>${label}</span></p>`;
   }
@@ -334,12 +435,6 @@ function calculerStyleLabelEnergie(lettre) {
     backgroundColor,
     color,
   }
-}
-
-// On extrait l'ID du bien depuis une URL comme par exemple :
-// https://www.leboncoin.fr/ventes_immobilieres/1863026394.htm?ac=558505705
-function extraireID(url) {
-  return /\/(\d*)\.htm/gi.exec(url)[1];
 }
 
 function extraireObjet(nomChamp, objListing) {

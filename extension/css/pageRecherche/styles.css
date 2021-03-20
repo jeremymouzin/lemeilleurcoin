@@ -124,3 +124,48 @@ span[data-qa-id="aditem_price"].lmc-item-prix {
   font-size: 4.8rem;
   margin-top: 3rem;
 }
+
+/* Gestion du masquage d'une annonce */
+
+.lmc-bouton-croix-masquer {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 4rem;
+  padding: 2rem;
+  line-height: 1rem;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  color: white;
+  z-index: 2;
+  transition-property: background-color, transform;
+  transition-duration: 100ms;
+}
+
+.lmc-bouton-croix-demasquer {
+  background-color: limegreen;
+  transform: rotate(45deg);
+}
+
+.lmc-infos-masquage {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  background-color: rgba(0,0,0,.6);
+  color: white;
+  font-size: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  pointer-events: none;
+}
